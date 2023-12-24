@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "monkeylib538",
+	"version": "${modVersion}",
+	"name": "MonkeyLib538",
+	"description": "A library mod for OffsetMonkey538s mods",
+	"authors": [
+		"OffsetMonkey538"
+	],
+	"contact": {
+		"sources": "https://github.com/OffsetMods538/MonkeyLib538",
+		"issues": "https://github.com/OffsetMods538/MonkeyLib538/issues",
+		"homepage": "https://modrinth.com/mod/monkeylib538"
+	},
+	"license": "MIT",
+	"icon": "assets/monkeylib538/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"top.offsetmonkey538.monkeylib538.MonkeyLib538"
+		],
+		"client": [
+			"top.offsetmonkey538.monkeylib538.MonkeyLib538Client"
+		]
+	},
+	"mixins": [
+		"monkeylib538.mixins.json",
+		{
+			"config": "monkeylib538.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"accessWidener": "monkeylib538.accesswidener",
+	"depends": {
+		"minecraft": "${supportedMinecraftVersions}"
+	}
+}
