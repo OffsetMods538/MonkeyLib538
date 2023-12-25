@@ -24,10 +24,24 @@ outlet {
 loom {
 	splitEnvironmentSourceSets()
 
+	sourceSets {
+		testmod {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+
+			compileClasspath += client.compileClasspath
+			runtimeClasspath += client.runtimeClasspath
+		}
+	}
+
 	mods {
-		modid {
+		monkeyconfig538 {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
+		}
+
+		testmod {
+			sourceSet sourceSets.testmod
 		}
 	}
 
@@ -37,7 +51,15 @@ loom {
 		server {
 			runDir "run/server"
 		}
+
+		testmodClient {
+			client()
+			name = "Testmod Client"
+			source sourceSets.testmod
+		}
 	}
+
+	createRemapConfigurations(sourceSets.testmod)
 }
 
 // https://gist.github.com/maityyy/3dbcd558d58a6412c3a2a38c72706e8e
@@ -76,6 +98,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	includeApi "blue.endless:jankson:${project.jankson_version}"
+
+
+	testmodImplementation sourceSets.main.output
+	testmodImplementation sourceSets.client.output
 }
 
 processResources {
@@ -108,6 +134,23 @@ jar {
 		rename { "${it}_${project.archivesBaseName}" }
 	}
 }
+
+tasks.register('testmodJar', Jar) {
+	from sourceSets.testmod.output
+	destinationDirectory = new File(project.buildDir, "devlibs")
+	archiveClassifier = "testmod"
+}
+
+import net.fabricmc.loom.task.RemapJarTask
+
+tasks.register('remapTestmodJar', RemapJarTask) {
+	dependsOn testmodJar
+	input = testmodJar.archiveFile
+	archiveClassifier = "testmod"
+	addNestedDependencies = false
+}
+
+build.dependsOn remapTestmodJar
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
