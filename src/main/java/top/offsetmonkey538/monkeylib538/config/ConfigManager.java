@@ -20,12 +20,30 @@ public final class ConfigManager {
 
     }
 
+    /**
+     * Loads the {@link Config} file if and only if the config file exists.
+     * <br>
+     * Otherwise, it saves the default values to disk.
+     *
+     * @see #load(Config)
+     * @see #save(Config)
+     * @param config An instance of the {@link Config} containing the default values, usually {@code new MyConfig()}.
+     * @return either an instance of {@link Config} loaded from disk or the provided default {@link Config}.
+     */
+    public static Config init(Config config) {
+        if (config.getFilePath().toFile().exists()) return load(config);
+
+        save(config);
+        return config;
+    }
 
     /**
      * Used for loading a {@link Config} class
      * <br>
      * Logs an error and returns the provided default {@link Config} when the config file could not be read or is formatted incorrectly.
      *
+     * @see #init(Config)
+     * @see #save(Config)
      * @param config An instance of the {@link Config} containing the default values, usually {@code new MyConfig()}.
      * @return an instance of the provided {@link Config} class populated from the config file or the provided default {@link Config} when the config file could not be read or is formatted incorrectly.
      */
@@ -49,6 +67,8 @@ public final class ConfigManager {
      * <br>
      * Logs an error if it couldn't write to the file.
      *
+     * @see #init(Config)
+     * @see #load(Config)
      * @param config the instance of {@link Config} to save.
      */
     public static void save(Config config) {
