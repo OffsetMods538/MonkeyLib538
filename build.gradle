@@ -55,6 +55,7 @@ loom {
 		testmodClient {
 			client()
 			name = "Testmod Client"
+			runDir "run/testmod"
 			source sourceSets.testmod
 		}
 	}
