@@ -30,7 +30,7 @@ public final class ConfigManager {
      * @param config An instance of the {@link Config} containing the default values, usually {@code new MyConfig()}.
      * @return either an instance of {@link Config} loaded from disk or the provided default {@link Config}.
      */
-    public static Config init(Config config) {
+    public static <T extends Config> T init(T config) {
         if (config.getFilePath().toFile().exists()) return load(config);
 
         save(config);
@@ -47,12 +47,13 @@ public final class ConfigManager {
      * @param config An instance of the {@link Config} containing the default values, usually {@code new MyConfig()}.
      * @return an instance of the provided {@link Config} class populated from the config file or the provided default {@link Config} when the config file could not be read or is formatted incorrectly.
      */
-    public static Config load(Config config) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Config> T load(T config) {
         final Jankson jankson = config.configureJankson(Jankson.builder()).build();
         final File configFile = config.getFilePath().toFile();
 
         try {
-            return jankson.fromJson(jankson.load(configFile), config.getClass());
+            return (T) jankson.fromJson(jankson.load(configFile), config.getClass());
         } catch (IOException e) {
             LOGGER.error("Config file '" + config.getFilePath() + "' could not be read!", e);
         } catch (SyntaxError e) {
