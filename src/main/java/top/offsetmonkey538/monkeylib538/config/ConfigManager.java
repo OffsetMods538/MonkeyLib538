@@ -11,7 +11,15 @@ import static top.offsetmonkey538.monkeylib538.MonkeyLib538.*;
 /**
  * Provides methods for loading and saving {@link Config} classes.
  */
-public class ConfigManager {
+public final class ConfigManager {
+
+    /**
+     * Private constructor
+     */
+    private ConfigManager() {
+
+    }
+
 
     /**
      * Used for loading a {@link Config} class
