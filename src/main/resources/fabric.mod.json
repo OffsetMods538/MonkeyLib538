@@ -33,5 +33,12 @@
 	"accessWidener": "monkeylib538.accesswidener",
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.offsetmonkey538.top/"
+			}
+		}
 	}
 }
