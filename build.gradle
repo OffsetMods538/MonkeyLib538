@@ -91,6 +91,13 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com"
+		content {
+			includeGroup "com.terraformersmc"
+		}
+	}
 }
 
 dependencies {
@@ -99,6 +106,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	includeApi "blue.endless:jankson:${project.jankson_version}"
+
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 
 	testmodImplementation sourceSets.main.output
