@@ -16,7 +16,7 @@ import java.util.Optional;
 public abstract class ServerPropertiesHandlerMixin implements ServerPropertiesHandlerDuck {
 
     @Shadow
-    private static Optional<MinecraftServer.ServerResourcePackProperties> getServerResourcePackProperties(String id, String url, String sha1, @Nullable String hash, boolean required, String prompt) {
+    private static Optional<MinecraftServer.ServerResourcePackProperties> getServerResourcePackProperties(String url, String sha1, @Nullable String hash, boolean required, String prompt) {
         return Optional.empty();
     }
 
@@ -29,10 +29,9 @@ public abstract class ServerPropertiesHandlerMixin implements ServerPropertiesHa
         final ServerPropertiesHandler thiz = ((ServerPropertiesHandler) (Object) this);
 
         this.serverResourcePackProperties = getServerResourcePackProperties(
-                thiz.getString("resource-pack-id", ""),
                 url,
                 sha1Hash,
-                "",
+                null,
                 thiz.parseBoolean("require-resource-pack", false),
                 thiz.getString("resource-pack-prompt", "")
         );
