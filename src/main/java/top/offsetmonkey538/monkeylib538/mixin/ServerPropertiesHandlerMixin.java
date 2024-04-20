@@ -32,7 +32,7 @@ public abstract class ServerPropertiesHandlerMixin implements ServerPropertiesHa
                 thiz.getString("resource-pack-id", ""),
                 url,
                 sha1Hash,
-                "",
+                null,
                 thiz.parseBoolean("require-resource-pack", false),
                 thiz.getString("resource-pack-prompt", "")
         );
