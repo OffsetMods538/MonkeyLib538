@@ -21,9 +21,6 @@
 		],
 		"client": [
 			"top.offsetmonkey538.monkeylib538.MonkeyLib538Client"
-		],
-		"modmenu": [
-			"top.offsetmonkey538.monkeylib538.config.MonkeyLib538ModMenu"
 		]
 	},
 	"mixins": [
