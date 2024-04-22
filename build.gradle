@@ -177,9 +177,22 @@ modrinth {
 tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 
 publishing {
+	repositories {
+		maven {
+			name = "OffsetMods538"
+			url = "https://maven.offsetmonkey538.top/releases"
+			credentials(PasswordCredentials.class)
+			authentication {
+				basic(BasicAuthentication)
+			}
+		}
+	}
 	publications {
 		maven(MavenPublication) {
-			from components.java
+			groupId = "top.offsetmonkey538.monkeylib538"
+
+			from(components["java"])
+			artifact(tasks["sourcesJar"])
 		}
 	}
 }
