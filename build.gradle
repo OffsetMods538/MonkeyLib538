@@ -12,6 +12,7 @@ allprojects {
 
 subprojects {
 	apply plugin: "fabric-loom"
+	apply plugin: "maven-publish"
 
 	repositories {
 		mavenCentral()
@@ -53,13 +54,48 @@ subprojects {
 
 	jar {
 		from("${rootProject.projectDir}/LICENSE") {
-			rename { "${it}_${project.archivesBaseName}" }
+			rename { "${it}" }
+		}
+	}
+
+	publishing {
+		repositories {
+			maven {
+				name = "OffsetMonkey538"
+				url = "https://maven.offsetmonkey538.top/releases"
+				credentials {
+					String user = System.getenv("MAVEN_USERNAME")
+					String pass = System.getenv("MAVEN_PASSWORD")
+					if (user == null || pass == null) {
+						username = OffsetMonkey538Username
+						password = OffsetMonkey538Password
+					} else {
+						username = user
+						password = pass
+					}
+				}
+				authentication {
+					basic(BasicAuthentication)
+				}
+			}
+		}
+		publications {
+			maven(MavenPublication) {
+				if (project.name == "common") {
+					artifactId = "common"
+				} else {
+					artifactId = "monkeylib538"
+				}
+
+				from(components["java"])
+			}
 		}
 	}
 }
 
 configure(subprojects.findAll { it.name == "common" }) {
 	version = rootProject.mod_version
+	archivesBaseName = "common"
 
 	configurations {
 		includeApi
@@ -76,12 +112,9 @@ configure(subprojects.findAll { it.name == "common" }) {
 configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "io.github.dexman545.outlet"
 	apply plugin: "com.modrinth.minotaur"
-	//TODO: apply plugin: "maven-publish"
 
-	base {
-		archivesName = "monkeylib538"
-	}
 	version = "${rootProject.mod_version}+${project.minecraft_version}"
+	archivesBaseName = "monkeylib538"
 	outlet {
 		mcVersionRange = project.supported_minecraft_versions
 		allowSnapshotsForProject = false
@@ -196,24 +229,4 @@ configure(subprojects.findAll {it.name != "common"}) {
 	}
 
 	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
-	//TODO: publishing {
-	//TODO: 	repositories {
-	//TODO: 		maven {
-	//TODO: 			name = "OffsetMods538"
-	//TODO: 			url = "https://maven.offsetmonkey538.top/releases"
-	//TODO: 			credentials(PasswordCredentials.class)
-	//TODO: 			authentication {
-	//TODO: 				basic(BasicAuthentication)
-	//TODO: 			}
-	//TODO: 		}
-	//TODO: 	}
-	//TODO: 	publications {
-	//TODO: 		maven(MavenPublication) {
-	//TODO: 			artifactId = base.archivesName.get()
-
-	//TODO: 			from(components["java"])
-	//TODO: 		}
-	//TODO: 	}
-	//TODO: }
 }
