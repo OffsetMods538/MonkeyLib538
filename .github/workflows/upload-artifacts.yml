@@ -24,7 +24,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        uses: gradle/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v3
         env:
           DISABLE_PROPERTIES_UPDATE: true
         with:
