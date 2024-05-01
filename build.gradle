@@ -14,6 +14,7 @@ version = "${project.mod_version}+${project.minecraft_version}"
 outlet {
 	maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
 	mcVersionRange = project.supported_minecraft_versions
+	allowSnapshotsForProject = false
 	propertiesData = [
 			'yarn_version': outlet.yarnVersion(project.minecraft_version),
 			'loader_version': outlet.loaderVersion()
