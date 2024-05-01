@@ -64,15 +64,8 @@ subprojects {
 				name = "OffsetMonkey538"
 				url = "https://maven.offsetmonkey538.top/releases"
 				credentials {
-					String user = System.getenv("MAVEN_USERNAME")
-					String pass = System.getenv("MAVEN_PASSWORD")
-					if (user == null || pass == null) {
-						username = OffsetMonkey538Username
-						password = OffsetMonkey538Password
-					} else {
-						username = user
-						password = pass
-					}
+					username = System.getenv("MAVEN_USERNAME")
+					password = System.getenv("MAVEN_PASSWORD")
 				}
 				authentication {
 					basic(BasicAuthentication)
