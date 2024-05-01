@@ -1,0 +1,24 @@
+plugins {
+    id "java"
+    //TODO: id "maven-publish"
+}
+
+// TODO: publishing {
+// TODO:     repositories {
+// TODO:         maven {
+// TODO:             name = "OffsetMods538"
+// TODO:             url = "https://maven.offsetmonkey538.top/releases"
+// TODO:             credentials(PasswordCredentials.class)
+// TODO:             authentication {
+// TODO:                 basic(BasicAuthentication)
+// TODO:             }
+// TODO:         }
+// TODO:     }
+// TODO:     publications {
+// TODO:         maven(MavenPublication) {
+// TODO:             artifactId = "common"
+// TODO:
+// TODO:             from(components["java"])
+// TODO:         }
+// TODO:     }
+// TODO: }
