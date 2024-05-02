@@ -24,11 +24,6 @@ public interface TextUtils {
         for (int characterIndex = 0; characterIndex < characters.length; characterIndex++) {
             char currentChar = characters[characterIndex];
 
-            if (isEscaped) {
-                isEscaped = false;
-                continue;
-            }
-
             if (isFormattingCode) {
                 // Hex color
                 if (currentChar == '#') {
@@ -54,14 +49,17 @@ public interface TextUtils {
                 continue;
             }
 
-            if (currentChar == '&') {
-                isFormattingCode = true;
-                continue;
+            if (!isEscaped){
+                switch (currentChar){
+                    case '&':
+                        isFormattingCode = true;
+                        continue;
+                    case '\\':
+                        isEscaped = true;
+                        continue;
+                }
             }
-
-            if (currentChar == '\\') {
-                isEscaped = true;
-            }
+            isEscaped = false;
 
 
             final List<Text> siblings = result.getSiblings();
