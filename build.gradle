@@ -88,6 +88,8 @@ subprojects {
 
 configure(subprojects.findAll { it.name == "common" }) {
 	version = rootProject.mod_version
+	if (System.getenv("IS_DEBUG") == "true") version = "${version}+${System.currentTimeMillis()}"
+
 	archivesBaseName = "common"
 
 	configurations {
@@ -107,6 +109,8 @@ configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "com.modrinth.minotaur"
 
 	version = "${rootProject.mod_version}+${project.minecraft_version}"
+	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${System.currentTimeMillis()}"
+
 	archivesBaseName = "monkeylib538"
 	outlet {
 		mcVersionRange = project.supported_minecraft_versions
