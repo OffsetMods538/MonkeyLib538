@@ -1,6 +1,7 @@
-[![](https://jitpack.io/v/top.offsetmonkey538/monkeylib538.svg)](https://jitpack.io/#top.offsetmonkey538/monkeylib538)
-
 # MonkeyLib538
+[![discord-singular](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-singular_vector.svg)](https://discord.offsetmonkey538.top/)
+[![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/mod/monkeylib538)
+
 Make sure to download the correct version for the Minecraft version you're using!
 
 A library mod used by OffsetMonkey538's mods. Required for them to run.  
