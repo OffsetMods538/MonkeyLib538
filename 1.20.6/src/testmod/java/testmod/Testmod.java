@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import testmod.config.ConfigTestmod;
-import top.offsetmonkey538.monkeylib538.text.TextUtils;
+import top.offsetmonkey538.monkeylib538.utils.TextUtils;
 
 public class Testmod implements ModInitializer {
     public static final String MOD_ID = "testmod";

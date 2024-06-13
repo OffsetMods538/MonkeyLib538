@@ -6,6 +6,10 @@ plugins {
 	id 'com.modrinth.minotaur' version '2.+' apply false
 }
 
+ext {
+	debugVersion = System.currentTimeMillis()
+}
+
 allprojects {
 	group = rootProject.maven_group
 }
@@ -84,11 +88,14 @@ subprojects {
 			}
 		}
 	}
+	tasks.publishMavenPublicationToMavenLocal.doLast {
+		if (System.getenv("IS_DEBUG") == "true") System.out.println("Version: " + version)
+	}
 }
 
 configure(subprojects.findAll { it.name == "common" }) {
 	version = rootProject.mod_version
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}+${System.currentTimeMillis()}"
+	if (System.getenv("IS_DEBUG") == "true") version = "${version}+${rootProject.debugVersion}"
 
 	archivesBaseName = "common"
 
@@ -109,7 +116,7 @@ configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "com.modrinth.minotaur"
 
 	version = "${rootProject.mod_version}+${project.minecraft_version}"
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${System.currentTimeMillis()}"
+	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${rootProject.debugVersion}"
 
 	archivesBaseName = "monkeylib538"
 	outlet {
