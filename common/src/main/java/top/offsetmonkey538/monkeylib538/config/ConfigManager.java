@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -26,6 +28,8 @@ public final class ConfigManager {
     private ConfigManager() {
 
     }
+
+    public static final Map<String, Config> CONFIGS = new HashMap<>();
 
     /**
      * Loads the {@link Config} file if and only if the config file exists.
@@ -67,17 +71,23 @@ public final class ConfigManager {
             json = jankson.load(configFile);
         } catch (IOException e) {
             errorHandler.accept("Config file '" + config.getFilePath() + "' could not be read!", e);
+            CONFIGS.put(config.getName(), config);
             return config;
         } catch (SyntaxError e) {
             errorHandler.accept("Config file '" + config.getFilePath() + "' is formatted incorrectly!", e);
+            CONFIGS.put(config.getName(), config);
             return config;
         }
+
 
         // Check if version matches the latest version
         applyDatafixers(config, configFile.toPath(), json, jankson, errorHandler);
 
         // Load config class from the final json
-        return (T) jankson.fromJson(json, config.getClass());
+        config = (T) jankson.fromJson(json, config.getClass());
+
+        CONFIGS.put(config.getName(), config);
+        return config;
     }
 
     /**
@@ -91,6 +101,8 @@ public final class ConfigManager {
      * @param errorHandler A method to handle errors. For example {@code LOGGER::error}.
      */
     public static void save(Config config, BiConsumer<String, Exception> errorHandler) {
+        CONFIGS.put(config.getName(), config);
+
         final Jankson jankson = config.configureJankson(Jankson.builder()).build();
 
         // Convert config to json

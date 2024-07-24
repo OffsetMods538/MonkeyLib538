@@ -5,6 +5,7 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * Extend this in your config class.
@@ -65,4 +66,18 @@ public abstract class Config {
      * @return the name of the config. Used for creating the file path.
      */
     protected abstract String getName();
+
+    /**
+     * The returned map <strong>must</strong> be mutable.
+     *
+     * @return the entries of this config stored in a {@link HashMap}.
+     */
+    public abstract HashMap<String, Object> getValuesAsEntries();
+
+    /**
+     * Set config values from the provided {@code entries} {@link HashMap}.
+     *
+     * @param entries the entries to get the values from.
+     */
+    public abstract void setValuesFromEntries(HashMap<String, Object> entries);
 }

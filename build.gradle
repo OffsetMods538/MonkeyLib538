@@ -3,8 +3,15 @@ import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
-	id 'io.github.dexman545.outlet' version '1.6.1' apply false
+	id 'io.github.dexman545.outlet' version '1.6.1' apply true
 	id 'com.modrinth.minotaur' version '2.+' apply false
+}
+
+outlet {
+    maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
+    propertiesData = [
+            'loader_version': outlet.loaderVersion()
+    ]
 }
 
 ext {
@@ -17,7 +24,18 @@ allprojects {
 
 subprojects {
 	apply plugin: "fabric-loom"
-	apply plugin: "maven-publish"
+    apply plugin: "io.github.dexman545.outlet"
+    apply plugin: "maven-publish"
+
+    outlet {
+        maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
+        mcVersionRange = project.supported_minecraft_versions
+        allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+        propertiesData = [
+                'yarn_version': outlet.yarnVersion(project.minecraft_version),
+                'fapi_version': outlet.fapiVersion(project.minecraft_version)
+        ]
+    }
 
 	repositories {
 		mavenCentral()
@@ -27,6 +45,8 @@ subprojects {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 	}
 
 	processResources {
@@ -117,23 +137,12 @@ configure(subprojects.findAll { it.name == "common" }) {
 }
 
 configure(subprojects.findAll {it.name != "common"}) {
-	apply plugin: "io.github.dexman545.outlet"
 	apply plugin: "com.modrinth.minotaur"
 
 	version = "${rootProject.mod_version}+${project.minecraft_version}"
 	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${rootProject.debugVersion}"
 
 	archivesBaseName = "monkeylib538"
-	outlet {
-		maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
-		mcVersionRange = project.supported_minecraft_versions
-		allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
-		propertiesData = [
-		        'loader_version': outlet.loaderVersion(),
-				'yarn_version': outlet.yarnVersion(project.minecraft_version),
-				'fabric_api_version': outlet.fapiVersion(project.minecraft_version)
-		]
-	}
 
 	loom {
 		splitEnvironmentSourceSets()
@@ -198,13 +207,15 @@ configure(subprojects.findAll {it.name != "common"}) {
 	}
 
 	dependencies {
-		common project(path: ":common", configuration: "namedElements")
-		include project(":common")
+		common(project(path: ":common", configuration: "namedElements")) {
+			exclude(group: "net.fabricmc.fabric-api")
+		}
+		include(project(":common")) {
+			exclude(group: "net.fabricmc.fabric-api")
+		}
 
 		testmodImplementation sourceSets.main.output
 		testmodImplementation sourceSets.client.output
-
-		modTestmodImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	}
 
 	tasks.register('testmodJar', Jar) {
