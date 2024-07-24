@@ -83,6 +83,7 @@ public final class ConfigManager {
                 .toJson(true, true);
 
         try {
+            Files.createDirectories(config.getFilePath().getParent());
             Files.writeString(config.getFilePath(), result);
         } catch (IOException e) {
             errorHandler.accept("Config file '" + config.getFilePath() + "' could not be written to!", e);
