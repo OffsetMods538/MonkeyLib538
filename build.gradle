@@ -56,6 +56,10 @@ subprojects {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 
+	tasks.named("javadoc", Javadoc) {
+		options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
+	}
+
 	jar {
 		from("${rootProject.projectDir}/LICENSE") {
 			rename { "${it}" }
