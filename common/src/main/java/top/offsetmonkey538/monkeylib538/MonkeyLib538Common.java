@@ -18,7 +18,11 @@ public final class MonkeyLib538Common implements ModInitializer {
     @Override
     public void onInitialize() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            MonkeyLib538Command.register(dispatcher, registryAccess);
+            try {
+                MonkeyLib538Command.register(dispatcher, registryAccess);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

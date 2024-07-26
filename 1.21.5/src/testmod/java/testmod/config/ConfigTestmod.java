@@ -8,6 +8,7 @@ public class ConfigTestmod {
 
     public void onInitialize() {
         final ModConfig config = ConfigManager.init(new ModConfig(), LOGGER::error);
+        final ModConfig2 config2 = ConfigManager.init(new ModConfig2(), LOGGER::error);
 
         LOGGER.info("hello: " + config.hello);
         //LOGGER.info("Number: " + config.Number);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static testmod.Testmod.*;
 
-public class ModConfig extends Config {
+public class ModConfig extends Config<ModConfig> {
 
     public String hello = "Hello!";
 
@@ -22,16 +22,7 @@ public class ModConfig extends Config {
     }
 
     @Override
-    public HashMap<String, Object> getValuesAsEntries() {
-        return new HashMap<>(Map.of(
-                "hello", hello,
-                "Number", Number
-        ));
-    }
-
-    @Override
-    public void setValuesFromEntries(HashMap<String, Object> entries) {
-        this.hello = (String) entries.get("hello");
-        this.Number = (int) entries.get("Number");
+    public ModConfig getDefaultConfig() {
+        return new ModConfig();
     }
 }

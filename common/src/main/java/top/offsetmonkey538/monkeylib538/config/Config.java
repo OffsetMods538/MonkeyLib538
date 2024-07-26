@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * Extend this in your config class.
  */
-public abstract class Config {
+public abstract class Config<T extends Config<T>> {
 
     /**
      * Configure the provided {@link Jankson.Builder}.
@@ -68,16 +68,23 @@ public abstract class Config {
     protected abstract String getName();
 
     /**
-     * The returned map <strong>must</strong> be mutable.
+     * A new instance of this config containing the default values.
      *
-     * @return the entries of this config stored in a {@link HashMap}.
+     * @return a new instance of this config containing the default values.
      */
-    public abstract HashMap<String, Object> getValuesAsEntries();
+    public abstract T getDefaultConfig();
 
-    /**
-     * Set config values from the provided {@code entries} {@link HashMap}.
-     *
-     * @param entries the entries to get the values from.
-     */
-    public abstract void setValuesFromEntries(HashMap<String, Object> entries);
+    ///**
+    // * The returned map <strong>must</strong> be mutable.
+    // *
+    // * @return the entries of this config stored in a {@link HashMap}.
+    // */
+    //public abstract HashMap<String, Object> getValuesAsEntries();
+
+    ///**
+    // * Set config values from the provided {@code entries} {@link HashMap}.
+    // *
+    // * @param entries the entries to get the values from.
+    // */
+    //public abstract void setValuesFromEntries(HashMap<String, Object> entries);
 }

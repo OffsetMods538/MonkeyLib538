@@ -29,7 +29,22 @@ public final class ConfigManager {
 
     }
 
-    public static final Map<String, Config> CONFIGS = new HashMap<>();
+    public static final Map<String, Config<? extends Config<?>>> CONFIGS = new HashMap<>();
+
+    /**
+     * Returns the config instance stored in the {@link ConfigManager#CONFIGS} map.
+     * <p>
+     * Config must be initialized first!
+     *
+     * @param config an instance of your config class. Used for returning the correct type and getting the config name.
+     * @return the config instance stored in the {@link ConfigManager#CONFIGS} map.
+     * @param <T> The type of your custom config class.
+     */
+    public static <T extends Config<?>> T getConfig(final T config) {
+        if (!CONFIGS.containsKey(config.getName())) return null;
+        //noinspection unchecked
+        return (T) CONFIGS.get(config.getName());
+    }
 
     /**
      * Loads the {@link Config} file if and only if the config file exists.
@@ -42,7 +57,7 @@ public final class ConfigManager {
      * @param errorHandler A method to handle errors. For example {@code LOGGER::error}.
      * @return either an instance of {@link Config} loaded from disk or the provided default {@link Config}.
      */
-    public static <T extends Config> T init(T config, BiConsumer<String, Exception> errorHandler) {
+    public static <T extends Config<?>> T init(T config, BiConsumer<String, Exception> errorHandler) {
         if (config.getFilePath().toFile().exists()) config = load(config, errorHandler);
 
         save(config, errorHandler);
@@ -61,7 +76,7 @@ public final class ConfigManager {
      * @return an instance of the provided {@link Config} class populated from the config file or the provided default {@link Config} when the config file could not be read or is formatted incorrectly.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Config> T load(T config, BiConsumer<String, Exception> errorHandler) {
+    public static <T extends Config<?>> T load(T config, BiConsumer<String, Exception> errorHandler) {
         final Jankson jankson = config.configureJankson(Jankson.builder()).build();
         final File configFile = config.getFilePath().toFile();
 
@@ -100,7 +115,7 @@ public final class ConfigManager {
      * @param config the instance of {@link Config} to save.
      * @param errorHandler A method to handle errors. For example {@code LOGGER::error}.
      */
-    public static void save(Config config, BiConsumer<String, Exception> errorHandler) {
+    public static <T extends Config<?>> void save(T config, BiConsumer<String, Exception> errorHandler) {
         CONFIGS.put(config.getName(), config);
 
         final Jankson jankson = config.configureJankson(Jankson.builder()).build();
@@ -138,7 +153,7 @@ public final class ConfigManager {
      * @param errorHandler A method to handle errors. For example {@code LOGGER::error}.
      * @param <T> The type of your Config class
      */
-    private static <T extends Config> void applyDatafixers(T config, Path configFile, JsonObject json, Jankson jankson, BiConsumer<String, Exception> errorHandler) {
+    private static <T extends Config<?>> void applyDatafixers(T config, Path configFile, JsonObject json, Jankson jankson, BiConsumer<String, Exception> errorHandler) {
         int last_version = json.getInt(VERSION_KEY, 0);
         int current_version = config.getConfigVersion();
         if (last_version < current_version) try {
