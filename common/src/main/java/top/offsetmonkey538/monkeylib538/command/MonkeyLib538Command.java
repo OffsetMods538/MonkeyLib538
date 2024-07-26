@@ -20,7 +20,7 @@ import static top.offsetmonkey538.monkeylib538.config.ConfigManager.CONFIGS;
 
 public class MonkeyLib538Command {
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess) throws IllegalAccessException {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         final LiteralArgumentBuilder<ServerCommandSource> monkeylib538Command = literal("monkeylib538");
 
 
@@ -40,13 +40,12 @@ public class MonkeyLib538Command {
             final LiteralArgumentBuilder<ServerCommandSource> monkeylib538Command,
             final String configName,
             final T config
-            ) throws IllegalAccessException {
+            ) {
         //noinspection unchecked
         final Class<T> configClass = (Class<T>) config.getClass();
         for (Field configOption : configClass.getFields()) {
             final String configOptionName = configOption.getName();
-            final Object configOptionValue = configOption.get(config);
-            final ArgumentType<?> configOptionValueType = getType(config, configOptionValue);
+            final ArgumentType<?> configOptionValueType = getType(configName, configOption.getType());
 
             // TODO: register different command for option without suitable argument type
             //  so that the player is notified that they need to manually modify the config for that.
@@ -108,7 +107,7 @@ public class MonkeyLib538Command {
                                                                                 try {
                                                                                     originalValue = configOption.get(CONFIGS.get(configName));
 
-                                                                                    newValue = context.getArgument("value", configOptionValue.getClass());
+                                                                                    newValue = context.getArgument("value", configOption.getType());
                                                                                     //noinspection unchecked
                                                                                     final T configg = (T) CONFIGS.get(configName);
                                                                                     configOption.set(configg, newValue);
@@ -133,19 +132,19 @@ public class MonkeyLib538Command {
         }
     }
 
-    private static <T> ArgumentType<?> getType(Config<?> config, T value) {
+    private static ArgumentType<?> getType(String configName, Class<?> value) {
         // TODO: I think items and entities and vectors and stuff have their own argument type so add them as well
-        if (value instanceof Byte) return IntegerArgumentType.integer(Byte.MIN_VALUE, Byte.MAX_VALUE);
-        if (value instanceof Short) return IntegerArgumentType.integer(Short.MIN_VALUE, Short.MAX_VALUE);
-        if (value instanceof Integer) return IntegerArgumentType.integer();
-        if (value instanceof Long) return LongArgumentType.longArg();
-        if (value instanceof Float) return FloatArgumentType.floatArg();
-        if (value instanceof Double) return DoubleArgumentType.doubleArg();
-        if (value instanceof Boolean) return BoolArgumentType.bool();
+        if (value.isAssignableFrom(Byte.class) || value.isAssignableFrom(byte.class)) return IntegerArgumentType.integer(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        if (value.isAssignableFrom(Short.class) || value.isAssignableFrom(short.class)) return IntegerArgumentType.integer(Short.MIN_VALUE, Short.MAX_VALUE);
+        if (value.isAssignableFrom(Integer.class) || value.isAssignableFrom(int.class)) return IntegerArgumentType.integer();
+        if (value.isAssignableFrom(Long.class) || value.isAssignableFrom(long.class)) return LongArgumentType.longArg();
+        if (value.isAssignableFrom(Float.class) || value.isAssignableFrom(float.class)) return FloatArgumentType.floatArg();
+        if (value.isAssignableFrom(Double.class) || value.isAssignableFrom(double.class)) return DoubleArgumentType.doubleArg();
+        if (value.isAssignableFrom(Boolean.class) || value.isAssignableFrom(boolean.class)) return BoolArgumentType.bool();
 
-        if (value instanceof String) return StringArgumentType.string();
+        if (value.isAssignableFrom(String.class)) return StringArgumentType.string();
 
-        MonkeyLib538Common.LOGGER.warn("Couldn't find suitable argument type for {} in config {}, ignoring!", value, config);
+        MonkeyLib538Common.LOGGER.warn("Couldn't find suitable argument type for {} in config {}, ignoring!", value, configName);
 
         return null;
     }
