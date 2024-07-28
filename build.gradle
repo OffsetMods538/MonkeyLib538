@@ -93,10 +93,8 @@ subprojects {
 				name = "OffsetMonkey538"
 				url = "https://maven.offsetmonkey538.top/releases"
 				credentials {
-					username = System.getenv("MAVEN_USERNAME")
-					password = System.getenv("MAVEN_PASSWORD")
-					if (OffsetMonkey538Username != null) username = OffsetMonkey538Username
-					if (OffsetMonkey538Password != null) password = OffsetMonkey538Password
+					username = providers.gradleProperty("OffsetMonkey538Username").getOrElse(System.getenv("MAVEN_USERNAME"))
+					password = providers.gradleProperty("OffsetMonkey538Password").getOrElse(System.getenv("MAVEN_PASSWORD"))
 				}
 				authentication {
 					basic(BasicAuthentication)
