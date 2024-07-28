@@ -95,6 +95,8 @@ subprojects {
 				credentials {
 					username = System.getenv("MAVEN_USERNAME")
 					password = System.getenv("MAVEN_PASSWORD")
+					if (OffsetMonkey538Username != null) username = OffsetMonkey538Username
+					if (OffsetMonkey538Password != null) password = OffsetMonkey538Password
 				}
 				authentication {
 					basic(BasicAuthentication)
@@ -114,6 +116,9 @@ subprojects {
 		}
 	}
 	tasks.publishMavenPublicationToMavenLocal.doLast {
+		if (System.getenv("IS_DEBUG") == "true") System.out.println("Version: " + version)
+	}
+	tasks.publishMavenPublicationToOffsetMonkey538Repository.doLast {
 		if (System.getenv("IS_DEBUG") == "true") System.out.println("Version: " + version)
 	}
 }
