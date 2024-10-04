@@ -10,6 +10,6 @@ public class ConfigTestmod {
         final ModConfig config = ConfigManager.init(new ModConfig(), LOGGER::error);
 
         LOGGER.info("hello: " + config.hello);
-        LOGGER.info("Number: " + config.Number);
+        //LOGGER.info("Number: " + config.Number);
     }
 }
