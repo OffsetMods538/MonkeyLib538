@@ -1,4 +1,5 @@
 import net.fabricmc.loom.task.RemapJarTask
+import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
@@ -25,7 +26,7 @@ subprojects {
 	dependencies {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
-		modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	}
 
 	processResources {
@@ -124,8 +125,14 @@ configure(subprojects.findAll {it.name != "common"}) {
 
 	archivesBaseName = "monkeylib538"
 	outlet {
+		maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
 		mcVersionRange = project.supported_minecraft_versions
-		allowSnapshotsForProject = false
+		allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+		propertiesData = [
+		        'loader_version': outlet.loaderVersion(),
+				'yarn_version': outlet.yarnVersion(project.minecraft_version),
+				'fabric_api_version': outlet.fapiVersion(project.minecraft_version)
+		]
 	}
 
 	loom {
