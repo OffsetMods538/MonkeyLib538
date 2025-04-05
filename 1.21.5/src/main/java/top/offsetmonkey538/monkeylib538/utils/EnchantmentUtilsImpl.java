@@ -30,6 +30,6 @@ public class EnchantmentUtilsImpl implements EnchantmentUtils {
 
     private RegistryEntry<Enchantment> getEnchantment(Identifier enchantment, DynamicRegistryManager registryManager) {
         final RegistryKey<Registry<Enchantment>> enchantmentRegistry = RegistryKeys.ENCHANTMENT;
-        return registryManager.get(enchantmentRegistry).getEntry(RegistryKey.of(enchantmentRegistry, enchantment)).orElseThrow();
+        return registryManager.getOrThrow(enchantmentRegistry).getEntry(enchantment).orElseThrow();
     }
 }
