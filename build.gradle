@@ -209,7 +209,7 @@ configure(subprojects.findAll {it.name != "common"}) {
 
 	tasks.register('testmodJar', Jar) {
 		from sourceSets.testmod.output
-		destinationDirectory = new File(project.buildDir, "devlibs")
+		destinationDirectory = project.layout.buildDirectory.dir("devlibs")
 		archiveClassifier = "testmod"
 	}
 
