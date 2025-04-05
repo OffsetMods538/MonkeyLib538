@@ -1,0 +1,5 @@
+accessWidener    v1    named
+
+accessible method net/minecraft/server/dedicated/AbstractPropertiesHandler getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+accessible method net/minecraft/server/dedicated/AbstractPropertiesHandler parseBoolean (Ljava/lang/String;Z)Z
+accessible method net/minecraft/recipe/SingleStackRecipe result ()Lnet/minecraft/item/ItemStack;
