@@ -23,7 +23,7 @@ public class MonkeyLib538Command {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         final LiteralArgumentBuilder<ServerCommandSource> monkeylib538Command = literal("monkeylib538");
 
-
+        /*
         for (Map.Entry<String, Config<?>> entry : CONFIGS.entrySet()) {
             final String configName = entry.getKey();
             registerCommandsForConfig(
@@ -33,8 +33,10 @@ public class MonkeyLib538Command {
                     entry.getValue()
             );
         }
+         */
     }
 
+    /*
     private static <T extends Config<?>> void registerCommandsForConfig(
             final CommandDispatcher<ServerCommandSource> dispatcher,
             final LiteralArgumentBuilder<ServerCommandSource> monkeylib538Command,
@@ -148,4 +150,5 @@ public class MonkeyLib538Command {
 
         return null;
     }
+     */
 }

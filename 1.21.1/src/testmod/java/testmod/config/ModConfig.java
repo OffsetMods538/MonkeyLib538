@@ -8,7 +8,7 @@ import java.util.List;
 
 import static testmod.Testmod.*;
 
-public class ModConfig extends Config<ModConfig> {
+public class ModConfig extends Config {
 
     public String hello = "Hello!";
 
@@ -25,11 +25,6 @@ public class ModConfig extends Config<ModConfig> {
     @Override
     protected String getName() {
         return MOD_ID;
-    }
-
-    @Override
-    public ModConfig getDefaultConfig() {
-        return null;
     }
 
     @Override
