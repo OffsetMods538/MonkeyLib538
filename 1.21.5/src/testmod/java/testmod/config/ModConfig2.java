@@ -3,9 +3,6 @@ package testmod.config;
 import blue.endless.jankson.Comment;
 import top.offsetmonkey538.monkeylib538.config.Config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static testmod.Testmod.MOD_ID;
 
 public class ModConfig2 extends Config<ModConfig2> {
