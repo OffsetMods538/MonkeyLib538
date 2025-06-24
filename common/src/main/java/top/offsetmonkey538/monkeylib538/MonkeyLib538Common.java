@@ -1,11 +1,9 @@
 package top.offsetmonkey538.monkeylib538;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.offsetmonkey538.monkeylib538.command.MonkeyLib538Command;
 import top.offsetmonkey538.monkeylib538.utils.IdentifierUtils;
 
 import java.util.ServiceLoader;
@@ -17,7 +15,7 @@ public final class MonkeyLib538Common implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CommandRegistrationCallback.EVENT.register(MonkeyLib538Command::register);
+
     }
 
     public static Identifier id(String path) {

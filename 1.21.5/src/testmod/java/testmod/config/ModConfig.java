@@ -16,6 +16,8 @@ public class ModConfig implements Config {
     @Comment("Now that's nice!")
     public int Number = 69;
 
+    public int[] arrayOfNumbersThatWontWork = new int[] {1, 2, 3};
+
     @Override
     public @NotNull Path getFilePath() {
         return FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json");
