@@ -1,16 +1,18 @@
 package testmod.config;
 
-import top.offsetmonkey538.monkeylib538.config.ConfigManager;
+
+import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
+import top.offsetmonkey538.offsetconfig538.api.config.ConfigManager;
 
 import static testmod.Testmod.*;
 
 public class ConfigTestmod {
 
     public void onInitialize() {
-        final ModConfig config = ConfigManager.init(new ModConfig(), LOGGER::error);
-        final ModConfig2 config2 = ConfigManager.init(new ModConfig2(), LOGGER::error);
+        final ConfigHolder<ModConfig> config = ConfigManager.INSTANCE.init(ConfigHolder.create(ModConfig::new, LOGGER::error));
+        final ConfigHolder<ModConfig2> config2 = ConfigManager.INSTANCE.init(ConfigHolder.create(ModConfig2::new, LOGGER::error));
 
-        LOGGER.info("hello: " + config.hello);
+        LOGGER.info("hello: {}", config.get().hello);
         //LOGGER.info("Number: " + config.Number);
     }
 }

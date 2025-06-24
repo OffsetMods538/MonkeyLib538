@@ -8,15 +8,12 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
-import top.offsetmonkey538.monkeylib538.config.Config;
-import top.offsetmonkey538.monkeylib538.config.ConfigManager;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.server.command.CommandManager.argument;
-import static top.offsetmonkey538.monkeylib538.config.ConfigManager.CONFIGS;
 
 public class MonkeyLib538Command {
 

@@ -44,6 +44,13 @@ subprojects {
 
 	repositories {
 		mavenCentral()
+		maven {
+			name = "OffsetMods538"
+			url = "https://maven.offsetmonkey538.top/releases"
+			content {
+				includeGroup "top.offsetmonkey538.offsetconfig538"
+			}
+		}
 	}
 
 	dependencies {
@@ -140,7 +147,7 @@ configure(subprojects.findAll { it.name == "common" }) {
 	}
 
 	dependencies {
-		includeApi "blue.endless:jankson:${project.jankson_version}"
+		includeApi "top.offsetmonkey538.offsetconfig538:offsetconfig538:${project.offsetconfig538_version}"
 	}
 }
 
