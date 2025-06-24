@@ -17,7 +17,11 @@ outlet {
 }
 
 ext {
-	debugVersion = System.currentTimeMillis()
+	debugVersion = ""
+	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) debugVersion = System.currentTimeMillis()
+
+	final String customVersion = System.getenv("CUSTOM_VERSION")
+	if (customVersion != null && !customVersion.isEmpty()) debugVersion = customVersion
 }
 
 allprojects {
@@ -124,7 +128,7 @@ subprojects {
 
 configure(subprojects.findAll { it.name == "common" }) {
 	version = rootProject.mod_version
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}+${rootProject.debugVersion}"
+	if (rootProject.debugVersion != "") version = "${version}+${rootProject.debugVersion}"
 
 	base.archivesName = "common"
 
@@ -144,7 +148,7 @@ configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "com.modrinth.minotaur"
 
 	version = "${rootProject.mod_version}+${project.minecraft_version}"
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${rootProject.debugVersion}"
+	if (rootProject.debugVersion != "") version = "${version}-${rootProject.debugVersion}"
 
 	base.archivesName = "monkeylib538"
 
