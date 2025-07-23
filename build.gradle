@@ -90,11 +90,7 @@ subprojects {
 		}
 		publications {
 			maven(MavenPublication) {
-				if (project.name == "common") {
-					artifactId = "common"
-				} else {
-					artifactId = "monkeylib538"
-				}
+				artifactId = "monkeylib538"
 
 				from(components["java"])
 			}
