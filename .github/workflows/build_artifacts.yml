@@ -24,10 +24,22 @@ jobs:
         with:
           cache-read-only: false
 
+      - name: Store short commit hash
+        run: echo "short_commit_hash=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
       - name: Build with Gradle
         run: ./gradlew build
         env:
+          VERSION_SUFFIX: ${{ env.short_commit_hash }}
           DISABLE_PROPERTIES_UPDATE: true
+
+      - name: Publish to Maven
+        run: ./gradlew publishMavenPublicationToOffsetMonkey538Repository
+        env:
+          VERSION_SUFFIX: ${{ env.short_commit_hash }}
+          DISABLE_PROPERTIES_UPDATE: true
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
       - name: Delete common libs
         run: rm -r ./common/build/libs

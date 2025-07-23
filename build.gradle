@@ -8,7 +8,14 @@ plugins {
 }
 
 ext {
-	debugVersion = System.currentTimeMillis()
+	versionPrefix = rootProject.mod_version
+	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) {
+		versionPrefix = "${versionPrefix}-${System.currentTimeMillis()}"
+	}
+	final String versionSuffix = System.getenv("VERSION_SUFFIX")
+	if (versionSuffix != null && !versionSuffix.isEmpty()) {
+		versionPrefix = "${versionPrefix}-${versionSuffix}"
+	}
 }
 
 allprojects {
@@ -73,8 +80,8 @@ subprojects {
 				name = "OffsetMonkey538"
 				url = "https://maven.offsetmonkey538.top/releases"
 				credentials {
-					username = System.getenv("MAVEN_USERNAME")
-					password = System.getenv("MAVEN_PASSWORD")
+					username = providers.gradleProperty("OffsetMonkey538Username").getOrElse(System.getenv("MAVEN_USERNAME"))
+					password = providers.gradleProperty("OffsetMonkey538Password").getOrElse(System.getenv("MAVEN_PASSWORD"))
 				}
 				authentication {
 					basic(BasicAuthentication)
@@ -99,8 +106,7 @@ subprojects {
 }
 
 configure(subprojects.findAll { it.name == "common" }) {
-	version = rootProject.mod_version
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}+${rootProject.debugVersion}"
+	version = "${rootProject.versionPrefix}+common"
 
 	archivesBaseName = "common"
 
@@ -120,8 +126,7 @@ configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "io.github.dexman545.outlet"
 	apply plugin: "com.modrinth.minotaur"
 
-	version = "${rootProject.mod_version}+${project.minecraft_version}"
-	if (System.getenv("IS_DEBUG") == "true") version = "${version}-${rootProject.debugVersion}"
+	version = "${rootProject.versionPrefix}+${project.minecraft_version}"
 
 	archivesBaseName = "monkeylib538"
 	outlet {
@@ -223,22 +228,38 @@ configure(subprojects.findAll {it.name != "common"}) {
 	build.dependsOn remapTestmodJar
 
 	modrinth {
+		// Main properties
 		token = System.getenv("MODRINTH_TOKEN")
 		projectId = "monkeylib538"
+		gameVersions = outlet.mcVersions()
+
+
+		// Version stuff
 		def customVersionName = System.getenv("VERSION_NAME")
 		if (customVersionName != null) versionName = customVersionName
+
 		versionNumber = "${project.version}"
-		versionType = "beta"
+
+		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
+		versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
+
+		if (project.mod_version.contains("beta")) versionType = "beta"
+		if (project.mod_version.contains("alpha")) versionType = "alpha"
+
+
+		// Files
 		uploadFile = remapJar.archiveFile
 		//additionalFiles = [sourcesJar.archiveFile, javadocJar.archiveFile]
 		additionalFiles = [sourcesJar.archiveFile]
-		gameVersions = outlet.mcVersions()
-		syncBodyFrom = rootProject.file("README.md").text
-		def changelogFile = rootProject.file("CHANGELOG.md")
-		if (changelogFile.exists()) {
-			changelog = changelogFile.text
-		}
 
+
+		// Fun text stuff
+		syncBodyFrom = rootProject.file("README.md").text
+		def changelogEnv = System.getenv("VERSION_CHANGELOG")
+		if (changelogEnv != null) changelog = changelogEnv
+
+
+		// Dependencies
 		dependencies {
 		}
 	}
