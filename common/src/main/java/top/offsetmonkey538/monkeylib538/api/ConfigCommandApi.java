@@ -28,7 +28,6 @@ public interface ConfigCommandApi {
      *             <code>newValue</code>:
      *                 Sets the given config option to the given new value.
      * </pre>
-     * </p>
      * <p>
      *     If you only have one config and no other commands, you can directly register the command like this:
      *     <pre>
@@ -53,7 +52,6 @@ public interface ConfigCommandApi {
      *     });
      *     }
      *     </pre>
-     * </p>
      *
      * @param name the name of the command.
      * @param configHolder your {@link ConfigHolder} instance.
