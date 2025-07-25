@@ -12,6 +12,11 @@
 		"issues": "https://github.com/OffsetMods538/MonkeyLib538/issues",
 		"homepage": "https://modrinth.com/mod/monkeylib538"
 	},
+	"entrypoints": {
+		"main": [
+			"top.offsetmonkey538.monkeylib538.MonkeyLib538Common"
+		]
+	},
 	"license": "MIT",
 	"icon": "assets/monkeylib538/icon.png",
 	"environment": "*",

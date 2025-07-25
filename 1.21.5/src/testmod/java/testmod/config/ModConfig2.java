@@ -9,17 +9,15 @@ import java.nio.file.Path;
 
 import static testmod.Testmod.MOD_ID;
 
-public class ModConfig implements Config {
+public class ModConfig2 implements Config {
 
-    public String hello = "Hello!";
+    public String anotherString = "Bye!";
 
     @Comment("Now that's nice!")
-    public int Number = 69;
-
-    public int[] arrayOfNumbersThatWontWork = new int[] {1, 2, 3};
+    public int niceNummer = 69;
 
     @Override
     public @NotNull Path getFilePath() {
-        return FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + ".json");
+        return FabricLoader.getInstance().getConfigDir().resolve(MOD_ID + "2.json");
     }
 }
