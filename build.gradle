@@ -3,25 +3,22 @@ import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
 	id 'java'
-	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
-	id 'io.github.dexman545.outlet' version '1.6.1' apply true
+    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
+	id 'io.github.dexman545.outlet' version '1.6.1' apply false
 	id 'com.modrinth.minotaur' version '2.+' apply false
 }
 
-outlet {
-    maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
-    mcVersionRange = "*"
-	propertiesData = [
-            'loader_version': outlet.loaderVersion()
-    ]
-}
-
 ext {
-	debugVersion = ""
-	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) debugVersion = System.currentTimeMillis()
+	versionPrefix = rootProject.mod_version
+	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) {
+		versionPrefix = "${versionPrefix}-${System.currentTimeMillis()}"
+	}
+	final String versionSuffix = System.getenv("VERSION_SUFFIX")
+	if (versionSuffix != null && !versionSuffix.isEmpty()) {
+		versionPrefix = "${versionPrefix}-${versionSuffix}"
+	}
 
-	final String customVersion = System.getenv("CUSTOM_VERSION")
-	if (customVersion != null && !customVersion.isEmpty()) debugVersion = customVersion
+    System.out.println("Version Prefix: " + versionPrefix)
 }
 
 allprojects {
@@ -30,6 +27,7 @@ allprojects {
 
 subprojects {
 	apply plugin: "fabric-loom"
+	apply plugin: "io.github.dexman545.outlet"
     apply plugin: "maven-publish"
 
     outlet {
@@ -37,6 +35,7 @@ subprojects {
         mcVersionRange = project.supported_minecraft_versions
         allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
         propertiesData = [
+                'loader_version': outlet.loaderVersion(),
                 'yarn_version': outlet.yarnVersion(project.minecraft_version),
                 'fapi_version': outlet.fapiVersion(project.minecraft_version)
         ]
@@ -56,7 +55,7 @@ subprojects {
 	dependencies {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
-		modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 	}
@@ -115,29 +114,18 @@ subprojects {
 		}
 		publications {
 			maven(MavenPublication) {
-				if (project.name == "common") {
-					artifactId = "common"
-				} else {
-					artifactId = "monkeylib538"
-				}
+				artifactId = "monkeylib538"
 
 				from(components["java"])
 			}
 		}
 	}
-	tasks.publishMavenPublicationToMavenLocal.doLast {
-		if (System.getenv("IS_DEBUG") == "true") System.out.println("Version: " + version)
-	}
-	tasks.publishMavenPublicationToOffsetMonkey538Repository.doLast {
-		if (System.getenv("IS_DEBUG") == "true") System.out.println("Version: " + version)
-	}
 }
 
 configure(subprojects.findAll { it.name == "common" }) {
-	version = rootProject.mod_version
-	if (rootProject.debugVersion != "") version = "${version}+${rootProject.debugVersion}"
+	version = "${rootProject.versionPrefix}+common"
 
-	base.archivesName = "common"
+	archivesBaseName = "common"
 
 	configurations {
 		includeApi
@@ -154,10 +142,9 @@ configure(subprojects.findAll { it.name == "common" }) {
 configure(subprojects.findAll {it.name != "common"}) {
 	apply plugin: "com.modrinth.minotaur"
 
-	version = "${rootProject.mod_version}+${project.minecraft_version}"
-	if (rootProject.debugVersion != "") version = "${version}-${rootProject.debugVersion}"
+	version = "${rootProject.versionPrefix}+${project.minecraft_version}"
 
-	base.archivesName = "monkeylib538"
+	archivesBaseName = "monkeylib538"
 
 	loom {
 		splitEnvironmentSourceSets()
@@ -249,22 +236,38 @@ configure(subprojects.findAll {it.name != "common"}) {
 	build.dependsOn remapTestmodJar
 
 	modrinth {
+		// Main properties
 		token = System.getenv("MODRINTH_TOKEN")
 		projectId = "monkeylib538"
+		gameVersions = outlet.mcVersions()
+
+
+		// Version stuff
 		def customVersionName = System.getenv("VERSION_NAME")
 		if (customVersionName != null) versionName = customVersionName
+
 		versionNumber = "${project.version}"
-		versionType = "beta"
+
+		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
+		versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
+
+		if (project.mod_version.contains("beta")) versionType = "beta"
+		if (project.mod_version.contains("alpha")) versionType = "alpha"
+
+
+		// Files
 		uploadFile = remapJar.archiveFile
 		//additionalFiles = [sourcesJar.archiveFile, javadocJar.archiveFile]
 		additionalFiles = [sourcesJar.archiveFile]
-		gameVersions = outlet.mcVersions()
-		syncBodyFrom = rootProject.file("README.md").text
-		def changelogFile = rootProject.file("CHANGELOG.md")
-		if (changelogFile.exists()) {
-			changelog = changelogFile.text
-		}
 
+
+		// Fun text stuff
+		syncBodyFrom = rootProject.file("README.md").text
+		def changelogEnv = System.getenv("VERSION_CHANGELOG")
+		if (changelogEnv != null) changelog = changelogEnv
+
+
+		// Dependencies
 		dependencies {
 		}
 	}

@@ -22,5 +22,13 @@
 	"environment": "*",
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}"
+	},
+	"breaks": {
+		"cog": "<=2.1.1",
+		"bettermultishot": "<=2.5.0",
+		"withered-bone-meal": "<=2.2.0",
+		"github-resourcepack-manager": "<=4.0.1",
+		"better-fire-aspect": "<=1.1.0",
+		"easy-item-despawn": "<=1.1.0"
 	}
 }
