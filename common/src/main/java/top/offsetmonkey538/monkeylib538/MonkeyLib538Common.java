@@ -1,10 +1,8 @@
 package top.offsetmonkey538.monkeylib538;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.offsetmonkey538.monkeylib538.utils.IdentifierUtils;
 
 import java.util.ServiceLoader;
 
@@ -16,10 +14,6 @@ public final class MonkeyLib538Common implements ModInitializer {
     @Override
     public void onInitialize() {
 
-    }
-
-    public static Identifier id(String path) {
-        return IdentifierUtils.INSTANCE.of(MOD_ID, path);
     }
 
     public static <T> T load(Class<T> clazz) {
