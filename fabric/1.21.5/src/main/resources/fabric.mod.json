@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "monkeylib538-common",
+	"id": "monkeylib538",
 	"version": "${modVersion}",
 	"name": "MonkeyLib538",
 	"description": "A library mod for OffsetMonkey538s mods",
@@ -12,16 +12,12 @@
 		"issues": "https://github.com/OffsetMods538/MonkeyLib538/issues",
 		"homepage": "https://modrinth.com/mod/monkeylib538"
 	},
-	"entrypoints": {
-		"main": [
-			"top.offsetmonkey538.monkeylib538.MonkeyLib538Common"
-		]
-	},
 	"license": "MIT",
 	"icon": "assets/monkeylib538/icon.png",
 	"environment": "*",
 	"depends": {
-		"minecraft": "${supportedMinecraftVersions}"
+		"minecraft": "${supportedMinecraftVersions}",
+		"java": ">=21"
 	},
 	"breaks": {
 		"cog": "<=2.1.1",

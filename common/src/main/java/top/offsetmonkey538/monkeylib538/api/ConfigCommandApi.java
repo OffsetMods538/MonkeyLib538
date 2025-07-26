@@ -1,13 +1,13 @@
 package top.offsetmonkey538.monkeylib538.api;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.server.command.ServerCommandSource;
 import org.jetbrains.annotations.NotNull;
-import top.offsetmonkey538.monkeylib538.impl.ConfigCommandApiImpl;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 
+import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
+
 public interface ConfigCommandApi {
-    ConfigCommandApi INSTANCE = new ConfigCommandApiImpl();
+    ConfigCommandApi INSTANCE = load(ConfigCommandApi.class);
 
     /**
      * Creates a config command using the provided name and {@link ConfigHolder}.
@@ -58,5 +58,5 @@ public interface ConfigCommandApi {
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
     @NotNull
-    LiteralArgumentBuilder<ServerCommandSource> createConfigCommand(final @NotNull String name, final @NotNull ConfigHolder<?> configHolder);
+    LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String name, final @NotNull ConfigHolder<?> configHolder);
 }

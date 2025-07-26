@@ -101,8 +101,8 @@ public class ConfigCommandApiImpl implements ConfigCommandApi {
                                             .setStyle(
                                                     Style.EMPTY
                                                             .withUnderline(true)
-                                                            .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to copy")))
-                                                            .withClickEvent(new ClickEvent.CopyToClipboard(configHolder.get().getFilePath().toAbsolutePath().toString()))
+                                                            // todO: .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to copy")))
+                                                            // todO: .withClickEvent(new ClickEvent.CopyToClipboard(configHolder.get().getFilePath().toAbsolutePath().toString()))
                                             )
                             ),
                     true
@@ -153,7 +153,7 @@ public class ConfigCommandApiImpl implements ConfigCommandApi {
 
         if (value.isAssignableFrom(String.class)) return StringArgumentType.string();
 
-        MonkeyLib538Common.LOGGER.warn("Couldn't find suitable argument type for {} in config {}, ignoring!", value, configName);
+        MonkeyLib538Common.getLogger().warn("Couldn't find suitable argument type for {} in config {}, ignoring!", value, configName);
 
         return null;
     }

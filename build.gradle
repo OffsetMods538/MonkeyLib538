@@ -1,6 +1,3 @@
-import net.fabricmc.loom.task.RemapJarTask
-import dex.plugins.outlet.v2.util.ReleaseType
-
 plugins {
 	id 'java'
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false
@@ -25,21 +22,11 @@ allprojects {
 	group = rootProject.maven_group
 }
 
-subprojects {
-	apply plugin: "fabric-loom"
-	apply plugin: "io.github.dexman545.outlet"
+configure(subprojects.findAll {it.name == "common" || it.name != it.project_type}) {
+	apply plugin: "java"
     apply plugin: "maven-publish"
 
-    outlet {
-        maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
-        mcVersionRange = project.supported_minecraft_versions
-        allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
-        propertiesData = [
-                'loader_version': outlet.loaderVersion(),
-                'yarn_version': outlet.yarnVersion(project.minecraft_version),
-                'fapi_version': outlet.fapiVersion(project.minecraft_version)
-        ]
-    }
+	base.archivesName = "monkeylib538-${project.project_type}"
 
 	repositories {
 		mavenCentral()
@@ -53,39 +40,19 @@ subprojects {
 	}
 
 	dependencies {
-		minecraft "com.mojang:minecraft:${project.minecraft_version}"
-		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
-		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
-	}
-
-	processResources {
-		inputs.properties(Map.of(
-				"modVersion",                 rootProject.mod_version,
-				"supportedMinecraftVersions", project.supported_minecraft_versions
-		))
-
-		filesMatching("fabric.mod.json") {
-			expand(Map.of(
-					"modVersion",                 rootProject.mod_version,
-					"supportedMinecraftVersions", project.supported_minecraft_versions
-			))
-		}
-
-		exclude ".cache/**"
+		compileOnly "org.jetbrains:annotations:${rootProject.jetbrainsannotations_version}"
 	}
 
 	tasks.withType(JavaCompile).configureEach {
-		it.options.release = 17
+		it.options.release = 21
 	}
 
 	java {
 		withSourcesJar()
 		withJavadocJar()
 
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 
 	tasks.named("javadoc", Javadoc) {
@@ -114,91 +81,20 @@ subprojects {
 		}
 		publications {
 			maven(MavenPublication) {
-				artifactId = "monkeylib538"
+				artifactId = base.archivesName.get()
 
-				from(components["java"])
+
+				from components.java
 			}
 		}
 	}
 }
 
-configure(subprojects.findAll { it.name == "common" }) {
-	version = "${rootProject.versionPrefix}+common"
-
-	archivesBaseName = "common"
-
-	configurations {
-		includeApi
-
-		include.extendsFrom includeApi
-		api.extendsFrom     includeApi
-	}
-
-	dependencies {
-		includeApi "top.offsetmonkey538.offsetconfig538:offsetconfig538:${project.offsetconfig538_version}"
-	}
-}
-
-configure(subprojects.findAll {it.name != "common"}) {
+configure(subprojects.findAll {it.name != "common" && it.name != it.project_type}) {
 	apply plugin: "com.modrinth.minotaur"
 
-	version = "${rootProject.versionPrefix}+${project.minecraft_version}"
-
-	archivesBaseName = "monkeylib538"
-
-	loom {
-		splitEnvironmentSourceSets()
-
-		sourceSets {
-			testmod {
-				compileClasspath += main.compileClasspath
-				runtimeClasspath += main.runtimeClasspath
-
-				compileClasspath += client.compileClasspath
-				runtimeClasspath += client.runtimeClasspath
-			}
-		}
-
-		mods {
-			monkeylib538 {
-				sourceSet sourceSets.main
-				sourceSet sourceSets.client
-			}
-
-			testmod {
-				sourceSet sourceSets.testmod
-			}
-		}
-
-		accessWidenerPath = file("src/main/resources/monkeylib538.accesswidener")
-
-		runs {
-			client {
-				name = "${project.name} Client"
-			}
-
-			server {
-				name = "${project.name} Server"
-				runDir "run/server"
-			}
-
-			testmodClient {
-				client()
-				name = "${project.name} Testmod Client"
-				runDir "run/testmod"
-				source sourceSets.testmod
-			}
-		}
-
-		createRemapConfigurations(sourceSets.testmod)
-	}
-
-	// https://gist.github.com/maityyy/3dbcd558d58a6412c3a2a38c72706e8e
-	afterEvaluate {
-		loom.runs.configureEach {
-			vmArg "-javaagent:${configurations.compileClasspath.find{ it.name.contains("sponge-mixin") }}"
-		}
-	}
+	version = "${rootProject.versionPrefix}"
+	if (project.hasProperty("minecraft_version")) version = "${version}+${project.minecraft_version}"
 
 	configurations {
 		common {
@@ -209,67 +105,7 @@ configure(subprojects.findAll {it.name != "common"}) {
 	}
 
 	dependencies {
-		common(project(path: ":common", configuration: "namedElements")) {
-			exclude(group: "net.fabricmc.fabric-api")
-		}
-		include(project(":common")) {
-			exclude(group: "net.fabricmc.fabric-api")
-		}
-
-		testmodImplementation sourceSets.main.output
-		testmodImplementation sourceSets.client.output
-	}
-
-	tasks.register('testmodJar', Jar) {
-		from sourceSets.testmod.output
-		destinationDirectory = project.layout.buildDirectory.dir("devlibs")
-		archiveClassifier = "testmod"
-	}
-
-	tasks.register('remapTestmodJar', RemapJarTask) {
-		dependsOn testmodJar
-		input = testmodJar.archiveFile
-		archiveClassifier = "testmod"
-		addNestedDependencies = false
-	}
-
-	build.dependsOn remapTestmodJar
-
-	modrinth {
-		// Main properties
-		token = System.getenv("MODRINTH_TOKEN")
-		projectId = "monkeylib538"
-		gameVersions = outlet.mcVersions()
-
-
-		// Version stuff
-		def customVersionName = System.getenv("VERSION_NAME")
-		if (customVersionName != null) versionName = customVersionName
-
-		versionNumber = "${project.version}"
-
-		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-		versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
-
-		if (project.mod_version.contains("beta")) versionType = "beta"
-		if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-		// Files
-		uploadFile = remapJar.archiveFile
-		//additionalFiles = [sourcesJar.archiveFile, javadocJar.archiveFile]
-		additionalFiles = [sourcesJar.archiveFile]
-
-
-		// Fun text stuff
-		syncBodyFrom = rootProject.file("README.md").text
-		def changelogEnv = System.getenv("VERSION_CHANGELOG")
-		if (changelogEnv != null) changelog = changelogEnv
-
-
-		// Dependencies
-		dependencies {
-		}
+		common project(path: ":common")
 	}
 
 	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)

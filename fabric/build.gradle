@@ -1,0 +1,125 @@
+import dex.plugins.outlet.v2.util.ReleaseType
+
+plugins {
+    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
+	id 'io.github.dexman545.outlet' version '1.6.1' apply false
+	id 'com.modrinth.minotaur' version '2.+' apply false
+}
+
+subprojects {
+	apply plugin: "fabric-loom"
+	apply plugin: "io.github.dexman545.outlet"
+	apply plugin: "com.modrinth.minotaur"
+
+	outlet {
+		maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
+		mcVersionRange = project.supported_minecraft_versions
+		allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+		propertiesData = [
+				'loader_version': outlet.loaderVersion(),
+				'yarn_version'  : outlet.yarnVersion(project.minecraft_version),
+				'fapi_version'  : outlet.fapiVersion(project.minecraft_version)
+		]
+	}
+
+	dependencies {
+		minecraft "com.mojang:minecraft:${project.minecraft_version}"
+		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
+		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+		outlet.mcVersions()
+
+		// Just include, already depended on in root build.gradle
+		include project(":common")
+	}
+
+	processResources {
+		inputs.properties(Map.of(
+				"modVersion",                 rootProject.mod_version,
+				"supportedMinecraftVersions", project.supported_minecraft_versions
+		))
+
+		filesMatching("fabric.mod.json") {
+			expand(Map.of(
+					"modVersion",                 rootProject.mod_version,
+					"supportedMinecraftVersions", project.supported_minecraft_versions
+			))
+		}
+
+		exclude ".cache/**"
+	}
+
+	jar {
+		from("${parent.projectDir}/META-INF/services") {
+			rename { "META-INF/services/${it}" }
+		}
+	}
+
+	loom {
+		splitEnvironmentSourceSets()
+
+		mods {
+			monkeylib538 {
+				sourceSet sourceSets.main
+				sourceSet sourceSets.client
+			}
+		}
+
+		runs {
+			client {
+				name = "${project.name} Client"
+			}
+
+			server {
+				name = "${project.name} Server"
+				runDir "run/server"
+			}
+		}
+	}
+
+	// https://gist.github.com/maityyy/3dbcd558d58a6412c3a2a38c72706e8e
+	afterEvaluate {
+		loom.runs.configureEach {
+			vmArg "-javaagent:${configurations.compileClasspath.find{ it.name.contains("sponge-mixin") }}"
+		}
+	}
+
+
+	modrinth {
+		// Main properties
+		token = System.getenv("MODRINTH_TOKEN")
+		projectId = "monkeylib538"
+		gameVersions = outlet.mcVersions()
+		loaders = ["fabric"]
+
+
+		// Version stuff
+		def customVersionName = System.getenv("VERSION_NAME")
+		if (customVersionName != null) versionName = customVersionName
+
+		versionNumber = "${project.version}"
+
+		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
+		versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
+
+		if (project.mod_version.contains("beta")) versionType = "beta"
+		if (project.mod_version.contains("alpha")) versionType = "alpha"
+
+
+		// Files
+		else uploadFile = remapJar.archiveFile
+		additionalFiles = [sourcesJar.archiveFile]
+
+
+		// Fun text stuff
+		syncBodyFrom = rootProject.file("README.md").text
+		def changelogEnv = System.getenv("VERSION_CHANGELOG")
+		if (changelogEnv != null) changelog = changelogEnv
+
+
+		// Dependencies
+		dependencies {
+		}
+	}
+}
