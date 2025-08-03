@@ -1,13 +1,14 @@
-package top.offsetmonkey538.monkeylib538.api;
+package top.offsetmonkey538.monkeylib538.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import org.jetbrains.annotations.NotNull;
+import top.offsetmonkey538.monkeylib538.impl.command.ConfigCommandImpl;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 
-import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
-
 public interface ConfigCommandApi {
-    ConfigCommandApi INSTANCE = load(ConfigCommandApi.class);
+    ConfigCommandApi INSTANCE = new ConfigCommandImpl();
+
+    void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @NotNull String... commandTree);
 
     /**
      * Creates a config command using the provided name and {@link ConfigHolder}.
@@ -57,6 +58,5 @@ public interface ConfigCommandApi {
      * @param configHolder your {@link ConfigHolder} instance.
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
-    @NotNull
-    LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String name, final @NotNull ConfigHolder<?> configHolder);
+    @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String name, final @NotNull ConfigHolder<?> configHolder);
 }

@@ -15,6 +15,11 @@
 	"license": "MIT",
 	"icon": "assets/monkeylib538/icon.png",
 	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"top.offsetmonkey538.monkeylib538.MonkeyLib538Initializer"
+		]
+	},
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
 		"java": ">=21"
