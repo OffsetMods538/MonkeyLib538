@@ -1,5 +1,7 @@
 package top.offsetmonkey538.monkeylib538.impl.log;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import top.offsetmonkey538.monkeylib538.api.log.PlatformLogger;
 
@@ -8,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlatformLoggerImpl implements PlatformLogger {
+public final class PlatformLoggerImpl implements PlatformLogger {
     private final Logger logger;
     private final Map<LogLevel, List<LogListener>> listeners = new HashMap<>(Map.of(
             LogLevel.DEBUG, new ArrayList<>(),
@@ -22,48 +24,48 @@ public class PlatformLoggerImpl implements PlatformLogger {
     }
 
     @Override
-    public void debug(String message) {
+    public void debug(@NotNull String message) {
         listeners.get(LogLevel.DEBUG).forEach(consumer -> consumer.accept(message, null));
         logger.debug(message);
     }
 
     @Override
-    public void info(String message) {
+    public void info(@NotNull String message) {
         listeners.get(LogLevel.INFO).forEach(consumer -> consumer.accept(message, null));
         logger.info(message);
     }
 
     @Override
-    public void warn(String message) {
+    public void warn(@NotNull String message) {
         listeners.get(LogLevel.WARN).forEach(consumer -> consumer.accept(message, null));
         logger.warn(message);
     }
 
     @Override
-    public void warn(String message, Throwable error) {
+    public void warn(@NotNull String message, @Nullable Throwable error) {
         listeners.get(LogLevel.WARN).forEach(consumer -> consumer.accept(message, error));
         logger.warn(message, error);
     }
 
     @Override
-    public void error(String message) {
+    public void error(@NotNull String message) {
         listeners.get(LogLevel.ERROR).forEach(consumer -> consumer.accept(message, null));
         logger.error(message);
     }
 
     @Override
-    public void error(String message, Throwable error) {
+    public void error(@NotNull String message, @Nullable Throwable error) {
         listeners.get(LogLevel.ERROR).forEach(consumer -> consumer.accept(message, error));
         logger.error(message, error);
     }
 
     @Override
-    public void addListener(LogLevel level, LogListener listener) {
+    public void addListener(@NotNull LogLevel level, @NotNull LogListener listener) {
         listeners.get(level).add(listener);
     }
 
     @Override
-    public void removeListener(LogLevel level, LogListener listener) {
+    public void removeListener(@NotNull LogLevel level, @NotNull LogListener listener) {
         listeners.get(level).remove(listener);
     }
 }

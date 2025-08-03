@@ -1,46 +1,170 @@
 package top.offsetmonkey538.monkeylib538.api.log;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Provides platform-agnostic logging capabilities.
+ * <br />
+ * Create a logger using {@link PlatformLoggerProvider}.
+ */
 public interface PlatformLogger {
-    default void debug(String message, Object... args) {
+    /**
+     * Logs the provided message at {@link LogLevel#DEBUG} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param args The args for formatting the message
+     */
+    default void debug(@NotNull String message, @NotNull Object... args) {
         debug(String.format(message, args));
     }
-    default void info(String message, Object... args) {
+    /**
+     * Logs the provided message at {@link LogLevel#INFO} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param args The args for formatting the message
+     */
+    default void info(@NotNull String message, @NotNull Object... args) {
         info(String.format(message, args));
     }
-    default void warn(String message, Object... args) {
+    /**
+     * Logs the provided message at {@link LogLevel#WARN} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param args The args for formatting the message
+     */
+    default void warn(@NotNull String message, @NotNull Object... args) {
         warn(String.format(message, args));
     }
-    default void warn(String message, Throwable error, Object... args) {
+    /**
+     * Logs the provided message and {@link Throwable} at {@link LogLevel#WARN} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param error The throwable to log
+     * @param args The args for formatting the message
+     */
+    default void warn(@NotNull String message, @Nullable Throwable error, @NotNull Object... args) {
         warn(String.format(message, args), error);
     }
-    default void error(String message, Object... args) {
+    /**
+     * Logs the provided message at {@link LogLevel#ERROR} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param args The args for formatting the message
+     */
+    default void error(@NotNull String message, @NotNull Object... args) {
         error(String.format(message, args));
     }
-    default void error(String message, Throwable error, Object... args) {
+    /**
+     * Logs the provided message and {@link Throwable} at {@link LogLevel#ERROR} level.
+     * <br />
+     * Uses {@link String#formatted(Object...)} for formatting the message.
+     *
+     * @param message The message to log
+     * @param error The throwable to log
+     * @param args The args for formatting the message
+     */
+    default void error(@NotNull String message, @Nullable Throwable error, @NotNull Object... args) {
         error(String.format(message, args), error);
     }
 
-    void debug(String message);
-    void info(String message);
-    void warn(String message);
-    void warn(String message, Throwable error);
-    void error(String message);
-    void error(String message, Throwable error);
+    /**
+     * Logs the provided message at {@link LogLevel#DEBUG} level.
+     *
+     * @param message The message to log
+     */
+    void debug(@NotNull String message);
+    /**
+     * Logs the provided message at {@link LogLevel#INFO} level.
+     *
+     * @param message The message to log
+     */
+    void info(@NotNull String message);
+    /**
+     * Logs the provided message at {@link LogLevel#WARN} level.
+     *
+     * @param message The message to log
+     */
+    void warn(@NotNull String message);
+    /**
+     * Logs the provided message and {@link Throwable} at {@link LogLevel#WARN} level.
+     *
+     * @param message The message to log
+     * @param error The throwable to log
+     */
+    void warn(@NotNull String message, @Nullable Throwable error);
+    /**
+     * Logs the provided message at {@link LogLevel#ERROR} level.
+     *
+     * @param message The message to log
+     */
+    void error(@NotNull String message);
+    /**
+     * Logs the provided message and {@link Throwable} at {@link LogLevel#ERROR} level.
+     *
+     * @param message The message to log
+     * @param error The throwable to log
+     */
+    void error(@NotNull String message, @Nullable Throwable error);
 
-    void addListener(LogLevel level, LogListener listener);
-    void removeListener(LogLevel level, LogListener listener);
+    /**
+     * Adds a {@link LogListener} to this logger.
+     *
+     * @param level the level to listen at
+     * @param listener the {@link LogListener} to add
+     */
+    void addListener(@NotNull LogLevel level, @NotNull LogListener listener);
+    /**
+     * Removes a {@link LogListener} from this logger.
+     *
+     * @param level the level it was listening at
+     * @param listener the {@link LogListener} to remove
+     */
+    void removeListener(@NotNull LogLevel level, @NotNull LogListener listener);
 
+    /**
+     * Log level
+     */
     enum LogLevel {
+        /**
+         * Debug messages
+         */
         DEBUG,
+        /**
+         * Info messages
+         */
         INFO,
+        /**
+         * Warning messages
+         */
         WARN,
+        /**
+         * Error messages
+         */
         ERROR
     }
 
+    /**
+     * A log listener allows reading log messages.
+     */
     @FunctionalInterface
     interface LogListener {
+        /**
+         * Accept the message and optionally a {@link Throwable} that was logged.
+         *
+         * @param message the message that was logged
+         * @param error the {@link Throwable} that was logged
+         */
         void accept(String message, @Nullable Throwable error);
     }
 }

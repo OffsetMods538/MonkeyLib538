@@ -11,7 +11,7 @@ import top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.impl.text.MonkeyLibTextImpl;
 
-public class CommandAbstractionImpl implements CommandAbstractionApi {
+public final class CommandAbstractionImpl implements CommandAbstractionApi {
 
     @Override
     public @NotNull LiteralArgumentBuilder<?> literalImpl(String name) {

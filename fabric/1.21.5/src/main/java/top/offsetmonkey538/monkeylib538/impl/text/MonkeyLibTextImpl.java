@@ -7,7 +7,7 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
-public class MonkeyLibTextImpl implements MonkeyLibText {
+public final class MonkeyLibTextImpl implements MonkeyLibText {
     private final MutableText text;
 
     public MonkeyLibTextImpl(final @NotNull String text) {

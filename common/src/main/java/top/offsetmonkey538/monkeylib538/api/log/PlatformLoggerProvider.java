@@ -2,7 +2,13 @@ package top.offsetmonkey538.monkeylib538.api.log;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
+/**
+ * Provides a method for creating {@link PlatformLogger}s.
+ */
 public interface PlatformLoggerProvider {
+    /**
+     * The instance
+     */
     PlatformLoggerProvider INSTANCE = load(PlatformLoggerProvider.class);
 
     /**

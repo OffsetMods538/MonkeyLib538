@@ -21,8 +21,19 @@ import java.lang.reflect.Field;
 import static top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi.argument;
 import static top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi.literal;
 
+/**
+ * Implementation of {@link ConfigCommandApi}
+ */
 @ApiStatus.Internal
-public class ConfigCommandImpl implements ConfigCommandApi {
+public final class ConfigCommandImpl implements ConfigCommandApi {
+
+    /**
+     * Public no-args constructor for java service magic to call
+     */
+    @ApiStatus.Internal
+    public ConfigCommandImpl() {
+
+    }
 
     @Override
     public void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @NotNull String... commandTree) {

@@ -8,7 +8,7 @@ import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandRegistrationImpl implements CommandRegistrationApi {
+public final class CommandRegistrationImpl implements CommandRegistrationApi {
     public static @Nullable List<LiteralArgumentBuilder<?>> commands = new ArrayList<>();
 
 
