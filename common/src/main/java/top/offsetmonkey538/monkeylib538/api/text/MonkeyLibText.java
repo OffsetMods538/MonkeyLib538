@@ -1,9 +1,12 @@
 package top.offsetmonkey538.monkeylib538.api.text;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
+
 /**
- * Abstraction around a vanilla Text.
+ * Abstraction around a vanilla Text. Use {@link #of(String)} to create instances.
  * <p>
  *     Platform-specific implementation should store their MutableText equivalent and modify it when these methods are called.
  * </p>
@@ -40,4 +43,34 @@ public interface MonkeyLibText {
      * @return this.
      */
     @NotNull MonkeyLibText copyStringOnClick(final @NotNull String string);
+
+
+    /**
+     * Creates a literal text
+     *
+     * @param text the text it should contain.
+     * @return a literal text
+     */
+    static @NotNull MonkeyLibText of(final @NotNull String text) {
+        return Provider.INSTANCE.of(text);
+    }
+
+    /**
+     * Provides a method for creating a literal {@link MonkeyLibText}
+     */
+    @ApiStatus.Internal
+    interface Provider {
+        /**
+         * The instance
+         */
+        Provider INSTANCE = load(Provider.class);
+
+        /**
+         * Creates a literal {@link MonkeyLibText}
+         *
+         * @param text the text it should contain.
+         * @return a literal {@link MonkeyLibText}
+         */
+        @NotNull MonkeyLibText of(final @NotNull String text);
+    }
 }

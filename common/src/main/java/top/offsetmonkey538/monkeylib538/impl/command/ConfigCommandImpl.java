@@ -6,11 +6,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.api.command.ConfigCommandApi;
 import top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi;
-import top.offsetmonkey538.monkeylib538.api.text.TextApi;
+import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetconfig538.api.config.Config;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigManager;
@@ -36,19 +37,20 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
     }
 
     @Override
-    public void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @NotNull String... commandTree) {
+    public void registerConfigCommandImpl(@NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @NotNull String... commandTree) {
         @SuppressWarnings("unchecked")
-        LiteralArgumentBuilder<Object> command = (LiteralArgumentBuilder<Object>) ConfigCommandApi.INSTANCE.createConfigCommand(commandTree[commandTree.length - 1], configHolder);
+        LiteralArgumentBuilder<Object> command = (LiteralArgumentBuilder<Object>) ConfigCommandApi.createConfigCommand(commandTree[commandTree.length - 1], configHolder, configReloadCallback);
         for (int i = commandTree.length - 2; i >= 0; i--) {
             final LiteralArgumentBuilder<Object> parent = literal(commandTree[i]);
             parent.then(command);
             command = parent;
         }
 
-        CommandRegistrationApi.INSTANCE.registerCommand(command);
+        CommandRegistrationApi.registerCommand(command);
     }
 
-    public @NotNull LiteralArgumentBuilder<Object> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder) {
+    @Override
+    public @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(@NotNull String commandName, @NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback) {
         final LiteralArgumentBuilder<Object> rootCommand = literal(commandName);
         final String configName = configHolder.get().getId();
 
@@ -71,6 +73,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
             ConfigManager.INSTANCE.init(configHolder, createErrorHandler(ctx, configHolder, failed));
             if (failed[0]) return 0;
 
+            if (configReloadCallback != null) configReloadCallback.run();
             CommandAbstractionApi.sendMessage(ctx, "Reloaded config '%s'.", configName);
             return Command.SINGLE_SUCCESS;
         }));
@@ -114,11 +117,11 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         if (fieldValueType == null) return thisSetCommand.executes(ctx -> {
             CommandAbstractionApi.sendText(
                     ctx,
-                    TextApi.INSTANCE.of("This config option is too complex to be modified through the command. Please instead modify the config file located at ")
+                    MonkeyLibText.of("This config option is too complex to be modified through the command. Please instead modify the config file located at ")
                             .append(
-                                    TextApi.INSTANCE.of(configHolder.get().getFilePath().toAbsolutePath().toString())
+                                    MonkeyLibText.of(configHolder.get().getFilePath().toAbsolutePath().toString())
                                             .setUnderlined(true)
-                                            .showTextOnHover(TextApi.INSTANCE.of("Click to copy"))
+                                            .showTextOnHover(MonkeyLibText.of("Click to copy"))
                                             .copyStringOnClick(configHolder.get().getFilePath().toAbsolutePath().toString())
                             )
             );

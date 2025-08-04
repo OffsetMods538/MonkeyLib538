@@ -6,7 +6,6 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
@@ -21,6 +20,7 @@ import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
  *     This way, the methods here can be called with a {@link CommandContext context} containing with the generic {@link Object} and implementations will cast that to the platform-specific command sources for implementing the methods.
  * </p>
  */
+@ApiStatus.NonExtendable
 public interface CommandAbstractionApi {
     /**
      * The instance
@@ -59,7 +59,7 @@ public interface CommandAbstractionApi {
      * @param message the message to send, formatted using {@code args} and {@link String#formatted(Object...)}
      * @param args the args for formatting the message using {@link String#formatted(Object...)}
      */
-    static void sendMessage(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @Nullable final Object... args) {
+    static void sendMessage(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @NotNull final Object... args) {
         sendMessage(ctx, message.formatted(args));
     }
     /**
@@ -79,7 +79,7 @@ public interface CommandAbstractionApi {
      * @param message the error message to send, formatted using {@link String#formatted(Object...)} with the provided {@code args}
      * @param args the args for formatting the error message using {@link String#formatted(Object...)}
      */
-    static void sendError(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @Nullable final Object... args) {
+    static void sendError(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @NotNull final Object... args) {
         sendError(ctx, message.formatted(args));
     }
     /**
@@ -104,15 +104,15 @@ public interface CommandAbstractionApi {
 
 
     /**
-     * Implementation for {@link #literal(String)}, returns a {@link LiteralArgumentBuilder} for the current-platform-specific command source.
+     * Implementation of {@link #literal(String)}.
      *
      * @param name the name of the {@link LiteralArgumentBuilder}
      * @return a {@link LiteralArgumentBuilder} for the current-platform-specific command source.
      */
     @ApiStatus.Internal
-    @NotNull LiteralArgumentBuilder<?> literalImpl(final String name);
+    @NotNull LiteralArgumentBuilder<?> literalImpl(final @NotNull String name);
     /**
-     * Implementation for {@link #argument(String, ArgumentType)}, returns a {@link RequiredArgumentBuilder} for the current-platform-specific command source.
+     * Implementation of {@link #argument(String, ArgumentType)}.
      *
      * @param name the name of the {@link LiteralArgumentBuilder}
      * @param type the {@link ArgumentType} to use.
@@ -120,24 +120,26 @@ public interface CommandAbstractionApi {
      * @param <T> the type for the {@link ArgumentType}
      */
     @ApiStatus.Internal
-    @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(final String name, final ArgumentType<T> type);
+    @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(final @NotNull String name, final @NotNull ArgumentType<T> type);
 
     /**
-     * Sends a message to the provided command source.
+     * Implementation of {@link #sendMessage(CommandContext, String)}.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param message the message to send
      */
     @ApiStatus.Internal
-    void sendMessageImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);/**
-     * Sends an error message to the command source.
+    void sendMessageImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
+    /**
+     * Implementation of {@link #sendError(CommandContext, String)}.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param message the error message to send
      */
     @ApiStatus.Internal
-    void sendErrorImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);/**
-     * Sends a {@link MonkeyLibText} to the command source.
+    void sendErrorImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
+    /**
+     * Implementation of {@link #sendText(CommandContext, MonkeyLibText)}.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param text the {@link MonkeyLibText} to send

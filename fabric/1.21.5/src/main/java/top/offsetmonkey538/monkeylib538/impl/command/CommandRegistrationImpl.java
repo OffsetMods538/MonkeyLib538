@@ -11,9 +11,8 @@ import java.util.List;
 public final class CommandRegistrationImpl implements CommandRegistrationApi {
     public static @Nullable List<LiteralArgumentBuilder<?>> commands = new ArrayList<>();
 
-
     @Override
-    public void registerCommand(@NotNull LiteralArgumentBuilder<?> command) {
+    public void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command) throws IllegalStateException {
         if (commands == null) throw new IllegalStateException("Tried to register command after commands have been registered!");
 
         commands.add(command);

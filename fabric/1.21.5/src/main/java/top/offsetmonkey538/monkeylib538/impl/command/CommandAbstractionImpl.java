@@ -14,12 +14,12 @@ import top.offsetmonkey538.monkeylib538.impl.text.MonkeyLibTextImpl;
 public final class CommandAbstractionImpl implements CommandAbstractionApi {
 
     @Override
-    public @NotNull LiteralArgumentBuilder<?> literalImpl(String name) {
+    public @NotNull LiteralArgumentBuilder<?> literalImpl(@NotNull String name) {
         return LiteralArgumentBuilder.<ServerCommandSource>literal(name);
     }
 
     @Override
-    public @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(String name, ArgumentType<T> type) {
+    public @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(@NotNull String name, @NotNull ArgumentType<T> type) {
         return RequiredArgumentBuilder.<ServerCommandSource, T>argument(name, type);
     }
 

@@ -10,7 +10,7 @@ import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 public final class MonkeyLibTextImpl implements MonkeyLibText {
     private final MutableText text;
 
-    public MonkeyLibTextImpl(final @NotNull String text) {
+    private MonkeyLibTextImpl(final @NotNull String text) {
         this.text = Text.literal(text);
     }
 
@@ -42,5 +42,12 @@ public final class MonkeyLibTextImpl implements MonkeyLibText {
 
     public @NotNull Text getText() {
         return text;
+    }
+
+    public static final class ProviderImpl implements MonkeyLibText.Provider {
+        @Override
+        public @NotNull MonkeyLibText of(@NotNull String text) {
+            return new MonkeyLibTextImpl(text);
+        }
     }
 }

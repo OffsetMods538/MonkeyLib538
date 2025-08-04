@@ -3,14 +3,15 @@ package top.offsetmonkey538.monkeylib538.impl.log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import top.offsetmonkey538.monkeylib538.api.log.PlatformLogger;
+import org.slf4j.LoggerFactory;
+import top.offsetmonkey538.monkeylib538.api.log.MonkeyLibLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PlatformLoggerImpl implements PlatformLogger {
+public final class MonkeyLibLoggerImpl implements MonkeyLibLogger {
     private final Logger logger;
     private final Map<LogLevel, List<LogListener>> listeners = new HashMap<>(Map.of(
             LogLevel.DEBUG, new ArrayList<>(),
@@ -19,7 +20,7 @@ public final class PlatformLoggerImpl implements PlatformLogger {
             LogLevel.ERROR, new ArrayList<>()
     ));
 
-    public PlatformLoggerImpl(final Logger logger) {
+    private MonkeyLibLoggerImpl(final Logger logger) {
         this.logger = logger;
     }
 
@@ -67,5 +68,12 @@ public final class PlatformLoggerImpl implements PlatformLogger {
     @Override
     public void removeListener(@NotNull LogLevel level, @NotNull LogListener listener) {
         listeners.get(level).remove(listener);
+    }
+
+    public static final class ProviderImpl implements MonkeyLibLogger.Provider {
+        @Override
+        public MonkeyLibLogger create(final @NotNull String id) {
+            return new MonkeyLibLoggerImpl(LoggerFactory.getLogger(id));
+        }
     }
 }

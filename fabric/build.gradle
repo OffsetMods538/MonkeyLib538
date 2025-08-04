@@ -51,9 +51,9 @@ subprojects {
 	}
 
 	jar {
-		from("${parent.projectDir}/META-INF/services") {
-			rename { "META-INF/services/${it}" }
-		}
+		//from("${parent.projectDir}/META-INF/services") {
+		//	rename { "META-INF/services/${it}" }
+		//}
 	}
 
 	loom {
