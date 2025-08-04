@@ -57,6 +57,12 @@ configure(subprojects.findAll {it.name == "common" || it.name != it.project_type
 
 	tasks.named("javadoc", Javadoc) {
 		options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
+
+		options {
+			links(
+					"https://maven.offsetmonkey538.top/javadoc/releases/top/offsetmonkey538/offsetconfig538/offsetconfig538/${rootProject.offsetconfig538_version}/raw/index.html"
+			)
+		}
 	}
 
 	jar {
