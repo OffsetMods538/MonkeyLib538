@@ -1,15 +1,42 @@
 import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
-    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
+    id 'fabric-loom' version '1.11-SNAPSHOT'
 	id 'io.github.dexman545.outlet' version '1.6.1' apply false
 	id 'com.modrinth.minotaur' version '2.+' apply false
 }
 
-subprojects {
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		monkeylib538FabricCommon {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
+	runs {
+
+	}
+}
+
+configurations {
+	common {
+		canBeResolved = true
+		canBeConsumed = false
+	}
+	api.extendsFrom common
+}
+
+dependencies {
+	include project(":common")
+	common project(":common")
+}
+
+allprojects {
 	apply plugin: "fabric-loom"
 	apply plugin: "io.github.dexman545.outlet"
-	apply plugin: "com.modrinth.minotaur"
 
 	outlet {
 		maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
@@ -28,10 +55,6 @@ subprojects {
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
-		outlet.mcVersions()
-
-		// Just include, already depended on in root build.gradle
-		include project(":common")
 	}
 
 	processResources {
@@ -49,11 +72,23 @@ subprojects {
 
 		exclude ".cache/**"
 	}
+}
 
-	jar {
-		//from("${parent.projectDir}/META-INF/services") {
-		//	rename { "META-INF/services/${it}" }
-		//}
+subprojects {
+	apply plugin: "io.github.dexman545.outlet"
+	apply plugin: "com.modrinth.minotaur"
+
+	configurations {
+		common {
+			canBeResolved = true
+			canBeConsumed = false
+		}
+		api.extendsFrom common
+	}
+
+	dependencies {
+		common project(path: ":fabric", configuration: "namedElements")
+		include project(path: ":fabric")
 	}
 
 	loom {

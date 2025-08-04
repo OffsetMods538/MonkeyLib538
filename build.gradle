@@ -22,7 +22,7 @@ allprojects {
 	group = rootProject.maven_group
 }
 
-configure(subprojects.findAll {it.name == "common" || it.name != it.project_type}) {
+subprojects {
 	apply plugin: "java"
     apply plugin: "maven-publish"
 
@@ -96,23 +96,15 @@ configure(subprojects.findAll {it.name == "common" || it.name != it.project_type
 	}
 }
 
-configure(subprojects.findAll {it.name != "common" && it.name != it.project_type}) {
+configure(subprojects.findAll {it.name != "common"}) {
+	version = "${rootProject.versionPrefix}"
+}
+
+configure(subprojects.findAll {it.name != it.project_type}) {
 	apply plugin: "com.modrinth.minotaur"
 
 	version = "${rootProject.versionPrefix}"
 	if (project.hasProperty("minecraft_version")) version = "${version}+${project.minecraft_version}"
-
-	configurations {
-		common {
-			canBeResolved = true
-			canBeConsumed = false
-		}
-		api.extendsFrom common
-	}
-
-	dependencies {
-		common project(path: ":common")
-	}
 
 	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 }
