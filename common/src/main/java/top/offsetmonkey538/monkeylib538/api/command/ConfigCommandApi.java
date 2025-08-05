@@ -4,7 +4,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.impl.command.ConfigCommandImpl;
+import top.offsetmonkey538.monkeylib538.fabric.impl.command.ConfigCommandImpl;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 
 /**

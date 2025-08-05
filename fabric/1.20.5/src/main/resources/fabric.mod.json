@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "monkeylib538-common-fabric",
+	"id": "monkeylib538",
 	"version": "${modVersion}",
 	"name": "MonkeyLib538",
 	"description": "A library mod for OffsetMonkey538s mods",
@@ -15,11 +15,6 @@
 	"license": "MIT",
 	"icon": "assets/monkeylib538/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"top.offsetmonkey538.monkeylib538.fcommon.MonkeyLib538Initializer"
-		]
-	},
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
 		"java": ">=21"
