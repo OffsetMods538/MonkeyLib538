@@ -2,6 +2,9 @@ package top.offsetmonkey538.monkeylib538.api.text;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.UnaryOperator;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
@@ -13,6 +16,20 @@ import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
  */
 public interface MonkeyLibText {
     /**
+     * Returns the last sibling of this text.
+     *
+     * @return the last sibling of this text
+     */
+    @Nullable MonkeyLibText getLastSibling();
+
+    /**
+     * Sets the last sibling of this text.
+     *
+     * @return this.
+     */
+    @NotNull MonkeyLibText setLastSibling(@NotNull MonkeyLibText newSibling);
+
+    /**
      * Appends another text to this one.
      *
      * @param other the text to append to this one
@@ -21,28 +38,36 @@ public interface MonkeyLibText {
     @NotNull MonkeyLibText append(final @NotNull MonkeyLibText other);
 
     /**
-     * Sets if this text should be underlined.
+     * Gets the style of this text.
      *
-     * @param newValue if the text should be underlined
-     * @return this.
+     * @return The style of this text
      */
-    @NotNull MonkeyLibText setUnderlined(final boolean newValue);
+    @NotNull MonkeyLibStyle getStyle();
 
     /**
-     * Sets the text to show when the user hovers over this text.
+     * Sets the style of this text to the provided style.
      *
-     * @param text the text to show
+     * @param style the style to use.
      * @return this.
      */
-    @NotNull MonkeyLibText showTextOnHover(final @NotNull MonkeyLibText text);
+    @NotNull MonkeyLibText setStyle(final @NotNull MonkeyLibStyle style);
 
     /**
-     * Sets the string to copy to clipboard when the user clicks this text.
+     * Applies the provided operations to this text's style.
      *
-     * @param string the string to copy
+     * @param styleModifier the operations to apply.
      * @return this.
      */
-    @NotNull MonkeyLibText copyStringOnClick(final @NotNull String string);
+    default @NotNull MonkeyLibText applyStyle(final @NotNull UnaryOperator<MonkeyLibStyle> styleModifier) {
+        return setStyle(styleModifier.apply(getStyle()));
+    }
+
+    /**
+     * Gets the content of this text
+     *
+     * @return the content of this text
+     */
+    @NotNull String getString();
 
 
     /**
@@ -53,6 +78,15 @@ public interface MonkeyLibText {
      */
     static @NotNull MonkeyLibText of(final @NotNull String text) {
         return Provider.INSTANCE.of(text);
+    }
+
+    /**
+     * Creates an empty literal text
+     *
+     * @return an empty text
+     */
+    static @NotNull MonkeyLibText empty() {
+        return Provider.INSTANCE.empty();
     }
 
     /**
@@ -72,5 +106,12 @@ public interface MonkeyLibText {
          * @return a literal {@link MonkeyLibText}
          */
         @NotNull MonkeyLibText of(final @NotNull String text);
+
+        /**
+         * Creates an empty literal {@link MonkeyLibText}
+         *
+         * @return an empty {@link MonkeyLibText}
+         */
+        @NotNull MonkeyLibText empty();
     }
 }

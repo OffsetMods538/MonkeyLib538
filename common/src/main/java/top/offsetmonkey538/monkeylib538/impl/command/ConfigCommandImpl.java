@@ -1,4 +1,4 @@
-package top.offsetmonkey538.monkeylib538.fabric.impl.command;
+package top.offsetmonkey538.monkeylib538.impl.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.*;
@@ -120,9 +120,11 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
                     MonkeyLibText.of("This config option is too complex to be modified through the command. Please instead modify the config file located at ")
                             .append(
                                     MonkeyLibText.of(configHolder.get().getFilePath().toAbsolutePath().toString())
-                                            .setUnderlined(true)
-                                            .showTextOnHover(MonkeyLibText.of("Click to copy"))
-                                            .copyStringOnClick(configHolder.get().getFilePath().toAbsolutePath().toString())
+                                            .applyStyle(style -> style
+                                                    .withUnderline(true)
+                                                    .withShowText(MonkeyLibText.of("Click to copy"))
+                                                    .withCopyToClipboard(configHolder.get().getFilePath().toAbsolutePath().toString())
+                                            )
                             )
             );
             return Command.SINGLE_SUCCESS;
