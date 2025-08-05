@@ -1,14 +1,13 @@
 package top.offsetmonkey538.monkeylib538.fabric.impl.text;
 
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.fabric.api.text.FabricMonkeyLibText;
 import top.offsetmonkey538.monkeylib538.fabric.api.text.TextApi;
 
-public final class MonkeyLibTextImpl implements MonkeyLibText {
+public final class MonkeyLibTextImpl implements FabricMonkeyLibText {
     private final MutableText text;
 
     private MonkeyLibTextImpl(final @NotNull String text) {
@@ -17,7 +16,7 @@ public final class MonkeyLibTextImpl implements MonkeyLibText {
 
     @Override
     public @NotNull MonkeyLibText append(final @NotNull MonkeyLibText other) {
-        this.text.append(((MonkeyLibTextImpl) other).getText());
+        this.text.append(FabricMonkeyLibText.of(other).getText());
         return this;
     }
 
@@ -29,7 +28,7 @@ public final class MonkeyLibTextImpl implements MonkeyLibText {
 
     @Override
     public @NotNull MonkeyLibText showTextOnHover(final @NotNull MonkeyLibText text) {
-        this.text.setStyle(this.text.getStyle().withHoverEvent(TextApi.createShowText(((MonkeyLibTextImpl) text).getText())));
+        this.text.setStyle(this.text.getStyle().withHoverEvent(TextApi.createShowText(FabricMonkeyLibText.of(text).getText())));
         return this;
     }
 
@@ -39,6 +38,7 @@ public final class MonkeyLibTextImpl implements MonkeyLibText {
         return this;
     }
 
+    @Override
     public @NotNull Text getText() {
         return text;
     }
