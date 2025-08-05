@@ -34,14 +34,6 @@ dependencies {
 	common project(":common")
 }
 
-tasks.named("javadoc", Javadoc) {
-    options {
-        links(
-                "https://maven.offsetmonkey538.top/javadoc/releases/top/offsetmonkey538/monkeylib538/monkeylib538-common/${rootProject.versionPrefix}/raw/"
-        )
-    }
-}
-
 allprojects {
 	apply plugin: "fabric-loom"
 	apply plugin: "io.github.dexman545.outlet"
