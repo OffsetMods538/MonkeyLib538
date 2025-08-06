@@ -102,6 +102,26 @@ public interface CommandAbstractionApi {
         INSTANCE.sendTextImpl(ctx, text);
     }
 
+    /**
+     * Checks whether the provided command source is executed by a player.
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source is executed by a player.
+     */
+    static boolean executedByPlayer(final @NotNull Object source) {
+        return INSTANCE.executedByPlayerImpl(source);
+    }
+
+    /**
+     * Checks whether the provided command source has operator permissions.
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source has operator permissions
+     */
+    static boolean isOp(final @NotNull Object source) {
+        return INSTANCE.isOpImpl(source);
+    }
+
 
     /**
      * Implementation of {@link #literal(String)}.
@@ -146,4 +166,22 @@ public interface CommandAbstractionApi {
      */
     @ApiStatus.Internal
     void sendTextImpl(@NotNull final CommandContext<Object> ctx, @NotNull final MonkeyLibText text);
+
+    /**
+     * Implementation of {@link #executedByPlayer(Object)}.
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source is executed by a player.
+     */
+    @ApiStatus.Internal
+    boolean executedByPlayerImpl(final @NotNull Object source);
+
+    /**
+     * Implementation of {@link #isOp(Object)}
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source has operator permissions
+     */
+    @ApiStatus.Internal
+    boolean isOpImpl(final @NotNull Object source);
 }

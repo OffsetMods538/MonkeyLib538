@@ -7,11 +7,13 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
-import top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.fabric.impl.text.MonkeyLibTextImpl;
 
-public final class CommandAbstractionImpl implements CommandAbstractionApi {
+import static top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandAbstractionApi.get;
+
+public final class CommandAbstractionImpl implements FabricCommandAbstractionApi {
 
     @Override
     public @NotNull LiteralArgumentBuilder<?> literalImpl(@NotNull String name) {
@@ -38,9 +40,23 @@ public final class CommandAbstractionImpl implements CommandAbstractionApi {
         get(ctx).sendFeedback(() -> ((MonkeyLibTextImpl) text).getText(), true);
     }
 
-    private static @NotNull ServerCommandSource get(@NotNull CommandContext<Object> ctx) {
-        final Object commandSource = ctx.getSource();
+    @Override
+    public boolean executedByPlayerImpl(@NotNull Object source) {
+        return get(source).isExecutedByPlayer();
+    }
 
+    @Override
+    public boolean isOpImpl(@NotNull Object source) {
+        return get(source).hasPermissionLevel(get(source).getServer().getOpPermissionLevel());
+    }
+
+    @Override
+    public @NotNull ServerCommandSource getImpl(@NotNull CommandContext<Object> ctx) {
+        return getImpl(ctx.getSource());
+    }
+
+    @Override
+    public @NotNull ServerCommandSource getImpl(@NotNull Object commandSource) {
         if (commandSource instanceof ServerCommandSource serverCommandSource) return serverCommandSource;
         throw new IllegalStateException("Expected command source to be of type '%s', got '%s' instead. Something is very very wrong if you're seeing this error :concern:".formatted(ServerCommandSource.class, commandSource.getClass()));
     }
