@@ -21,7 +21,7 @@ public final class MonkeyLibTextImpl implements FabricMonkeyLibText {
 
     @Override
     public @Nullable MonkeyLibText getLastSibling() {
-        return text.getSiblings() == null ? null : new MonkeyLibTextImpl(text.getSiblings().getLast());
+        return text.getSiblings() == null ? null : text.getSiblings().isEmpty() ? null : new MonkeyLibTextImpl(text.getSiblings().getLast());
     }
 
     @Override
