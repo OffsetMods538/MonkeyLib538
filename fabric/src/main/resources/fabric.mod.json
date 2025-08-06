@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "monkeylib538-common-fabric",
 	"version": "${modVersion}",
-	"name": "MonkeyLib538",
+	"name": "MonkeyLib538 Common Fabric",
 	"description": "A library mod for OffsetMonkey538s mods",
 	"authors": [
 		"OffsetMonkey538"
@@ -22,6 +22,7 @@
 	},
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
+		"monkeylib538-common": "${commonVersion}",
 		"java": ">=21"
 	},
 	"breaks": {

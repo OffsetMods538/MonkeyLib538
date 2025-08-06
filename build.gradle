@@ -2,7 +2,7 @@ plugins {
 	id 'java'
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false
 	id 'io.github.dexman545.outlet' version '1.6.1' apply false
-	id 'com.modrinth.minotaur' version '2.+' apply false
+	id 'com.modrinth.minotaur' version '2.+' apply true
 }
 
 ext {
@@ -26,7 +26,8 @@ subprojects {
 	apply plugin: "java"
     apply plugin: "maven-publish"
 
-	base.archivesName = "monkeylib538-${project.project_type}"
+	base.archivesName = "monkeylib538-${project.project_name}"
+    version = project.project_name == project.name ? "${rootProject.versionPrefix}" : "${rootProject.versionPrefix}+${project.minecraft_version}"
 
 	repositories {
 		mavenCentral()
@@ -96,15 +97,4 @@ subprojects {
 	}
 }
 
-configure(subprojects.findAll {it.name != "common"}) {
-	version = "${rootProject.versionPrefix}"
-}
-
-configure(subprojects.findAll {it.name != it.project_type}) {
-	apply plugin: "com.modrinth.minotaur"
-
-	version = "${rootProject.versionPrefix}"
-	if (project.hasProperty("minecraft_version")) version = "${version}+${project.minecraft_version}"
-
-	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-}
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)

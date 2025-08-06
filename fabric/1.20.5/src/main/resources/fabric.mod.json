@@ -17,7 +17,8 @@
 	"environment": "*",
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
-		"java": ">=21"
+        "monkeylib538-common-fabric": "${commonVersion}",
+        "java": ">=21"
 	},
 	"breaks": {
 		"cog": "<=2.1.1",

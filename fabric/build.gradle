@@ -30,8 +30,8 @@ configurations {
 }
 
 dependencies {
-	include project(":common")
-	common project(":common")
+    api project(":common")
+    include project(":common")
 }
 
 allprojects {
@@ -58,16 +58,15 @@ allprojects {
 	}
 
 	processResources {
-		inputs.properties(Map.of(
-				"modVersion",                 rootProject.mod_version,
-				"supportedMinecraftVersions", project.supported_minecraft_versions
-		))
+        final Map properties = Map.of(
+                "modVersion",                 project.version,
+                "commonVersion",              rootProject.versionPrefix,
+                "supportedMinecraftVersions", project.supported_minecraft_versions
+        )
+		inputs.properties(properties)
 
 		filesMatching("fabric.mod.json") {
-			expand(Map.of(
-					"modVersion",                 rootProject.mod_version,
-					"supportedMinecraftVersions", project.supported_minecraft_versions
-			))
+			expand(properties)
 		}
 
 		exclude ".cache/**"
