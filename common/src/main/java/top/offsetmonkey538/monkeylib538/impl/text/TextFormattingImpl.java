@@ -10,6 +10,20 @@ public final class TextFormattingImpl implements TextFormattingApi {
     private static final MonkeyLibStyle DEFAULT_STYLE = MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF);
 
     @Override
+    public @NotNull MonkeyLibText[] styleTextMultilineImpl(@NotNull String text) throws Exception {
+        final String[] splitText = text.split("\n");
+        final MonkeyLibText[] result = new MonkeyLibText[splitText.length];
+
+        for (int lineNumber = 0; lineNumber < splitText.length; lineNumber++) try {
+            result[lineNumber] = styleTextImpl(splitText[lineNumber]);
+        } catch (Exception e) {
+            throw new Exception("Failed to style text at line nr '%s'!".formatted(lineNumber), e);
+        }
+
+        return result;
+    }
+
+    @Override
     public @NotNull MonkeyLibText styleTextImpl(final @NotNull String text) throws Exception {
         final MonkeyLibText result = MonkeyLibText.empty();
 
@@ -59,20 +73,6 @@ public final class TextFormattingImpl implements TextFormattingApi {
             } else {
                 result.append(MonkeyLibText.of(String.valueOf(context.currentChar))).setStyle(context.style);
             }
-        }
-
-        return result;
-    }
-
-    @Override
-    public @NotNull MonkeyLibText[] styleTextMultilineImpl(@NotNull String text) throws Exception {
-        final String[] splitText = text.split("\n");
-        final MonkeyLibText[] result = new MonkeyLibText[splitText.length];
-
-        for (int lineNumber = 0; lineNumber < splitText.length; lineNumber++) try {
-            result[lineNumber] = styleTextImpl(splitText[lineNumber]);
-        } catch (Exception e) {
-            throw new Exception("Failed to style text at line nr '%s'!".formatted(lineNumber), e);
         }
 
         return result;
