@@ -6,6 +6,8 @@ import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.api.text.TextFormattingApi;
 
+import java.net.URI;
+import java.nio.file.Path;
 import java.util.function.BiFunction;
 
 public final class TextFormattingImpl implements TextFormattingApi {
@@ -238,7 +240,11 @@ public final class TextFormattingImpl implements TextFormattingApi {
     private enum Action {
         hoverText(true, MonkeyLibStyle::withShowText),
 
-        runCommand(MonkeyLibStyle::withRunCommand);
+        openUrl((style, arg) -> style.withOpenUrl(URI.create(arg))),
+        openFile((style, arg) -> style.withOpenFile(Path.of(arg))),
+        runCommand(MonkeyLibStyle::withRunCommand),
+        suggestCommand(MonkeyLibStyle::withSuggestCommand),
+        copyToClipboard(MonkeyLibStyle::withCopyToClipboard);
 
 
         public final boolean isArgStyled;
