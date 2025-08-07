@@ -99,7 +99,6 @@ public final class TextFormattingImpl implements TextFormattingApi {
     }
 
     private static void handleAction(final @NotNull MonkeyLibText result, final @NotNull Context context) throws Exception {
-        // Read until coma, todo: decide how many more and what args there should be
         final int startIndex = context.characterIndex;
         final String actionNameBoxed = readUntil(context, ','); // This has the current { char and the ending , char. So "{hoverText,"
         final String actionName = actionNameBoxed.substring(1, actionNameBoxed.length() - 1); // Only action name itself, without the { and ,. So "hoverText"
@@ -250,7 +249,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         public final boolean isArgStyled;
         public final @NotNull BiFunction<MonkeyLibStyle, Object, MonkeyLibStyle> modifier;
 
-        Action(final boolean isArgStyled, final @NotNull BiFunction<MonkeyLibStyle, MonkeyLibText, MonkeyLibStyle> modifier) {
+        Action(@SuppressWarnings("unused") final boolean isArgStyled, final @NotNull BiFunction<MonkeyLibStyle, MonkeyLibText, MonkeyLibStyle> modifier) {
             this.isArgStyled = true;
             this.modifier = (style, arg) -> modifier.apply(style, (MonkeyLibText) arg);
         }
