@@ -6,6 +6,8 @@ import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.api.text.TextFormattingApi;
 
+import java.util.function.BiFunction;
+
 public final class TextFormattingImpl implements TextFormattingApi {
     private static final MonkeyLibStyle DEFAULT_STYLE = MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF);
 
@@ -52,7 +54,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
                 return;
             case '{':
                 context.isFormattingCode = false;
-                handleWhateverThisIs(result, context);
+                handleAction(result, context);
                 return;
             default:
                 context.isFormattingCode = false;
@@ -93,32 +95,55 @@ public final class TextFormattingImpl implements TextFormattingApi {
 
         context.style = context.style.withColor(hexCode);
     }
-    // When we get here,
-    //        we're here V
-    //    "Please click &{hoverText,'Cli\'k meh','Right &{runCommand,'/command','Over'} <There!'}"
-    private static void handleWhateverThisIs(final @NotNull MonkeyLibText result, final @NotNull Context context) throws Exception {
+
+    private static void handleAction(final @NotNull MonkeyLibText result, final @NotNull Context context) throws Exception {
         // Read until coma, todo: decide how many more and what args there should be
+        final int startIndex = context.characterIndex;
         final String actionNameBoxed = readUntil(context, ','); // This has the current { char and the ending , char. So "{hoverText,"
         final String actionName = actionNameBoxed.substring(1, actionNameBoxed.length() - 1); // Only action name itself, without the { and ,. So "hoverText"
+        final Action action;
+        try {
+            action = Action.valueOf(actionName);
+        } catch (IllegalArgumentException e) {
+            throw new Exception("Unknown action name '%s' starting at character nr %s!".formatted(actionName, startIndex));
+        }
 
-
-        ///  THis is how it'll have to be process for the exact string up there!
-
-        // Skip the ', start parsing as with #styleTextImpl. Need to count open quotes (starting should be 1) so the second quote doesn't close the string.
-        //  The stuff in the for loop in #styleTextImpl should be extracted into a #handleChar method, so this can have its own for loop for the quote counting.
         context.readNext();
         if (context.currentChar != '\'') throw new Exception("Expected character nr %s to be ' (single quote). Got %s".formatted(context.characterIndex, context.currentChar));
 
-        final MonkeyLibText hoverText = MonkeyLibText.empty();
+        final Object arg;
         final MonkeyLibStyle originalStyle = context.style;
-        for (context.readNext(); context.characterIndex < context.characters.length; context.characterIndex++) {
-            context.currentChar = context.characters[context.characterIndex];
+        if (action.isArgStyled) {
+            arg = MonkeyLibText.empty();
+            for (context.readNext(); context.characterIndex < context.characters.length; context.characterIndex++) {
+                context.currentChar = context.characters[context.characterIndex];
 
-            if (context.currentChar == '\'' && !context.isEscaped) break;
+                if (context.currentChar == '\'' && !context.isEscaped) break;
 
-            handleChar(hoverText, context);
+                handleChar((MonkeyLibText) arg, context);
+            }
+        } else {
+            final StringBuilder builder = new StringBuilder();
+
+            for (context.readNext(); context.characterIndex < context.characters.length; context.characterIndex++) {
+                context.currentChar = context.characters[context.characterIndex];
+
+                if (context.isEscaped) {
+                    context.isEscaped = false;
+                    builder.append(context.currentChar);
+                    continue;
+                }
+                if (context.currentChar == '\'') break;
+                if (context.currentChar == '\\') context.isEscaped = true;
+
+                builder.append(context.currentChar);
+            }
+
+            arg = builder.toString();
         }
-        context.style = originalStyle.withShowText(hoverText);
+
+        context.style = action.modifier.apply(originalStyle, arg);
+
 
         context.readNext();
         if (context.currentChar != ',') throw new Exception("Expected character nr %s to be , (coma). Got %s".formatted(context.characterIndex, context.currentChar));
@@ -148,6 +173,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         context.style = newStyle;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static @NotNull String readChars(final @NotNull Context context, final int numChars, final @NotNull String error) throws Exception {
         final int endIndex = context.characterIndex + numChars;
         if (endIndex >= context.characters.length) throw new Exception(error.formatted(context.characterIndex));
@@ -161,35 +187,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         return builder.toString();
     }
 
-    // Works good, can remove and start implemnting that method once you're back
-    public static void test() throws Exception {
-        /*
-        final String text = "isngiung sgri gisu {jkfnjkeee er}ger e5ree";
-        final var context = new Context(
-                false,
-                false,
-                MonkeyLibStyle.empty(),
-                text.toCharArray(),
-                0
-        );
-
-        String specialText = "";
-        for (; context.characterIndex < context.characters.length; context.characterIndex++) {
-            context.currentChar = context.characters[context.characterIndex];
-            if (context.currentChar != '{') {
-                System.out.print(context.currentChar);
-                continue;
-            }
-
-            specialText = readUntil(context, '}');
-            System.out.print(specialText);
-        }
-        System.out.println();
-        System.out.println(text);
-        System.out.println(specialText);
-         */
-    }
-
+    @SuppressWarnings("SameParameterValue")
     private static @NotNull String readUntil(final @NotNull Context context, final char expectedChar) throws Exception {
         final StringBuilder builder = new StringBuilder();
         final int startIndex = context.characterIndex;
@@ -208,7 +206,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         return builder.toString();
     }
 
-    private static class Context {
+    private static final class Context {
         private boolean isFormattingCode;
         private boolean isEscaped;
         private @NotNull MonkeyLibStyle style;
@@ -234,6 +232,25 @@ public final class TextFormattingImpl implements TextFormattingApi {
         private void readNext() {
             this.characterIndex++;
             this.currentChar = this.characters[this.characterIndex];
+        }
+    }
+
+    private enum Action {
+        hoverText(true, MonkeyLibStyle::withShowText),
+
+        runCommand(MonkeyLibStyle::withRunCommand);
+
+
+        public final boolean isArgStyled;
+        public final @NotNull BiFunction<MonkeyLibStyle, Object, MonkeyLibStyle> modifier;
+
+        Action(final boolean isArgStyled, final @NotNull BiFunction<MonkeyLibStyle, MonkeyLibText, MonkeyLibStyle> modifier) {
+            this.isArgStyled = true;
+            this.modifier = (style, arg) -> modifier.apply(style, (MonkeyLibText) arg);
+        }
+        Action(final @NotNull BiFunction<MonkeyLibStyle, String, MonkeyLibStyle> modifier) {
+            this.isArgStyled = false;
+            this.modifier = (style, arg) -> modifier.apply(style, (String) arg);
         }
     }
 }

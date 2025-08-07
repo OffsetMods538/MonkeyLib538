@@ -31,7 +31,7 @@ public class MonkeyLib538Initializer implements ModInitializer {
     public void onInitialize() {
         ServerPlayConnectionEvents.JOIN.register((serverPlayNetworkHandler, packetSender, minecraftServer) -> {
             try {
-                final String text = "&1Please click &{hoverText,'&2Cli\\'k meh','&3Right &{runCommand,'&4/command','&5Over'} <- There!'}aaa";
+                final String text = "&1Please click &{hoverText,'&2Cli\\'k meh','&3Right &{runCommand,'/command','&5Ov&{runCommand,'/anotherCommand','&6&{hoverText,'very&cCuul','er he'}'}re'} <- There!'}aaa";
                 //final String text = "Please click&{hoverText,'Cli\\'k meh','Right here'}and not here!!";
                 final MonkeyLibText result = TextFormattingApi.styleText(text);
 
