@@ -18,6 +18,8 @@ public interface MonkeyLibStyle {
     @NotNull MonkeyLibStyle withSuggestCommand(final @NotNull String value);
     @NotNull MonkeyLibStyle withCopyToClipboard(final @NotNull String value);
 
+    @NotNull MonkeyLibStyle copyEventsFrom(final @NotNull MonkeyLibStyle from);
+
 
     /**
      * Returns a new style with the provided italic attribute.

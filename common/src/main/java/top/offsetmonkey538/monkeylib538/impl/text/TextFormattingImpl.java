@@ -165,7 +165,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     }
     private static void handleNormalFormattingCode(final @NotNull Context context) throws Exception {
         if (context.currentChar == 'r') {
-            context.style = DEFAULT_STYLE;
+            context.style = DEFAULT_STYLE.copyEventsFrom(context.style);
             return;
         }
 

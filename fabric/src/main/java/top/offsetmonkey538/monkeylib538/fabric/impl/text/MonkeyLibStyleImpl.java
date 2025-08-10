@@ -58,6 +58,15 @@ public final class MonkeyLibStyleImpl implements FabricMonkeyLibStyle {
     }
 
     @Override
+    public @NotNull MonkeyLibStyle copyEventsFrom(@NotNull MonkeyLibStyle from) {
+        final Style fromStyle = FabricMonkeyLibStyle.of(from).getStyle();
+        return new MonkeyLibStyleImpl(style
+                .withHoverEvent(fromStyle.getHoverEvent())
+                .withClickEvent(fromStyle.getClickEvent())
+        );
+    }
+
+    @Override
     public @NotNull MonkeyLibStyle withItalic(final boolean italic) {
         return italic == style.isItalic() ? this : new MonkeyLibStyleImpl(style.withItalic(italic));
     }
