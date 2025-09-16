@@ -142,7 +142,7 @@ subprojects {
 
 
 		// Files
-		else uploadFile = remapJar.archiveFile
+		uploadFile = remapJar.archiveFile
 		additionalFiles = [sourcesJar.archiveFile]
 
 
