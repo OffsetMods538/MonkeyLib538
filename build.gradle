@@ -5,6 +5,8 @@ plugins {
 	id 'com.modrinth.minotaur' version '2.+' apply true
 }
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
 ext {
 	versionPrefix = rootProject.mod_version
 	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) {

@@ -154,6 +154,7 @@ subprojects {
 
 		// Dependencies
 		dependencies {
+            required.project "fabric-api"
 		}
 	}
 }

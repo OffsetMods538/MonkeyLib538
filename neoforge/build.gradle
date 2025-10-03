@@ -1,0 +1,134 @@
+import dex.plugins.outlet.v2.util.ReleaseType
+
+plugins {
+    id 'net.neoforged.moddev' version '2.0.112'
+    id 'io.github.dexman545.outlet' version '1.6.1' apply false
+    id 'com.modrinth.minotaur' version '2.+' apply false
+}
+
+neoForge {
+    runs {
+
+    }
+}
+
+dependencies {
+    jarJar(api(project(":common")))
+}
+
+allprojects {
+    apply plugin: "net.neoforged.moddev"
+    apply plugin: "io.github.dexman545.outlet"
+
+    outlet {
+        mcVersionRange = project.supported_minecraft_versions
+        allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+    }
+
+    dependencies {
+        
+    }
+
+    neoForge {
+        version = project.neoforge_version
+
+        parchment {
+            mappingsVersion = project.parchment_mappings_version
+            minecraftVersion = project.minecraft_version
+        }
+
+        mods {
+            "${project.name}" {
+                sourceSet(sourceSets.main)
+            }
+        }
+    }
+
+    processResources {
+        final Map properties = Map.of(
+                "modVersion",                 project.version,
+                "commonVersion",              rootProject.versionPrefix,
+                "supportedMinecraftVersions", project.minecraft_version_range
+        )
+        inputs.properties(properties)
+
+        filesMatching("META-INF/neoforge.mods.toml") {
+            expand(properties)
+        }
+
+        exclude ".cache/**"
+    }
+}
+
+subprojects {
+    apply plugin: "io.github.dexman545.outlet"
+    apply plugin: "com.modrinth.minotaur"
+
+    configurations {
+        common {
+            canBeResolved = true
+            canBeConsumed = false
+        }
+        api.extendsFrom common
+    }
+
+    dependencies {
+        jarJar(api(project(":neoforge")))
+    }
+
+    neoForge {
+        runs {
+            client {
+                client()
+            }
+
+            server {
+                server()
+            }
+
+            configureEach {
+                systemProperty 'forge.logging.markers', 'REGISTRIES'
+                logLevel = org.slf4j.event.Level.INFO
+            }
+        }
+    }
+
+
+    modrinth {
+        // Main properties
+        token = System.getenv("MODRINTH_TOKEN")
+        projectId = "monkeylib538"
+        gameVersions = outlet.mcVersions()
+        loaders = ["neoforge"]
+
+
+        // Version stuff
+        def customVersionName = System.getenv("VERSION_NAME")
+        if (customVersionName != null) versionName = customVersionName
+
+        versionNumber = "${project.version}"
+
+        def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
+        versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
+
+        if (project.mod_version.contains("beta")) versionType = "beta"
+        if (project.mod_version.contains("alpha")) versionType = "alpha"
+
+
+        // Files
+        //TODO: we'll see: uploadFile = remapJar.archiveFile
+        additionalFiles = [sourcesJar.archiveFile]
+
+
+        // Fun text stuff
+        syncBodyFrom = rootProject.file("README.md").text
+        def changelogEnv = System.getenv("VERSION_CHANGELOG")
+        if (changelogEnv != null) changelog = changelogEnv
+
+
+        // Dependencies
+        dependencies {
+            //TODO: idk if there are any: required.project "fabric-api"
+        }
+    }
+}
