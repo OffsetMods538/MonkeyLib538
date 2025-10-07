@@ -7,6 +7,8 @@ plugins {
 }
 
 neoForge {
+    version = project.neoforge_version
+
     runs {
 
     }
@@ -15,6 +17,7 @@ neoForge {
 dependencies {
     jarJar(api(project(":common")))
     jarJar(api("top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"))
+    jarJar(additionalRuntimeClasspath(api("blue.endless:jankson:${rootProject.jankson_version}")))
 }
 
 allprojects {
@@ -27,11 +30,10 @@ allprojects {
     }
 
     dependencies {
-        
+
     }
 
     neoForge {
-        version = project.neoforge_version
 
         parchment {
             mappingsVersion = project.parchment_mappings_version
@@ -78,6 +80,8 @@ subprojects {
     }
 
     neoForge {
+        version = project.neoforge_version
+
         runs {
             client {
                 client()
