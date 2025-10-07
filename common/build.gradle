@@ -12,9 +12,19 @@ repositories {
     }
 }
 
+configurations {
+    include
+
+
+    includeApi
+
+    include.extendsFrom includeApi
+    api.extendsFrom includeApi
+}
+
 dependencies {
     compileOnly "com.mojang:brigadier:1.3.10"
-    implementation "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+    includeApi "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
 }
 
 processResources {
@@ -25,5 +35,15 @@ processResources {
 
     filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml"]) {
         expand(properties)
+    }
+}
+
+jar {
+    // Include dependencies
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.include.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
 }
