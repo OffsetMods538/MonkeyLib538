@@ -60,7 +60,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
             configHolder.set(null);
 
             boolean[] failed = new boolean[]{false};
-            ConfigManager.INSTANCE.save(configHolder, createErrorHandler(ctx, configHolder, failed));
+            ConfigManager.save(configHolder, createErrorHandler(ctx, configHolder, failed));
             if (failed[0]) return 0;
 
             CommandAbstractionApi.sendMessage(ctx, "Reset config '%s'.", configName);
@@ -70,7 +70,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         // Reload command
         rootCommand.then(literal("reload").executes(ctx -> {
             boolean[] failed = new boolean[]{false};
-            ConfigManager.INSTANCE.init(configHolder, createErrorHandler(ctx, configHolder, failed));
+            ConfigManager.init(configHolder, createErrorHandler(ctx, configHolder, failed));
             if (failed[0]) return 0;
 
             if (configReloadCallback != null) configReloadCallback.run();
@@ -141,7 +141,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
                 // Try saving
                 boolean[] failed = new boolean[]{false};
-                ConfigManager.INSTANCE.save(configHolder, createErrorHandler(ctx, configHolder, failed));
+                ConfigManager.save(configHolder, createErrorHandler(ctx, configHolder, failed));
                 if (failed[0]) return 0;
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
