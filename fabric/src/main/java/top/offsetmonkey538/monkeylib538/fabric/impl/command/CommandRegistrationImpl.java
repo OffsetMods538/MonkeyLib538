@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CommandRegistrationImpl implements CommandRegistrationApi {
-    public static @Nullable List<LiteralArgumentBuilder<?>> commands = new ArrayList<>();
+    public static @NotNull List<LiteralArgumentBuilder<?>> commands = new ArrayList<>();
 
     @Override
-    public void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command) throws IllegalStateException {
-        if (commands == null) throw new IllegalStateException("Tried to register command after commands have been registered!");
-
+    public void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command) {
         commands.add(command);
     }
 }

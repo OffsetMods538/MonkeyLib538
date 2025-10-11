@@ -25,11 +25,8 @@ public class MonkeyLib538Initializer {
     @ApiStatus.Internal
     public MonkeyLib538Initializer(IEventBus modEventBus, ModContainer modContainer) {
         NeoForge.EVENT_BUS.addListener(RegisterCommandsEvent.class, registerCommandsEvent -> {
-            if (CommandRegistrationImpl.commands == null) throw new IllegalStateException("The CommandRegistrationCallback was called twice???????");
-
             //noinspection unchecked
             CommandRegistrationImpl.commands.forEach(command -> registerCommandsEvent.getDispatcher().register((LiteralArgumentBuilder<CommandSourceStack>) command));
-            CommandRegistrationImpl.commands = null;
         });
     }
 }

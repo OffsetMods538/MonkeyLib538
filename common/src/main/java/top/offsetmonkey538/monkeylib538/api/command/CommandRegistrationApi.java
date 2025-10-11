@@ -19,13 +19,10 @@ public interface CommandRegistrationApi {
 
     /**
      * Adds the provided command to the list of commands to be registered at startup.
-     * <br />
-     * <strong>Calling this after command registration finishes will result in a {@link IllegalStateException}!</strong>
      *
      * @param command the command to register
-     * @throws IllegalStateException thrown when this is called after command registration finishes.
      */
-    static void registerCommand(final @NotNull LiteralArgumentBuilder<?> command) throws IllegalStateException {
+    static void registerCommand(final @NotNull LiteralArgumentBuilder<?> command) {
         INSTANCE.registerCommandImpl(command);
     }
 
@@ -33,8 +30,7 @@ public interface CommandRegistrationApi {
      * Implementation of {@link #registerCommand(LiteralArgumentBuilder)}.
      *
      * @param command the command to register
-     * @throws IllegalStateException thrown when this is called after command registration finishes.
      */
     @ApiStatus.Internal
-    void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command) throws IllegalStateException;
+    void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command);
 }
