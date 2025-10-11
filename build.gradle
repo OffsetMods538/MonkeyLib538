@@ -11,10 +11,10 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 ext {
 	versionPrefix = rootProject.mod_version
-	if (!"true".equalsIgnoreCase(System.getenv("IS_RELEASE"))) {
+	if (!Boolean.parseBoolean(System.getenv("IS_RELEASE"))) {
         String preReleaseVersion = System.currentTimeMillis()
 
-        if ("true".equalsIgnoreCase(System.getenv("PRESERVE_PRERELEASE_VERSION"))) {
+        if (Boolean.parseBoolean(System.getenv("PRESERVE_PRERELEASE_VERSION"))) {
             var preReleaseVersionFile = file("preReleaseVersion.txt").toPath()
             if (Files.exists(preReleaseVersionFile)) preReleaseVersion = Files.readString(preReleaseVersionFile)
             Files.writeString(preReleaseVersionFile, preReleaseVersion)

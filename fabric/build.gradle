@@ -135,7 +135,7 @@ subprojects {
 		versionNumber = "${project.version}"
 
 		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-		versionType = "true".equalsIgnoreCase(isPreRelease) ? "beta" : "release"
+		versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
 
 		if (project.mod_version.contains("beta")) versionType = "beta"
 		if (project.mod_version.contains("alpha")) versionType = "alpha"
