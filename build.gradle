@@ -9,12 +9,14 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 ext {
 	versionPrefix = rootProject.mod_version
-	if ("true".equalsIgnoreCase(System.getenv("IS_DEBUG"))) {
-		versionPrefix = "${versionPrefix}-${System.currentTimeMillis()}"
+	if (!"true".equalsIgnoreCase(System.getenv("IS_RELEASE"))) {
+        var separator = "-";
+        if (versionPrefix.contains("-")) separator = "."
+		versionPrefix = "${versionPrefix}${separator}${System.currentTimeMillis()}"
 	}
 	final String versionSuffix = System.getenv("VERSION_SUFFIX")
 	if (versionSuffix != null && !versionSuffix.isEmpty()) {
-		versionPrefix = "${versionPrefix}-${versionSuffix}"
+		versionPrefix = "${versionPrefix}+${versionSuffix}"
 	}
 
     System.out.println("Version Prefix: " + versionPrefix)
