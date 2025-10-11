@@ -1,3 +1,5 @@
+import java.nio.file.Files
+
 plugins {
 	id 'java'
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false
@@ -10,9 +12,17 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 ext {
 	versionPrefix = rootProject.mod_version
 	if (!"true".equalsIgnoreCase(System.getenv("IS_RELEASE"))) {
-        var separator = "-";
+        String preReleaseVersion = System.currentTimeMillis()
+
+        if ("true".equalsIgnoreCase(System.getenv("PRESERVE_PRERELEASE_VERSION"))) {
+            var preReleaseVersionFile = file("preReleaseVersion.txt").toPath()
+            if (Files.exists(preReleaseVersionFile)) preReleaseVersion = Files.readString(preReleaseVersionFile)
+            Files.writeString(preReleaseVersionFile, preReleaseVersion)
+        }
+
+        var separator = "-"
         if (versionPrefix.contains("-")) separator = "."
-		versionPrefix = "${versionPrefix}${separator}${System.currentTimeMillis()}"
+		versionPrefix = "${versionPrefix}${separator}${preReleaseVersion}"
 	}
 	final String versionSuffix = System.getenv("VERSION_SUFFIX")
 	if (versionSuffix != null && !versionSuffix.isEmpty()) {
