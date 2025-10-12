@@ -32,6 +32,7 @@ configurations {
 dependencies {
     api project(":common")
     include project(":common")
+    include "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
 }
 
 allprojects {
