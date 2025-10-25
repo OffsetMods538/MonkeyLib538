@@ -51,7 +51,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
     @Override
     public @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(@NotNull String commandName, @NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback) {
-        final LiteralArgumentBuilder<Object> rootCommand = literal(commandName);
+        final LiteralArgumentBuilder<Object> rootCommand = literal(commandName).requires(CommandAbstractionApi::isOp);
         final String configName = configHolder.get().getId();
 
         // Reset command
