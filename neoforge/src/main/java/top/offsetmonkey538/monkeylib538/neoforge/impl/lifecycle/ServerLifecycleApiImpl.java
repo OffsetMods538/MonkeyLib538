@@ -8,7 +8,7 @@ import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
 
-public class ServerLifecycleApiImpl implements ServerLifecycleApi {
+public final class ServerLifecycleApiImpl implements ServerLifecycleApi {
 
     @Override
     public void runOnServerStartingImpl(@NotNull Runnable work) {

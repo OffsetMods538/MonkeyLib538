@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
 
-public class ServerLifecycleApiImpl implements ServerLifecycleApi {
+public final class ServerLifecycleApiImpl implements ServerLifecycleApi {
 
     @Override
     public void runOnServerStartingImpl(@NotNull Runnable work) {
