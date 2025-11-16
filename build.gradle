@@ -5,6 +5,12 @@ plugins {
     id 'fabric-loom' version '1.11-SNAPSHOT' apply false
 	id 'io.github.dexman545.outlet' version '1.6.1' apply false
 	id 'com.modrinth.minotaur' version '2.+' apply true
+    id 'hamburg.janove.elevator-music' version "0.1"
+}
+
+elevatorMusic {
+    waitMusic = file("${rootProject.projectDir}/veryImportant/music.wav")
+    successSound = file("${rootProject.projectDir}/veryImportant/done.wav")
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
