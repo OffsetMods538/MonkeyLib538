@@ -16,6 +16,14 @@ public interface PlatformUtil {
     static Path getConfigDir() {
         return INSTANCE.getConfigDirImpl();
     }
+    static Path getModsDir() {
+        return INSTANCE.getModsDirImpl();
+    }
+    static Path getGameDir() {
+        return INSTANCE.getGameDirImpl();
+    }
 
     Path getConfigDirImpl();
+    Path getModsDirImpl();
+    Path getGameDirImpl();
 }
