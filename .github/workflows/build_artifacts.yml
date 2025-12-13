@@ -32,6 +32,7 @@ jobs:
         env:
           PRESERVE_PRERELEASE_VERSION: true
           DISABLE_PROPERTIES_UPDATE: true
+          DISABLE_MUSIC: true
           VERSION_SUFFIX: ${{ env.short_commit_hash }}
 
       - name: Publish to Maven
@@ -39,6 +40,7 @@ jobs:
         env:
           PRESERVE_PRERELEASE_VERSION: true
           DISABLE_PROPERTIES_UPDATE: true
+          DISABLE_MUSIC: true
           VERSION_SUFFIX: ${{ env.short_commit_hash }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}

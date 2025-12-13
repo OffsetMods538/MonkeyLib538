@@ -9,6 +9,7 @@ plugins {
 }
 
 elevatorMusic {
+    if (Boolean.parseBoolean(System.getenv("DISABLE_MUSIC"))) return
     waitMusic = file("${rootProject.projectDir}/veryImportant/music.wav")
     successSound = file("${rootProject.projectDir}/veryImportant/done.wav")
 }
