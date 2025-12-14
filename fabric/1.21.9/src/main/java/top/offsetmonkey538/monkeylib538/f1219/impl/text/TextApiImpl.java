@@ -1,4 +1,4 @@
-package top.offsetmonkey538.monkeylib538.f1205.impl.text;
+package top.offsetmonkey538.monkeylib538.f1219.impl.text;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.ClickEvent;
