@@ -67,6 +67,8 @@ subprojects {
     apply plugin: "io.github.dexman545.outlet"
     apply plugin: "com.modrinth.minotaur"
 
+    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
     configurations {
         common {
             canBeResolved = true
@@ -121,7 +123,7 @@ subprojects {
 
 
         // Files
-        //TODO: we'll see: uploadFile = remapJar.archiveFile
+        uploadFile = jar.archiveFile
         additionalFiles = [sourcesJar.archiveFile]
 
 
@@ -133,7 +135,7 @@ subprojects {
 
         // Dependencies
         dependencies {
-            //TODO: idk if there are any: required.project "fabric-api"
+
         }
     }
 }

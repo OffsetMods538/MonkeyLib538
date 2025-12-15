@@ -4,7 +4,7 @@ plugins {
 	id 'java'
     id 'fabric-loom' version '1.14-SNAPSHOT' apply false
 	id 'io.github.dexman545.outlet' version '1.6.1' apply false
-	id 'com.modrinth.minotaur' version '2.+' apply true
+	id 'com.modrinth.minotaur' version '2.+' apply false
     id 'hamburg.janove.elevator-music' version "0.1"
 }
 
@@ -117,5 +117,3 @@ subprojects {
 		}
 	}
 }
-
-tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
