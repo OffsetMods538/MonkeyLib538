@@ -1,5 +1,6 @@
 package top.offsetmonkey538.monkeylib538.neoforge.impl.platform;
 
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 
@@ -19,5 +20,10 @@ public final class PlatformUtilImpl implements PlatformUtil {
     @Override
     public Path getGameDirImpl() {
         return FMLPaths.GAMEDIR.get();
+    }
+
+    @Override
+    public boolean isDevelopmentEnvironmentImpl() {
+        return !FMLEnvironment.production;
     }
 }

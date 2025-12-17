@@ -23,7 +23,12 @@ public interface PlatformUtil {
         return INSTANCE.getGameDirImpl();
     }
 
+    static boolean isDevelopmentEnvironment() {
+        return INSTANCE.isDevelopmentEnvironmentImpl();
+    }
+
     Path getConfigDirImpl();
     Path getModsDirImpl();
     Path getGameDirImpl();
+    boolean isDevelopmentEnvironmentImpl();
 }

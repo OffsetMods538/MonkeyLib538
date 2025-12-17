@@ -21,6 +21,11 @@ public final class PlatformUtilImpl implements PlatformUtil {
 
     @Override
     public Path getGameDirImpl() {
-        return FabricLoader .getInstance().getGameDir();
+        return FabricLoader.getInstance().getGameDir();
+    }
+
+    @Override
+    public boolean isDevelopmentEnvironmentImpl() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 }
