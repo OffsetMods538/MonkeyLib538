@@ -2,7 +2,6 @@ package top.offsetmonkey538.monkeylib538.telemetry;
 
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.command.ConfigCommandApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
@@ -18,7 +17,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.zip.GZIPOutputStream;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.MOD_ID;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
@@ -58,14 +56,11 @@ public final class TelemetryHandler {
     private static void send() throws IOException, InterruptedException {
         final String jsonData = collectAnalytics();
         byte[] data = jsonData.getBytes(StandardCharsets.UTF_8);
-        final byte[] compressedData = /* todo: seems pointless I guess: compress(data); */ null;
-        if (compressedData != null) data = compressedData;
 
         final HttpRequest.Builder request = HttpRequest.newBuilder(URI.create("https://analytics.offsetmonkey538.top/ingest"));
         request.POST(HttpRequest.BodyPublishers.ofByteArray(data));
         request.version(HttpClient.Version.HTTP_1_1);
         request.header("User-Agent", "MonkeyLib538/1");
-        if (compressedData != null) request.header("Content-Encoding", "gzip");
         request.header("Content-Type", "application/json");
 
         try (final HttpClient client = HttpClient.newBuilder().build()) {
@@ -86,17 +81,5 @@ public final class TelemetryHandler {
         jsobData.add("m", ((TelemetryRegistryImpl) TelemetryRegistry.INSTANCE).registry);
 
         return jsobData.toString();
-    }
-
-    // TODO: delete
-    private static byte @Nullable [] compress(final byte[] data) {
-        final ByteArrayOutputStream output = new ByteArrayOutputStream();
-        try (final GZIPOutputStream gzip = new GZIPOutputStream(output)) {
-            gzip.write(data);
-        } catch (IOException e) {
-            getLogger().error("Failed to compress telemetry message, sending uncompressed data instead!", e);
-            return null;
-        }
-        return output.toByteArray();
     }
 }
