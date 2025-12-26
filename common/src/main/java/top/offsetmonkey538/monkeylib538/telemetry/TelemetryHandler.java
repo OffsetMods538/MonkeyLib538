@@ -1,7 +1,5 @@
 package top.offsetmonkey538.monkeylib538.telemetry;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,8 +8,6 @@ import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 import top.offsetmonkey538.monkeylib538.api.telemetry.TelemetryRegistry;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.impl.telemetry.TelemetryRegistryImpl;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigManager;
@@ -26,7 +22,6 @@ import java.util.zip.GZIPOutputStream;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.MOD_ID;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
-import static top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText.of;
 
 public final class TelemetryHandler {
     private TelemetryHandler() {

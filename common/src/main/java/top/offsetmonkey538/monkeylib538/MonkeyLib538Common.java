@@ -1,8 +1,6 @@
 package top.offsetmonkey538.monkeylib538;
 
 import top.offsetmonkey538.monkeylib538.api.log.MonkeyLibLogger;
-import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.telemetry.TelemetryHandler;
 
 import java.util.ServiceLoader;

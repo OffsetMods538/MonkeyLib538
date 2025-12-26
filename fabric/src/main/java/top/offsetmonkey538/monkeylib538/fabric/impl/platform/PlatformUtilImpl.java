@@ -1,15 +1,9 @@
 package top.offsetmonkey538.monkeylib538.fabric.impl.platform;
 
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.impl.util.SystemProperties;
-import net.minecraft.MinecraftVersion;
-import net.minecraft.SharedConstants;
-import net.minecraft.screen.ScreenTexts;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.fabric.api.player.FabricPlayerApi;
@@ -18,8 +12,6 @@ import top.offsetmonkey538.monkeylib538.fabric.api.text.FabricMonkeyLibText;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
-
-import static top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer.getServer;
 
 public final class PlatformUtilImpl implements PlatformUtil {
     @Override
