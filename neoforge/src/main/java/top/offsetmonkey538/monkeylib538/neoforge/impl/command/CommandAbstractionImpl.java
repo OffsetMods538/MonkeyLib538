@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.neoforge.api.command.NeoforgeCommandAbstractionApi;
@@ -48,6 +49,13 @@ public final class CommandAbstractionImpl implements NeoforgeCommandAbstractionA
     @Override
     public boolean isOpImpl(@NotNull Object source) {
         return get(source).hasPermission(get(source).getServer().getOperatorUserPermissionLevel());
+    }
+
+    @Override
+    public boolean isHostImpl(@NotNull Object source) {
+        // Using instanceof as a null check and variable assign
+        // TODO: replicate FabricPlayerApi for neoforge: return get(source).getPlayer() instanceof Player player && NeoforgePlayerApi.isPlayerHost(get(source).getServer(), player);
+        return get(source).getPlayer() instanceof Player player && get(source).getServer().isSingleplayerOwner(player.getGameProfile());
     }
 
     @Override

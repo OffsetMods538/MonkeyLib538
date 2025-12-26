@@ -37,9 +37,9 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
     }
 
     @Override
-    public void registerConfigCommandImpl(@NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @NotNull String... commandTree) {
+    public void registerConfigCommandImpl(@NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback, @NotNull String... commandTree) {
         @SuppressWarnings("unchecked")
-        LiteralArgumentBuilder<Object> command = (LiteralArgumentBuilder<Object>) ConfigCommandApi.createConfigCommand(commandTree[commandTree.length - 1], configHolder, configReloadCallback);
+        LiteralArgumentBuilder<Object> command = (LiteralArgumentBuilder<Object>) ConfigCommandApi.createConfigCommand(commandTree[commandTree.length - 1], configHolder, configReloadCallback, configValueSetCallback);
         for (int i = commandTree.length - 2; i >= 0; i--) {
             final LiteralArgumentBuilder<Object> parent = literal(commandTree[i]);
             parent.then(command);
@@ -50,8 +50,8 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
     }
 
     @Override
-    public @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(@NotNull String commandName, @NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback) {
-        final LiteralArgumentBuilder<Object> rootCommand = literal(commandName).requires(CommandAbstractionApi::isOp);
+    public @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(@NotNull String commandName, @NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback) {
+        final LiteralArgumentBuilder<Object> rootCommand = literal(commandName).requires(CommandAbstractionApi::isAdmin);
         final String configName = configHolder.get().getId();
 
         // Reset command
@@ -84,7 +84,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
         for (Field field : configHolder.getConfigClass().getFields()) {
             getCommand.then(createGetCommandForField(configName, field, configHolder));
-            setCommand.then(createSetCommandForField(configName, field, configHolder));
+            setCommand.then(createSetCommandForField(configName, field, configHolder, configValueSetCallback));
         }
 
         rootCommand.then(getCommand);
@@ -109,7 +109,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         });
     }
 
-    private static <T extends Config> LiteralArgumentBuilder<Object> createSetCommandForField(final @NotNull String configName, final @NotNull Field field, final @NotNull ConfigHolder<T> configHolder) {
+    private static <T extends Config> LiteralArgumentBuilder<Object> createSetCommandForField(final @NotNull String configName, final @NotNull Field field, final @NotNull ConfigHolder<T> configHolder, final @Nullable Runnable configValueSetCallback) {
         final String fieldName = field.getName();
         final LiteralArgumentBuilder<Object> thisSetCommand = literal(fieldName);
         final ArgumentType<?> fieldValueType = getType(configName, field.getType());
@@ -147,6 +147,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
                 throw new RuntimeException(e);
             }
             CommandAbstractionApi.sendMessage(ctx, "The value of '%s' in config '%s' has been changed from '%s' to '%s'!", fieldName, configName, originalValue, newValue);
+            if (configValueSetCallback != null) configValueSetCallback.run();
             return Command.SINGLE_SUCCESS;
         }));
     }

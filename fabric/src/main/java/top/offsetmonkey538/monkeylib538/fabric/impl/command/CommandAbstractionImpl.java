@@ -4,11 +4,13 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandAbstractionApi;
+import top.offsetmonkey538.monkeylib538.fabric.api.player.FabricPlayerApi;
 import top.offsetmonkey538.monkeylib538.fabric.impl.text.MonkeyLibTextImpl;
 
 import static top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandAbstractionApi.get;
@@ -48,6 +50,12 @@ public final class CommandAbstractionImpl implements FabricCommandAbstractionApi
     @Override
     public boolean isOpImpl(@NotNull Object source) {
         return get(source).hasPermissionLevel(get(source).getServer().getOpPermissionLevel());
+    }
+
+    @Override
+    public boolean isHostImpl(@NotNull Object source) {
+        // Using instanceof as a null check and variable assign
+        return get(source).getPlayer() instanceof PlayerEntity player && FabricPlayerApi.isPlayerHost(get(source).getServer(), player);
     }
 
     @Override

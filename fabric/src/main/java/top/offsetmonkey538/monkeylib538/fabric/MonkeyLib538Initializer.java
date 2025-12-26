@@ -1,10 +1,15 @@
 package top.offsetmonkey538.monkeylib538.fabric;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.fabric.impl.command.CommandRegistrationImpl;
 
@@ -14,20 +19,32 @@ import top.offsetmonkey538.monkeylib538.fabric.impl.command.CommandRegistrationI
  * Registers commands added in {@link CommandRegistrationApi}.
  */
 @ApiStatus.Internal
-public class MonkeyLib538Initializer implements ModInitializer {
+public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerModInitializer {
+    private static @Nullable MinecraftServer minecraftServer = null;
+
     /**
      * Public no-args constructor for fabric to do it's magic with
      */
-    @ApiStatus.Internal
     public MonkeyLib538Initializer() {
 
     }
 
     @Override
     public void onInitialize() {
+        MonkeyLib538Common.initialize();
+
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             //noinspection unchecked
             CommandRegistrationImpl.commands.forEach(command -> dispatcher.register((LiteralArgumentBuilder<ServerCommandSource>) command));
         });
+    }
+
+    @Override
+    public void onInitializeServer() {
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> minecraftServer = minecraftServer1);
+    }
+
+    public static @Nullable MinecraftServer getServer() {
+        return minecraftServer;
     }
 }

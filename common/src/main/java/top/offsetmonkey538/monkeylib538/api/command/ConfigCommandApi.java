@@ -62,7 +62,23 @@ public interface ConfigCommandApi {
      * @param commandTree the command tree.
      */
     static void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @NotNull String... commandTree) {
-        INSTANCE.registerConfigCommandImpl(configHolder, configReloadCallback, commandTree);
+        registerConfigCommand(configHolder, configReloadCallback, null, commandTree);
+    }
+    /**
+     * Creates and registers a config command using the provided command tree and {@link ConfigHolder}.
+     * <br/>
+     * The {@code configReloadCallback} is executed after the {@code reload} command is run, and can be used for reinitializing stuff based on the new values.
+     * <p>
+     *     The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}
+     * </p>
+     *
+     * @param configHolder your {@link ConfigHolder} instance.
+     * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
+     * @param configValueSetCallback executed when a config value is changed by the {@code set} command.
+     * @param commandTree the command tree.
+     */
+    static void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final @NotNull String... commandTree) {
+        INSTANCE.registerConfigCommandImpl(configHolder, configReloadCallback, configValueSetCallback, commandTree);
     }
 
     /**
@@ -86,7 +102,21 @@ public interface ConfigCommandApi {
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
     static @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback) {
-        return INSTANCE.createConfigCommandImpl(commandName, configHolder, configReloadCallback);
+        return createConfigCommand(commandName, configHolder, configReloadCallback, null);
+    }
+    /**
+     * Creates a config command using the provided name and {@link ConfigHolder}.
+     * <br/>
+     * The {@code configReloadCallback} is executed after the {@code reload} command is run, and can be used for reinitializing stuff based on the new values.
+     *
+     * @param commandName the name of the command.
+     * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
+     * @param configValueSetCallback executed when a config value is changed by the {@code set} command.
+     * @param configHolder your {@link ConfigHolder} instance.
+     * @return a config command using the provided name and {@link ConfigHolder}.
+     */
+    static @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback) {
+        return INSTANCE.createConfigCommandImpl(commandName, configHolder, configReloadCallback, configValueSetCallback);
     }
 
 
@@ -95,19 +125,21 @@ public interface ConfigCommandApi {
      *
      * @param configHolder your {@link ConfigHolder} instance.
      * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
+     * @param configValueSetCallback executed when a config value is changed by the {@code set} command.
      * @param commandTree the command tree.
      */
     @ApiStatus.Internal
-    void registerConfigCommandImpl(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @NotNull String... commandTree);
+    void registerConfigCommandImpl(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final @NotNull String... commandTree);
 
     /**
      * Implementation of {@link #createConfigCommand(String, ConfigHolder, Runnable)}.
      *
      * @param commandName the name of the command.
      * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
+     * @param configValueSetCallback executed when a config value is changed by the {@code set} command.
      * @param configHolder your {@link ConfigHolder} instance.
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
     @ApiStatus.Internal
-    @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback);
+    @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback);
 }

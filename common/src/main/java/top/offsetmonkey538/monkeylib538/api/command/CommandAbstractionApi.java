@@ -113,16 +113,47 @@ public interface CommandAbstractionApi {
     }
 
     /**
+     * Checks whether the provided command source has operator permissions or is the host of a singleplayer server.
+     * <br>
+     * This returns true for singleplayer hosts even when cheats are disabled.
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source has operator permissions or is the host of a singleplayer server
+     * @see #isOp(Object)
+     * @see #isHost(Object)
+     */
+    static boolean isAdmin(final @NotNull Object source) {
+        return isOp(source) || isHost(source);
+    }
+
+    /**
      * Checks whether the provided command source has operator permissions.
      *
      * @param source the current-platform-specific command source.
      * @return whether the provided command source has operator permissions
+     * @see #isAdmin(Object)
+     * @see #isHost(Object)
      */
     static boolean isOp(final @NotNull Object source) {
         return INSTANCE.isOpImpl(source);
     }
 
+    /**
+     * Checks whether the provided command source is the host of a singleplayer server.
+     * <br>
+     * Unlike {@link #isOp(Object)}, this method returns true even when cheats aren't enabled.
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source is the host of a singleplayer server
+     * @see #isAdmin(Object)
+     * @see #isOp(Object)
+     */
+    static boolean isHost(final @NotNull Object source) {
+        return INSTANCE.isHostImpl(source);
+    }
 
+
+// TODO: applies to all Impl methods: don't write javadoc for them
     /**
      * Implementation of {@link #literal(String)}.
      *
@@ -184,4 +215,13 @@ public interface CommandAbstractionApi {
      */
     @ApiStatus.Internal
     boolean isOpImpl(final @NotNull Object source);
+
+    /**
+     * Implementation of {@link #isOp(Object)}
+     *
+     * @param source the current-platform-specific command source.
+     * @return whether the provided command source has operator permissions
+     */
+    @ApiStatus.Internal
+    boolean isHostImpl(final @NotNull Object source);
 }

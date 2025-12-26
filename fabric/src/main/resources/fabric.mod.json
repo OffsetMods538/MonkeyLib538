@@ -18,8 +18,14 @@
 	"entrypoints": {
 		"main": [
 			"top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer"
+		],
+		"server": [
+			"top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer"
 		]
 	},
+	"mixins": [
+		"monkeylib538.fabric.client.mixins.json"
+	],
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
 		"monkeylib538-common": "${commonVersion}",
