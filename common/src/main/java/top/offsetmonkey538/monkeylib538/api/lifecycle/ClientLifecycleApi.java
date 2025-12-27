@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.lifecycle;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 
@@ -8,10 +7,6 @@ import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
 public interface ClientLifecycleApi {
-    /**
-     * The instance
-     */
-    @ApiStatus.Internal
     ClientLifecycleApi INSTANCE = PlatformUtil.isDedicatedServer() ? new ServerImpl() : load(ClientLifecycleApi.class);
 
     /**
@@ -25,10 +20,8 @@ public interface ClientLifecycleApi {
         INSTANCE.runOnLoadingFinishedImpl(work);
     }
 
-    @ApiStatus.Internal
     void runOnLoadingFinishedImpl(final @NotNull Runnable work);
 
-    @ApiStatus.Internal
     final class ServerImpl implements ClientLifecycleApi {
         private ServerImpl() {
 

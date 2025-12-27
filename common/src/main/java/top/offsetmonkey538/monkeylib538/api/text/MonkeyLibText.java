@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.text;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,11 +91,7 @@ public interface MonkeyLibText {
     /**
      * Provides a method for creating a literal {@link MonkeyLibText}
      */
-    @ApiStatus.Internal
     interface Provider {
-        /**
-         * The instance
-         */
         Provider INSTANCE = load(Provider.class);
 
         /**

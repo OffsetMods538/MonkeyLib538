@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.platform;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
@@ -10,13 +9,7 @@ import java.util.function.Supplier;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
 public interface PlatformUtil {
-    /**
-     * The instance
-     */
-    @ApiStatus.Internal
     PlatformUtil INSTANCE = load(PlatformUtil.class);
-
-    @ApiStatus.Internal
     Supplier<String> BRANDING_SUPPLIER = isDedicatedServer() ? load(ServerBrandGetter.class) : load(ClientBrandGetter.class);
 
     static String getMinecraftVersion() {
@@ -74,12 +67,10 @@ public interface PlatformUtil {
     boolean isDedicatedServerImpl();
     void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);
 
-    @ApiStatus.Internal
     interface ClientBrandGetter extends Supplier<String> {
 
     }
 
-    @ApiStatus.Internal
     interface ServerBrandGetter extends Supplier<String> {
 
     }

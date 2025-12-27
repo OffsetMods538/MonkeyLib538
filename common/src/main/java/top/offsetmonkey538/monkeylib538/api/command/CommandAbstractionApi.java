@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
@@ -20,12 +19,7 @@ import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
  *     This way, the methods here can be called with a {@link CommandContext context} containing with the generic {@link Object} and implementations will cast that to the platform-specific command sources for implementing the methods.
  * </p>
  */
-@ApiStatus.NonExtendable
 public interface CommandAbstractionApi {
-    /**
-     * The instance
-     */
-    @ApiStatus.Internal
     CommandAbstractionApi INSTANCE = load(CommandAbstractionApi.class);
 
     /**
@@ -153,75 +147,12 @@ public interface CommandAbstractionApi {
     }
 
 
-// TODO: applies to all Impl methods: don't write javadoc for them
-    /**
-     * Implementation of {@link #literal(String)}.
-     *
-     * @param name the name of the {@link LiteralArgumentBuilder}
-     * @return a {@link LiteralArgumentBuilder} for the current-platform-specific command source.
-     */
-    @ApiStatus.Internal
     @NotNull LiteralArgumentBuilder<?> literalImpl(final @NotNull String name);
-    /**
-     * Implementation of {@link #argument(String, ArgumentType)}.
-     *
-     * @param name the name of the {@link LiteralArgumentBuilder}
-     * @param type the {@link ArgumentType} to use.
-     * @return a {@link RequiredArgumentBuilder} for the current-platform-specific command source.
-     * @param <T> the type for the {@link ArgumentType}
-     */
-    @ApiStatus.Internal
     @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(final @NotNull String name, final @NotNull ArgumentType<T> type);
-
-    /**
-     * Implementation of {@link #sendMessage(CommandContext, String)}.
-     *
-     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param message the message to send
-     */
-    @ApiStatus.Internal
     void sendMessageImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
-    /**
-     * Implementation of {@link #sendError(CommandContext, String)}.
-     *
-     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param message the error message to send
-     */
-    @ApiStatus.Internal
     void sendErrorImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
-    /**
-     * Implementation of {@link #sendText(CommandContext, MonkeyLibText)}.
-     *
-     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param text the {@link MonkeyLibText} to send
-     */
-    @ApiStatus.Internal
     void sendTextImpl(@NotNull final CommandContext<Object> ctx, @NotNull final MonkeyLibText text);
-
-    /**
-     * Implementation of {@link #executedByPlayer(Object)}.
-     *
-     * @param source the current-platform-specific command source.
-     * @return whether the provided command source is executed by a player.
-     */
-    @ApiStatus.Internal
     boolean executedByPlayerImpl(final @NotNull Object source);
-
-    /**
-     * Implementation of {@link #isOp(Object)}
-     *
-     * @param source the current-platform-specific command source.
-     * @return whether the provided command source has operator permissions
-     */
-    @ApiStatus.Internal
     boolean isOpImpl(final @NotNull Object source);
-
-    /**
-     * Implementation of {@link #isOp(Object)}
-     *
-     * @param source the current-platform-specific command source.
-     * @return whether the provided command source has operator permissions
-     */
-    @ApiStatus.Internal
     boolean isHostImpl(final @NotNull Object source);
 }

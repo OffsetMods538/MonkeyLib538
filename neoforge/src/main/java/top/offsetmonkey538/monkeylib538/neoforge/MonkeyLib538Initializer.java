@@ -9,7 +9,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
@@ -20,7 +19,6 @@ import top.offsetmonkey538.monkeylib538.neoforge.impl.command.CommandRegistratio
  * <br />
  * Registers commands added in {@link CommandRegistrationApi}.
  */
-@ApiStatus.Internal
 @Mod("monkeylib538_common_neoforge")
 public class MonkeyLib538Initializer {
     private static @Nullable MinecraftServer minecraftServer = null;
@@ -28,7 +26,6 @@ public class MonkeyLib538Initializer {
     /**
      * Constructor that neo magic calls
      */
-    @ApiStatus.Internal
     public MonkeyLib538Initializer(IEventBus modEventBus, ModContainer modContainer) {
         MonkeyLib538Common.initialize();
 

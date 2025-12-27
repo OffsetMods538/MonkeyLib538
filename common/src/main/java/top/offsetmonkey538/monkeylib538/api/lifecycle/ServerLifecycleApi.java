@@ -1,15 +1,10 @@
 package top.offsetmonkey538.monkeylib538.api.lifecycle;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
 public interface ServerLifecycleApi {
-    /**
-     * The instance
-     */
-    @ApiStatus.Internal
     ServerLifecycleApi INSTANCE = load(ServerLifecycleApi.class);
 
     static void runOnServerStarting(final @NotNull Runnable work) {

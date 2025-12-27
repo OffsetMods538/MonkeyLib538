@@ -4,7 +4,6 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
@@ -22,16 +21,7 @@ import java.lang.reflect.Field;
 import static top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi.argument;
 import static top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi.literal;
 
-/**
- * Implementation of {@link ConfigCommandApi}
- */
-@ApiStatus.Internal
 public final class ConfigCommandImpl implements ConfigCommandApi {
-
-    /**
-     * Public no-args constructor for java service magic to call
-     */
-    @ApiStatus.Internal
     public ConfigCommandImpl() {
 
     }

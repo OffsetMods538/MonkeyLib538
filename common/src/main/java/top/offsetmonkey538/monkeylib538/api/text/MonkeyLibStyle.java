@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.text;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,25 +70,15 @@ public interface MonkeyLibStyle {
     /**
      * Provides a method for creating a {@link MonkeyLibStyle}
      */
-    @ApiStatus.Internal
     interface Provider {
-        /**
-         * The instance
-         */
         Provider INSTANCE = load(Provider.class);
-
-        /**
-         * Creates an empty {@link MonkeyLibStyle}
-         *
-         * @return an empty {@link MonkeyLibStyle}
-         */
         @NotNull MonkeyLibStyle empty();
     }
 
     @SuppressWarnings("unused")
     final class Color {
         public static final int BLACK        = 0x000000;
-        public static final int DARK_BLUE    = 0x0000AA ;
+        public static final int DARK_BLUE    = 0x0000AA;
         public static final int DARK_GREEN   = 0x00AA00;
         public static final int DARK_AQUA    = 0x00AAAA;
         public static final int DARK_RED     = 0xAA0000;

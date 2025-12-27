@@ -2,7 +2,6 @@ package top.offsetmonkey538.monkeylib538.neoforge.impl.text;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
@@ -17,7 +16,6 @@ import java.nio.file.Path;
 public final class MonkeyLibStyleImpl implements NeoforgeMonkeyLibStyle {
     private final @NotNull Style style;
 
-    @ApiStatus.Internal
     public MonkeyLibStyleImpl(final @NotNull Style style) {
         this.style = style;
     }

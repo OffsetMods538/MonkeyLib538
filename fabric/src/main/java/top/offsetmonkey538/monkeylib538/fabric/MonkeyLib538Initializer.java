@@ -7,18 +7,10 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
-import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.fabric.impl.command.CommandRegistrationImpl;
 
-/**
- * Initializer of the fabric platform monkeylib538
- * <br />
- * Registers commands added in {@link CommandRegistrationApi}.
- */
-@ApiStatus.Internal
 public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerModInitializer {
     private static @Nullable MinecraftServer minecraftServer = null;
 
