@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.fabric.impl.command.CommandRegistrationImpl;
 

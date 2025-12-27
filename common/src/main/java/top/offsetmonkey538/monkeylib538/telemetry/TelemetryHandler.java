@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.telemetry;
 
 import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.command.ConfigCommandApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
@@ -73,7 +72,7 @@ public final class TelemetryHandler {
         }
     }
 
-    private static @NotNull String collectAnalytics() {
+    private static String collectAnalytics() {
         final JsonObject jsobData = new JsonObject();
         jsobData.addProperty("mc", PlatformUtil.getMinecraftVersion());
         jsobData.addProperty("e", PlatformUtil.isDedicatedServer() ? "s" : "c");

@@ -1,7 +1,5 @@
 package top.offsetmonkey538.monkeylib538.impl.text;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.api.text.TextFormattingApi;
@@ -14,7 +12,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     private static final MonkeyLibStyle DEFAULT_STYLE = MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF);
 
     @Override
-    public @NotNull MonkeyLibText[] styleTextMultilineImpl(@NotNull String text) throws Exception {
+    public MonkeyLibText[] styleTextMultilineImpl(String text) throws Exception {
         final String[] splitText = text.split("\n");
         final MonkeyLibText[] result = new MonkeyLibText[splitText.length];
 
@@ -28,7 +26,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     }
 
     @Override
-    public @NotNull MonkeyLibText styleTextImpl(final @NotNull String text) throws Exception {
+    public MonkeyLibText styleTextImpl(final String text) throws Exception {
         final MonkeyLibText result = MonkeyLibText.empty();
 
         final Context context = new Context(
@@ -47,7 +45,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         return result;
     }
 
-    private static void handleChar(final @NotNull MonkeyLibText result, final @NotNull Context context) throws Exception {
+    private static void handleChar(final MonkeyLibText result, final Context context) throws Exception {
         // Previous character specified this one as a formatting code
         if (context.isFormattingCode) switch (context.currentChar) {
             case '#':
@@ -85,7 +83,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         }
     }
 
-    private static void handleHexCode(final @NotNull Context context) throws Exception {
+    private static void handleHexCode(final Context context) throws Exception {
         final String hexCodeString = readChars(context, 6, "Unfinished hex code starting at character nr %s!");
 
         final int hexCode;
@@ -98,7 +96,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         context.style = context.style.withColor(hexCode);
     }
 
-    private static void handleAction(final @NotNull MonkeyLibText result, final @NotNull Context context) throws Exception {
+    private static void handleAction(final MonkeyLibText result, final Context context) throws Exception {
         final int startIndex = context.characterIndex;
         final String actionNameBoxed = readUntil(context, ','); // This has the current { char and the ending , char. So "{hoverText,"
         final String actionName = actionNameBoxed.substring(1, actionNameBoxed.length() - 1); // Only action name itself, without the { and ,. So "hoverText"
@@ -163,19 +161,19 @@ public final class TextFormattingImpl implements TextFormattingApi {
         context.readNext();
         if (context.currentChar != '}') throw new Exception("Expected character nr %s to be } (closed curly bracket). Got %s".formatted(context.characterIndex, context.currentChar));
     }
-    private static void handleNormalFormattingCode(final @NotNull Context context) throws Exception {
+    private static void handleNormalFormattingCode(final Context context) throws Exception {
         if (context.currentChar == 'r') {
             context.style = DEFAULT_STYLE.copyEventsFrom(context.style);
             return;
         }
 
-        final @Nullable MonkeyLibStyle newStyle = context.style.withFormattingCode(context.currentChar);
+        final MonkeyLibStyle newStyle = context.style.withFormattingCode(context.currentChar);
         if (newStyle == null) throw new Exception("Invalid formatting code '%s' at character nr %s'!".formatted(context.currentChar, context.characterIndex));
         context.style = newStyle;
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static @NotNull String readChars(final @NotNull Context context, final int numChars, final @NotNull String error) throws Exception {
+    private static String readChars(final Context context, final int numChars, final String error) throws Exception {
         final int endIndex = context.characterIndex + numChars;
         if (endIndex >= context.characters.length) throw new Exception(error.formatted(context.characterIndex));
 
@@ -189,7 +187,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static @NotNull String readUntil(final @NotNull Context context, final char expectedChar) throws Exception {
+    private static String readUntil(final Context context, final char expectedChar) throws Exception {
         final StringBuilder builder = new StringBuilder();
         final int startIndex = context.characterIndex;
         final char startChar = context.currentChar;
@@ -210,7 +208,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     private static final class Context {
         private boolean isFormattingCode;
         private boolean isEscaped;
-        private @NotNull MonkeyLibStyle style;
+        private MonkeyLibStyle style;
         private final char[] characters;
         private int characterIndex;
         private char currentChar;
@@ -219,7 +217,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         private Context(
                 final boolean isFormattingCode,
                 final boolean isEscaped,
-                final @NotNull MonkeyLibStyle style,
+                final MonkeyLibStyle style,
                 final char[] characters,
                 int characterIndex
         ) {
@@ -247,13 +245,13 @@ public final class TextFormattingImpl implements TextFormattingApi {
 
 
         public final boolean isArgStyled;
-        public final @NotNull BiFunction<MonkeyLibStyle, Object, MonkeyLibStyle> modifier;
+        public final BiFunction<MonkeyLibStyle, Object, MonkeyLibStyle> modifier;
 
-        Action(@SuppressWarnings("unused") final boolean isArgStyled, final @NotNull BiFunction<MonkeyLibStyle, MonkeyLibText, MonkeyLibStyle> modifier) {
+        Action(@SuppressWarnings("unused") final boolean isArgStyled, final BiFunction<MonkeyLibStyle, MonkeyLibText, MonkeyLibStyle> modifier) {
             this.isArgStyled = true;
             this.modifier = (style, arg) -> modifier.apply(style, (MonkeyLibText) arg);
         }
-        Action(final @NotNull BiFunction<MonkeyLibStyle, String, MonkeyLibStyle> modifier) {
+        Action(final BiFunction<MonkeyLibStyle, String, MonkeyLibStyle> modifier) {
             this.isArgStyled = false;
             this.modifier = (style, arg) -> modifier.apply(style, (String) arg);
         }

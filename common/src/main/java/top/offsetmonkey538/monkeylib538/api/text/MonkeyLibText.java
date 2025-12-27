@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.api.text;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.UnaryOperator;
 
@@ -26,7 +25,7 @@ public interface MonkeyLibText {
      *
      * @return this.
      */
-    @NotNull MonkeyLibText setLastSibling(@NotNull MonkeyLibText newSibling);
+    MonkeyLibText setLastSibling(MonkeyLibText newSibling);
 
     /**
      * Appends another text to this one.
@@ -34,14 +33,14 @@ public interface MonkeyLibText {
      * @param other the text to append to this one
      * @return this.
      */
-    @NotNull MonkeyLibText append(final @NotNull MonkeyLibText other);
+    MonkeyLibText append(final MonkeyLibText other);
 
     /**
      * Gets the style of this text.
      *
      * @return The style of this text
      */
-    @NotNull MonkeyLibStyle getStyle();
+    MonkeyLibStyle getStyle();
 
     /**
      * Sets the style of this text to the provided style.
@@ -49,7 +48,7 @@ public interface MonkeyLibText {
      * @param style the style to use.
      * @return this.
      */
-    @NotNull MonkeyLibText setStyle(final @NotNull MonkeyLibStyle style);
+    MonkeyLibText setStyle(final MonkeyLibStyle style);
 
     /**
      * Applies the provided operations to this text's style.
@@ -57,7 +56,7 @@ public interface MonkeyLibText {
      * @param styleModifier the operations to apply.
      * @return this.
      */
-    default @NotNull MonkeyLibText applyStyle(final @NotNull UnaryOperator<MonkeyLibStyle> styleModifier) {
+    default MonkeyLibText applyStyle(final UnaryOperator<MonkeyLibStyle> styleModifier) {
         return setStyle(styleModifier.apply(getStyle()));
     }
 
@@ -66,7 +65,7 @@ public interface MonkeyLibText {
      *
      * @return the content of this text
      */
-    @NotNull String getString();
+    String getString();
 
 
     /**
@@ -75,7 +74,7 @@ public interface MonkeyLibText {
      * @param text the text it should contain.
      * @return a literal text
      */
-    static @NotNull MonkeyLibText of(final @NotNull String text) {
+    static MonkeyLibText of(final String text) {
         return Provider.INSTANCE.of(text);
     }
 
@@ -84,7 +83,7 @@ public interface MonkeyLibText {
      *
      * @return an empty text
      */
-    static @NotNull MonkeyLibText empty() {
+    static MonkeyLibText empty() {
         return Provider.INSTANCE.empty();
     }
 
@@ -100,13 +99,13 @@ public interface MonkeyLibText {
          * @param text the text it should contain.
          * @return a literal {@link MonkeyLibText}
          */
-        @NotNull MonkeyLibText of(final @NotNull String text);
+        MonkeyLibText of(final String text);
 
         /**
          * Creates an empty literal {@link MonkeyLibText}
          *
          * @return an empty {@link MonkeyLibText}
          */
-        @NotNull MonkeyLibText empty();
+        MonkeyLibText empty();
     }
 }

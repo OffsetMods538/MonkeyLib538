@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.api.text;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -9,15 +8,15 @@ import java.nio.file.Path;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
 public interface MonkeyLibStyle {
-    @NotNull MonkeyLibStyle withShowText(final @NotNull MonkeyLibText value);
+    MonkeyLibStyle withShowText(final MonkeyLibText value);
 
-    @NotNull MonkeyLibStyle withOpenUrl(final @NotNull URI value);
-    @NotNull MonkeyLibStyle withOpenFile(final @NotNull Path value);
-    @NotNull MonkeyLibStyle withRunCommand(final @NotNull String value);
-    @NotNull MonkeyLibStyle withSuggestCommand(final @NotNull String value);
-    @NotNull MonkeyLibStyle withCopyToClipboard(final @NotNull String value);
+    MonkeyLibStyle withOpenUrl(final URI value);
+    MonkeyLibStyle withOpenFile(final Path value);
+    MonkeyLibStyle withRunCommand(final String value);
+    MonkeyLibStyle withSuggestCommand(final String value);
+    MonkeyLibStyle withCopyToClipboard(final String value);
 
-    @NotNull MonkeyLibStyle copyEventsFrom(final @NotNull MonkeyLibStyle from);
+    MonkeyLibStyle copyEventsFrom(final MonkeyLibStyle from);
 
 
     /**
@@ -26,21 +25,21 @@ public interface MonkeyLibStyle {
      * @param italic if the new style should be italic
      * @return a new style with the provided italic attribute
      */
-    @NotNull MonkeyLibStyle withItalic(final boolean italic);
+    MonkeyLibStyle withItalic(final boolean italic);
     /**
      * Returns a new style with the provided underline attribute.
      *
      * @param underline if the new style should be underlined
      * @return a new style with the provided underline attribute
      */
-    @NotNull MonkeyLibStyle withUnderline(final boolean underline);
+    MonkeyLibStyle withUnderline(final boolean underline);
     /**
      * Returns a new style with the provided rgb color.
      *
      * @param rgbColor the color in the 0xRRGGBB format
      * @return a new style with the provided color attribute
      */
-    @NotNull MonkeyLibStyle withColor(final int rgbColor);
+    MonkeyLibStyle withColor(final int rgbColor);
     /**
      * Returns a new style with the formatting code.
      *
@@ -55,7 +54,7 @@ public interface MonkeyLibStyle {
      * @param other the style to check against
      * @return if this style is equal to the provided one
      */
-    boolean equals(final @NotNull MonkeyLibStyle other);
+    boolean equals(final MonkeyLibStyle other);
 
 
     /**
@@ -63,7 +62,7 @@ public interface MonkeyLibStyle {
      *
      * @return an empty style
      */
-    static @NotNull MonkeyLibStyle empty() {
+    static MonkeyLibStyle empty() {
         return Provider.INSTANCE.empty();
     }
 
@@ -72,7 +71,7 @@ public interface MonkeyLibStyle {
      */
     interface Provider {
         Provider INSTANCE = load(Provider.class);
-        @NotNull MonkeyLibStyle empty();
+        MonkeyLibStyle empty();
     }
 
     @SuppressWarnings("unused")

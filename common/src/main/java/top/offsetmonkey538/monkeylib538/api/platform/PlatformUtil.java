@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.platform;
 
-import org.jetbrains.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
 import java.nio.file.Path;
@@ -26,7 +25,7 @@ public interface PlatformUtil {
      *
      * @return the current mod loader's name/branding or an empty string when called on a dedicated server before it has started starting.
      */
-    static @Nullable String getLoaderName() {
+    static String getLoaderName() {
         return BRANDING_SUPPLIER.get();
     }
 

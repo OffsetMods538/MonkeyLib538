@@ -1,6 +1,5 @@
 package top.offsetmonkey538.monkeylib538.api.lifecycle;
 
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
@@ -16,11 +15,11 @@ public interface ClientLifecycleApi {
      *
      * @param work the runnable to run.
      */
-    static void runOnLoadingFinished(final @NotNull Runnable work) {
+    static void runOnLoadingFinished(final Runnable work) {
         INSTANCE.runOnLoadingFinishedImpl(work);
     }
 
-    void runOnLoadingFinishedImpl(final @NotNull Runnable work);
+    void runOnLoadingFinishedImpl(final Runnable work);
 
     final class ServerImpl implements ClientLifecycleApi {
         private ServerImpl() {
@@ -28,7 +27,7 @@ public interface ClientLifecycleApi {
         }
 
         @Override
-        public void runOnLoadingFinishedImpl(@NotNull Runnable work) {
+        public void runOnLoadingFinishedImpl(Runnable work) {
             getLogger().warn("ClientLifecycleApi#runOnLoadingFinished called from non-client environment!", new Throwable());
         }
     }

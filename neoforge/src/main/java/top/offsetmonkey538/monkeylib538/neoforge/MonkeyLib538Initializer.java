@@ -9,7 +9,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.neoforge.impl.command.CommandRegistrationImpl;

@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.fabric.impl.log;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.offsetmonkey538.monkeylib538.api.log.MonkeyLibLogger;
@@ -25,54 +24,54 @@ public final class MonkeyLibLoggerImpl implements MonkeyLibLogger {
     }
 
     @Override
-    public void debug(@NotNull String message) {
+    public void debug(String message) {
         listeners.get(LogLevel.DEBUG).forEach(consumer -> consumer.accept(message, null));
         logger.debug(message);
     }
 
     @Override
-    public void info(@NotNull String message) {
+    public void info(String message) {
         listeners.get(LogLevel.INFO).forEach(consumer -> consumer.accept(message, null));
         logger.info(message);
     }
 
     @Override
-    public void warn(@NotNull String message) {
+    public void warn(String message) {
         listeners.get(LogLevel.WARN).forEach(consumer -> consumer.accept(message, null));
         logger.warn(message);
     }
 
     @Override
-    public void warn(@NotNull String message, @Nullable Throwable error) {
+    public void warn(String message, @Nullable Throwable error) {
         listeners.get(LogLevel.WARN).forEach(consumer -> consumer.accept(message, error));
         logger.warn(message, error);
     }
 
     @Override
-    public void error(@NotNull String message) {
+    public void error(String message) {
         listeners.get(LogLevel.ERROR).forEach(consumer -> consumer.accept(message, null));
         logger.error(message);
     }
 
     @Override
-    public void error(@NotNull String message, @Nullable Throwable error) {
+    public void error(String message, @Nullable Throwable error) {
         listeners.get(LogLevel.ERROR).forEach(consumer -> consumer.accept(message, error));
         logger.error(message, error);
     }
 
     @Override
-    public void addListener(@NotNull LogLevel level, @NotNull LogListener listener) {
+    public void addListener(LogLevel level, LogListener listener) {
         listeners.get(level).add(listener);
     }
 
     @Override
-    public void removeListener(@NotNull LogLevel level, @NotNull LogListener listener) {
+    public void removeListener(LogLevel level, LogListener listener) {
         listeners.get(level).remove(listener);
     }
 
     public static final class ProviderImpl implements Provider {
         @Override
-        public MonkeyLibLogger create(final @NotNull String id) {
+        public MonkeyLibLogger create(final String id) {
             return new MonkeyLibLoggerImpl(LoggerFactory.getLogger(id));
         }
     }

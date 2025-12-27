@@ -4,8 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.api.command.ConfigCommandApi;
@@ -27,7 +26,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
     }
 
     @Override
-    public void registerConfigCommandImpl(@NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback, @NotNull String... commandTree) {
+    public void registerConfigCommandImpl(ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback, String... commandTree) {
         @SuppressWarnings("unchecked")
         LiteralArgumentBuilder<Object> command = (LiteralArgumentBuilder<Object>) ConfigCommandApi.createConfigCommand(commandTree[commandTree.length - 1], configHolder, configReloadCallback, configValueSetCallback);
         for (int i = commandTree.length - 2; i >= 0; i--) {
@@ -40,7 +39,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
     }
 
     @Override
-    public @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(@NotNull String commandName, @NotNull ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback) {
+    public LiteralArgumentBuilder<?> createConfigCommandImpl(String commandName, ConfigHolder<?> configHolder, @Nullable Runnable configReloadCallback, @Nullable Runnable configValueSetCallback) {
         final LiteralArgumentBuilder<Object> rootCommand = literal(commandName).requires(CommandAbstractionApi::isAdmin);
         final String configName = configHolder.get().getId();
 
@@ -83,7 +82,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         return rootCommand;
     }
 
-    private static <T extends Config> LiteralArgumentBuilder<Object> createGetCommandForField(final @NotNull String configName, final @NotNull Field field, final @NotNull ConfigHolder<T> configHolder) {
+    private static <T extends Config> LiteralArgumentBuilder<Object> createGetCommandForField(final String configName, final Field field, final ConfigHolder<T> configHolder) {
         final String fieldName = field.getName();
         final LiteralArgumentBuilder<Object> thisGetCommand = literal(fieldName);
 
@@ -99,7 +98,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         });
     }
 
-    private static <T extends Config> LiteralArgumentBuilder<Object> createSetCommandForField(final @NotNull String configName, final @NotNull Field field, final @NotNull ConfigHolder<T> configHolder, final @Nullable Runnable configValueSetCallback) {
+    private static <T extends Config> LiteralArgumentBuilder<Object> createSetCommandForField(final String configName, final Field field, final ConfigHolder<T> configHolder, final @Nullable Runnable configValueSetCallback) {
         final String fieldName = field.getName();
         final LiteralArgumentBuilder<Object> thisSetCommand = literal(fieldName);
         final ArgumentType<?> fieldValueType = getType(configName, field.getType());
@@ -142,7 +141,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         }));
     }
 
-    private static @NotNull ErrorHandler createErrorHandler(final @NotNull CommandContext<Object> ctx, final @NotNull ConfigHolder<?> configHolder, final boolean[] failed) {
+    private static ErrorHandler createErrorHandler(final CommandContext<Object> ctx, final ConfigHolder<?> configHolder, final boolean[] failed) {
         return configHolder.getErrorHandler().andThen((error, throwable) -> {
             failed[0] = true;
 
@@ -152,7 +151,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         });
     }
 
-    private static ArgumentType<?> getType(String configName, Class<?> value) {
+    private static @Nullable ArgumentType<?> getType(String configName, Class<?> value) {
         // TODO: I think items and entities and vectors and stuff have their own argument type so add them as well
         if (value.isAssignableFrom(Byte.class) || value.isAssignableFrom(byte.class)) return IntegerArgumentType.integer(Byte.MIN_VALUE, Byte.MAX_VALUE);
         if (value.isAssignableFrom(Short.class) || value.isAssignableFrom(short.class)) return IntegerArgumentType.integer(Short.MIN_VALUE, Short.MAX_VALUE);

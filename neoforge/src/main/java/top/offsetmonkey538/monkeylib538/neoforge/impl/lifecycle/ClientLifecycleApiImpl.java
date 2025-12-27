@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.neoforge.impl.lifecycle;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public final class ClientLifecycleApiImpl implements ClientLifecycleApi {
     private static @Nullable List<Runnable> workToRunOnLoadingFinished = new ArrayList<>();
 
     @Override
-    public void runOnLoadingFinishedImpl(@NotNull Runnable work) {
+    public void runOnLoadingFinishedImpl(Runnable work) {
         if (workToRunOnLoadingFinished == null) {
             getLogger().error("runOnLoadingFinished called after loading has already finished!", new Throwable());
             return;

@@ -4,7 +4,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -15,40 +14,40 @@ public interface TextApi {
     TextApi INSTANCE = load(TextApi.class);
 
 
-    static @NotNull HoverEvent createShowText(final @NotNull Text value) {
+    static HoverEvent createShowText(final Text value) {
         return INSTANCE.createShowTextImpl(value);
     }
-    static @NotNull HoverEvent createShowItem(final @NotNull ItemStack value) {
+    static HoverEvent createShowItem(final ItemStack value) {
         return INSTANCE.createShowItemImpl(value);
     }
-    static @NotNull HoverEvent createShowEntity(final @NotNull HoverEvent.EntityContent value) {
+    static HoverEvent createShowEntity(final HoverEvent.EntityContent value) {
         return INSTANCE.createShowEntityImpl(value);
     }
 
-    static @NotNull ClickEvent createOpenUrl(final @NotNull URI value) {
+    static ClickEvent createOpenUrl(final URI value) {
         return INSTANCE.createOpenUrlImpl(value);
     }
-    static @NotNull ClickEvent createOpenFile(final @NotNull Path value) {
+    static ClickEvent createOpenFile(final Path value) {
         return INSTANCE.createOpenFileImpl(value);
     }
-    static @NotNull ClickEvent createRunCommand(final @NotNull String value) {
+    static ClickEvent createRunCommand(final String value) {
         return INSTANCE.createRunCommandImpl(value);
     }
-    static @NotNull ClickEvent createSuggestCommand(final @NotNull String value) {
+    static ClickEvent createSuggestCommand(final String value) {
         return INSTANCE.createSuggestCommandImpl(value);
     }
-    static @NotNull ClickEvent createCopyToClipboard(final @NotNull String value) {
+    static ClickEvent createCopyToClipboard(final String value) {
         return INSTANCE.createCopyToClipboardImpl(value);
     }
 
 
-    @NotNull HoverEvent createShowTextImpl(final @NotNull Text value);
-    @NotNull HoverEvent createShowItemImpl(final @NotNull ItemStack value);
-    @NotNull HoverEvent createShowEntityImpl(final @NotNull HoverEvent.EntityContent value);
+    HoverEvent createShowTextImpl(final Text value);
+    HoverEvent createShowItemImpl(final ItemStack value);
+    HoverEvent createShowEntityImpl(final HoverEvent.EntityContent value);
 
-    @NotNull ClickEvent createOpenUrlImpl(final @NotNull URI value);
-    @NotNull ClickEvent createOpenFileImpl(final @NotNull Path value);
-    @NotNull ClickEvent createRunCommandImpl(final @NotNull String value);
-    @NotNull ClickEvent createSuggestCommandImpl(final @NotNull String value);
-    @NotNull ClickEvent createCopyToClipboardImpl(final @NotNull String value);
+    ClickEvent createOpenUrlImpl(final URI value);
+    ClickEvent createOpenFileImpl(final Path value);
+    ClickEvent createRunCommandImpl(final String value);
+    ClickEvent createSuggestCommandImpl(final String value);
+    ClickEvent createCopyToClipboardImpl(final String value);
 }

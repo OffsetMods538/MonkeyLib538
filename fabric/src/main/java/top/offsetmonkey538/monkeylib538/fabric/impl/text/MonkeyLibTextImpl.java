@@ -2,20 +2,18 @@ package top.offsetmonkey538.monkeylib538.fabric.impl.text;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.fabric.api.text.FabricMonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.fabric.api.text.FabricMonkeyLibText;
-import top.offsetmonkey538.monkeylib538.fabric.api.text.TextApi;
 
 import java.util.List;
 
 public final class MonkeyLibTextImpl implements FabricMonkeyLibText {
-    private final @NotNull Text text;
+    private final Text text;
 
-    private MonkeyLibTextImpl(final @NotNull Text text) {
+    private MonkeyLibTextImpl(final Text text) {
         this.text = text;
     }
 
@@ -25,36 +23,36 @@ public final class MonkeyLibTextImpl implements FabricMonkeyLibText {
     }
 
     @Override
-    public @NotNull MonkeyLibText setLastSibling(@NotNull MonkeyLibText newSibling) {
+    public MonkeyLibText setLastSibling(MonkeyLibText newSibling) {
         final List<Text> siblings = text.getSiblings();
         siblings.set(siblings.size() - 1, FabricMonkeyLibText.of(newSibling).getText());
         return this;
     }
 
     @Override
-    public @NotNull MonkeyLibText append(final @NotNull MonkeyLibText other) {
+    public MonkeyLibText append(final MonkeyLibText other) {
         ensureMutable().append(FabricMonkeyLibText.of(other).getText());
         return this;
     }
 
     @Override
-    public @NotNull MonkeyLibStyle getStyle() {
+    public MonkeyLibStyle getStyle() {
         return new MonkeyLibStyleImpl(this.text.getStyle());
     }
 
     @Override
-    public @NotNull MonkeyLibText setStyle(@NotNull MonkeyLibStyle style) {
+    public MonkeyLibText setStyle(MonkeyLibStyle style) {
         ensureMutable().setStyle(FabricMonkeyLibStyle.of(style).getStyle());
         return this;
     }
 
     @Override
-    public @NotNull String getString() {
+    public String getString() {
         return this.text.getString();
     }
 
     @Override
-    public @NotNull Text getText() {
+    public Text getText() {
         return text;
     }
 
@@ -65,12 +63,12 @@ public final class MonkeyLibTextImpl implements FabricMonkeyLibText {
 
     public static final class ProviderImpl implements Provider {
         @Override
-        public @NotNull MonkeyLibText of(@NotNull String text) {
+        public MonkeyLibText of(String text) {
             return new MonkeyLibTextImpl(Text.literal(text));
         }
 
         @Override
-        public @NotNull MonkeyLibText empty() {
+        public MonkeyLibText empty() {
             return new MonkeyLibTextImpl(Text.empty());
         }
     }

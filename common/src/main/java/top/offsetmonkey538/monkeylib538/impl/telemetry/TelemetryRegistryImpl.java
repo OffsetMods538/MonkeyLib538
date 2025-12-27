@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.impl.telemetry;
 
 import com.google.gson.JsonArray;
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.telemetry.TelemetryRegistry;
 
 public final class TelemetryRegistryImpl implements TelemetryRegistry {
@@ -12,7 +11,7 @@ public final class TelemetryRegistryImpl implements TelemetryRegistry {
     }
 
     @Override
-    public void registerImpl(@NotNull String modId) {
+    public void registerImpl(String modId) {
         registry.add(modId);
     }
 }

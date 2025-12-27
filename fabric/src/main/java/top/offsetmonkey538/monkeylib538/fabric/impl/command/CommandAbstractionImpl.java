@@ -7,7 +7,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.fabric.api.player.FabricPlayerApi;
@@ -18,53 +17,53 @@ import static top.offsetmonkey538.monkeylib538.fabric.api.command.FabricCommandA
 public final class CommandAbstractionImpl implements FabricCommandAbstractionApi {
 
     @Override
-    public @NotNull LiteralArgumentBuilder<?> literalImpl(@NotNull String name) {
+    public LiteralArgumentBuilder<?> literalImpl(String name) {
         return LiteralArgumentBuilder.<ServerCommandSource>literal(name);
     }
 
     @Override
-    public @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(@NotNull String name, @NotNull ArgumentType<T> type) {
+    public <T> RequiredArgumentBuilder<?, T> argumentImpl(String name, ArgumentType<T> type) {
         return RequiredArgumentBuilder.<ServerCommandSource, T>argument(name, type);
     }
 
     @Override
-    public void sendMessageImpl(@NotNull CommandContext<Object> ctx, @NotNull String message) {
+    public void sendMessageImpl(CommandContext<Object> ctx, String message) {
         get(ctx).sendFeedback(() -> Text.of(message), true);
     }
 
     @Override
-    public void sendErrorImpl(@NotNull CommandContext<Object> ctx, @NotNull String message) {
+    public void sendErrorImpl(CommandContext<Object> ctx, String message) {
         get(ctx).sendError(Text.of(message));
     }
 
     @Override
-    public void sendTextImpl(@NotNull CommandContext<Object> ctx, @NotNull MonkeyLibText text) {
+    public void sendTextImpl(CommandContext<Object> ctx, MonkeyLibText text) {
         get(ctx).sendFeedback(() -> ((MonkeyLibTextImpl) text).getText(), true);
     }
 
     @Override
-    public boolean executedByPlayerImpl(@NotNull Object source) {
+    public boolean executedByPlayerImpl(Object source) {
         return get(source).isExecutedByPlayer();
     }
 
     @Override
-    public boolean isOpImpl(@NotNull Object source) {
+    public boolean isOpImpl(Object source) {
         return get(source).hasPermissionLevel(get(source).getServer().getOpPermissionLevel());
     }
 
     @Override
-    public boolean isHostImpl(@NotNull Object source) {
+    public boolean isHostImpl(Object source) {
         // Using instanceof as a null check and variable assign
         return get(source).getPlayer() instanceof PlayerEntity player && FabricPlayerApi.isPlayerHost(get(source).getServer(), player);
     }
 
     @Override
-    public @NotNull ServerCommandSource getImpl(@NotNull CommandContext<Object> ctx) {
+    public ServerCommandSource getImpl(CommandContext<Object> ctx) {
         return getImpl(ctx.getSource());
     }
 
     @Override
-    public @NotNull ServerCommandSource getImpl(@NotNull Object commandSource) {
+    public ServerCommandSource getImpl(Object commandSource) {
         if (commandSource instanceof ServerCommandSource serverCommandSource) return serverCommandSource;
         throw new IllegalStateException("Expected command source to be of type '%s', got '%s' instead. Something is very very wrong if you're seeing this error :concern:".formatted(ServerCommandSource.class, commandSource.getClass()));
     }

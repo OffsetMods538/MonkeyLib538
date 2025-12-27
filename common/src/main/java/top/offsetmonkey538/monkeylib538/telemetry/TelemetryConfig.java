@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.telemetry;
 
 import blue.endless.jankson.Comment;
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 import top.offsetmonkey538.offsetconfig538.api.config.Config;
 
@@ -14,12 +13,12 @@ public final class TelemetryConfig implements Config {
     public boolean isEnabled = !PlatformUtil.isDevelopmentEnvironment();
 
     @Override
-    public @NotNull Path getConfigDirPath() {
+    public Path getConfigDirPath() {
         return PlatformUtil.getConfigDir();
     }
 
     @Override
-    public @NotNull String getId() {
+    public String getId() {
         return MOD_ID + "/telemetry";
     }
 }

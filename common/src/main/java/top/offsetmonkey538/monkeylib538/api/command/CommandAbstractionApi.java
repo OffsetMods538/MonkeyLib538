@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import org.jetbrains.annotations.NotNull;
 import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
@@ -53,7 +52,7 @@ public interface CommandAbstractionApi {
      * @param message the message to send, formatted using {@code args} and {@link String#formatted(Object...)}
      * @param args the args for formatting the message using {@link String#formatted(Object...)}
      */
-    static void sendMessage(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @NotNull final Object... args) {
+    static void sendMessage(final CommandContext<Object> ctx, final String message, final Object... args) {
         sendMessage(ctx, message.formatted(args));
     }
     /**
@@ -62,7 +61,7 @@ public interface CommandAbstractionApi {
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param message the message to send
      */
-    static void sendMessage(@NotNull final CommandContext<Object> ctx, @NotNull final String message) {
+    static void sendMessage(final CommandContext<Object> ctx, final String message) {
         INSTANCE.sendMessageImpl(ctx, message);
     }
 
@@ -73,7 +72,7 @@ public interface CommandAbstractionApi {
      * @param message the error message to send, formatted using {@link String#formatted(Object...)} with the provided {@code args}
      * @param args the args for formatting the error message using {@link String#formatted(Object...)}
      */
-    static void sendError(@NotNull final CommandContext<Object> ctx, @NotNull final String message, @NotNull final Object... args) {
+    static void sendError(final CommandContext<Object> ctx, final String message, final Object... args) {
         sendError(ctx, message.formatted(args));
     }
     /**
@@ -82,7 +81,7 @@ public interface CommandAbstractionApi {
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param message the error message to send
      */
-    static void sendError(@NotNull final CommandContext<Object> ctx, @NotNull final String message) {
+    static void sendError(final CommandContext<Object> ctx, final String message) {
         INSTANCE.sendErrorImpl(ctx, message);
     }
 
@@ -92,7 +91,7 @@ public interface CommandAbstractionApi {
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
      * @param text the {@link MonkeyLibText} to send
      */
-    static void sendText(@NotNull final CommandContext<Object> ctx, @NotNull final MonkeyLibText text) {
+    static void sendText(final CommandContext<Object> ctx, final MonkeyLibText text) {
         INSTANCE.sendTextImpl(ctx, text);
     }
 
@@ -102,7 +101,7 @@ public interface CommandAbstractionApi {
      * @param source the current-platform-specific command source.
      * @return whether the provided command source is executed by a player.
      */
-    static boolean executedByPlayer(final @NotNull Object source) {
+    static boolean executedByPlayer(final Object source) {
         return INSTANCE.executedByPlayerImpl(source);
     }
 
@@ -116,7 +115,7 @@ public interface CommandAbstractionApi {
      * @see #isOp(Object)
      * @see #isHost(Object)
      */
-    static boolean isAdmin(final @NotNull Object source) {
+    static boolean isAdmin(final Object source) {
         return isOp(source) || isHost(source);
     }
 
@@ -128,7 +127,7 @@ public interface CommandAbstractionApi {
      * @see #isAdmin(Object)
      * @see #isHost(Object)
      */
-    static boolean isOp(final @NotNull Object source) {
+    static boolean isOp(final Object source) {
         return INSTANCE.isOpImpl(source);
     }
 
@@ -142,17 +141,17 @@ public interface CommandAbstractionApi {
      * @see #isAdmin(Object)
      * @see #isOp(Object)
      */
-    static boolean isHost(final @NotNull Object source) {
+    static boolean isHost(final Object source) {
         return INSTANCE.isHostImpl(source);
     }
 
 
-    @NotNull LiteralArgumentBuilder<?> literalImpl(final @NotNull String name);
-    @NotNull <T> RequiredArgumentBuilder<?, T> argumentImpl(final @NotNull String name, final @NotNull ArgumentType<T> type);
-    void sendMessageImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
-    void sendErrorImpl(@NotNull final CommandContext<Object> ctx, @NotNull final String message);
-    void sendTextImpl(@NotNull final CommandContext<Object> ctx, @NotNull final MonkeyLibText text);
-    boolean executedByPlayerImpl(final @NotNull Object source);
-    boolean isOpImpl(final @NotNull Object source);
-    boolean isHostImpl(final @NotNull Object source);
+    LiteralArgumentBuilder<?> literalImpl(final String name);
+    <T> RequiredArgumentBuilder<?, T> argumentImpl(final String name, final ArgumentType<T> type);
+    void sendMessageImpl(final CommandContext<Object> ctx, final String message);
+    void sendErrorImpl(final CommandContext<Object> ctx, final String message);
+    void sendTextImpl(final CommandContext<Object> ctx, final MonkeyLibText text);
+    boolean executedByPlayerImpl(final Object source);
+    boolean isOpImpl(final Object source);
+    boolean isHostImpl(final Object source);
 }

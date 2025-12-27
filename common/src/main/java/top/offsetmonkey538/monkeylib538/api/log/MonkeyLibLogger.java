@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.api.log;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
@@ -19,7 +18,7 @@ public interface MonkeyLibLogger {
      * @param message The message to log
      * @param args The args for formatting the message
      */
-    default void debug(@NotNull String message, @NotNull Object... args) {
+    default void debug(String message, Object... args) {
         debug(String.format(message, args));
     }
     /**
@@ -30,7 +29,7 @@ public interface MonkeyLibLogger {
      * @param message The message to log
      * @param args The args for formatting the message
      */
-    default void info(@NotNull String message, @NotNull Object... args) {
+    default void info(String message, Object... args) {
         info(String.format(message, args));
     }
     /**
@@ -41,7 +40,7 @@ public interface MonkeyLibLogger {
      * @param message The message to log
      * @param args The args for formatting the message
      */
-    default void warn(@NotNull String message, @NotNull Object... args) {
+    default void warn(String message, Object... args) {
         warn(String.format(message, args));
     }
     /**
@@ -53,7 +52,7 @@ public interface MonkeyLibLogger {
      * @param error The throwable to log
      * @param args The args for formatting the message
      */
-    default void warn(@NotNull String message, @Nullable Throwable error, @NotNull Object... args) {
+    default void warn(String message, @Nullable Throwable error, Object... args) {
         warn(String.format(message, args), error);
     }
     /**
@@ -64,7 +63,7 @@ public interface MonkeyLibLogger {
      * @param message The message to log
      * @param args The args for formatting the message
      */
-    default void error(@NotNull String message, @NotNull Object... args) {
+    default void error(String message, Object... args) {
         error(String.format(message, args));
     }
     /**
@@ -76,7 +75,7 @@ public interface MonkeyLibLogger {
      * @param error The throwable to log
      * @param args The args for formatting the message
      */
-    default void error(@NotNull String message, @Nullable Throwable error, @NotNull Object... args) {
+    default void error(String message, @Nullable Throwable error, Object... args) {
         error(String.format(message, args), error);
     }
 
@@ -85,39 +84,39 @@ public interface MonkeyLibLogger {
      *
      * @param message The message to log
      */
-    void debug(@NotNull String message);
+    void debug(String message);
     /**
      * Logs the provided message at {@link LogLevel#INFO} level.
      *
      * @param message The message to log
      */
-    void info(@NotNull String message);
+    void info(String message);
     /**
      * Logs the provided message at {@link LogLevel#WARN} level.
      *
      * @param message The message to log
      */
-    void warn(@NotNull String message);
+    void warn(String message);
     /**
      * Logs the provided message and {@link Throwable} at {@link LogLevel#WARN} level.
      *
      * @param message The message to log
      * @param error The throwable to log
      */
-    void warn(@NotNull String message, @Nullable Throwable error);
+    void warn(String message, @Nullable Throwable error);
     /**
      * Logs the provided message at {@link LogLevel#ERROR} level.
      *
      * @param message The message to log
      */
-    void error(@NotNull String message);
+    void error(String message);
     /**
      * Logs the provided message and {@link Throwable} at {@link LogLevel#ERROR} level.
      *
      * @param message The message to log
      * @param error The throwable to log
      */
-    void error(@NotNull String message, @Nullable Throwable error);
+    void error(String message, @Nullable Throwable error);
 
     /**
      * Adds a {@link LogListener} to this logger.
@@ -125,14 +124,14 @@ public interface MonkeyLibLogger {
      * @param level the level to listen at
      * @param listener the {@link LogListener} to add
      */
-    void addListener(@NotNull LogLevel level, @NotNull LogListener listener);
+    void addListener(LogLevel level, LogListener listener);
     /**
      * Removes a {@link LogListener} from this logger.
      *
      * @param level the level it was listening at
      * @param listener the {@link LogListener} to remove
      */
-    void removeListener(@NotNull LogLevel level, @NotNull LogListener listener);
+    void removeListener(LogLevel level, LogListener listener);
 
     /**
      * Log level
@@ -178,7 +177,7 @@ public interface MonkeyLibLogger {
      * @param id the id of the logger.
      * @return a logger for the provided id
      */
-    static @NotNull MonkeyLibLogger create(final @NotNull String id) {
+    static MonkeyLibLogger create(final String id) {
         return MonkeyLibLogger.Provider.INSTANCE.create(id);
     }
 
@@ -187,6 +186,6 @@ public interface MonkeyLibLogger {
      */
     interface Provider {
         Provider INSTANCE = load(Provider.class);
-        MonkeyLibLogger create(final @NotNull String id);
+        MonkeyLibLogger create(final String id);
     }
 }

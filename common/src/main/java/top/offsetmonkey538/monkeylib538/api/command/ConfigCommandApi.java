@@ -1,8 +1,7 @@
 package top.offsetmonkey538.monkeylib538.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
@@ -39,7 +38,7 @@ public interface ConfigCommandApi {
      * @param configHolder your {@link ConfigHolder} instance.
      * @param commandTree the command tree.
      */
-    static void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @NotNull String... commandTree) {
+    static void registerConfigCommand(final ConfigHolder<?> configHolder, final String... commandTree) {
         registerConfigCommand(configHolder, null, commandTree);
     }
     /**
@@ -54,7 +53,7 @@ public interface ConfigCommandApi {
      * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
      * @param commandTree the command tree.
      */
-    static void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @NotNull String... commandTree) {
+    static void registerConfigCommand(final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final String... commandTree) {
         registerConfigCommand(configHolder, configReloadCallback, null, commandTree);
     }
     /**
@@ -70,7 +69,7 @@ public interface ConfigCommandApi {
      * @param configValueSetCallback executed when a config value is changed by the {@code set} command.
      * @param commandTree the command tree.
      */
-    static void registerConfigCommand(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final @NotNull String... commandTree) {
+    static void registerConfigCommand(final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final String... commandTree) {
         INSTANCE.registerConfigCommandImpl(configHolder, configReloadCallback, configValueSetCallback, commandTree);
     }
 
@@ -81,7 +80,7 @@ public interface ConfigCommandApi {
      * @param configHolder your {@link ConfigHolder} instance.
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
-    static @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder) {
+    static LiteralArgumentBuilder<?> createConfigCommand(final String commandName, final ConfigHolder<?> configHolder) {
         return createConfigCommand(commandName, configHolder, null);
     }
     /**
@@ -94,7 +93,7 @@ public interface ConfigCommandApi {
      * @param configHolder your {@link ConfigHolder} instance.
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
-    static @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback) {
+    static LiteralArgumentBuilder<?> createConfigCommand(final String commandName, final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback) {
         return createConfigCommand(commandName, configHolder, configReloadCallback, null);
     }
     /**
@@ -108,11 +107,11 @@ public interface ConfigCommandApi {
      * @param configHolder your {@link ConfigHolder} instance.
      * @return a config command using the provided name and {@link ConfigHolder}.
      */
-    static @NotNull LiteralArgumentBuilder<?> createConfigCommand(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback) {
+    static LiteralArgumentBuilder<?> createConfigCommand(final String commandName, final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback) {
         return INSTANCE.createConfigCommandImpl(commandName, configHolder, configReloadCallback, configValueSetCallback);
     }
 
 
-    void registerConfigCommandImpl(final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final @NotNull String... commandTree);
-    @NotNull LiteralArgumentBuilder<?> createConfigCommandImpl(final @NotNull String commandName, final @NotNull ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback);
+    void registerConfigCommandImpl(final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final String... commandTree);
+    LiteralArgumentBuilder<?> createConfigCommandImpl(final String commandName, final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback);
 }

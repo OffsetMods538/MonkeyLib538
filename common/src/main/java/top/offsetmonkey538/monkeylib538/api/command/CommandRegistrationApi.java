@@ -1,7 +1,6 @@
 package top.offsetmonkey538.monkeylib538.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
@@ -16,10 +15,10 @@ public interface CommandRegistrationApi {
      *
      * @param command the command to register
      */
-    static void registerCommand(final @NotNull LiteralArgumentBuilder<?> command) {
+    static void registerCommand(final LiteralArgumentBuilder<?> command) {
         INSTANCE.registerCommandImpl(command);
     }
 
 
-    void registerCommandImpl(final @NotNull LiteralArgumentBuilder<?> command);
+    void registerCommandImpl(final LiteralArgumentBuilder<?> command);
 }

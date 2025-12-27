@@ -1,27 +1,26 @@
 package top.offsetmonkey538.monkeylib538.api.lifecycle;
 
-import org.jetbrains.annotations.NotNull;
 
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
 public interface ServerLifecycleApi {
     ServerLifecycleApi INSTANCE = load(ServerLifecycleApi.class);
 
-    static void runOnServerStarting(final @NotNull Runnable work) {
+    static void runOnServerStarting(final Runnable work) {
         INSTANCE.runOnServerStartingImpl(work);
     }
-    static void runOnServerStarted(final @NotNull Runnable work) {
+    static void runOnServerStarted(final Runnable work) {
         INSTANCE.runOnServerStartedImpl(work);
     }
-    static void runOnServerStopping(final @NotNull Runnable work) {
+    static void runOnServerStopping(final Runnable work) {
         INSTANCE.runOnServerStoppingImpl(work);
     }
-    static void runOnServerStopped(final @NotNull Runnable work) {
+    static void runOnServerStopped(final Runnable work) {
         INSTANCE.runOnServerStoppedImpl(work);
     }
 
-    void runOnServerStartingImpl(final @NotNull Runnable work);
-    void runOnServerStartedImpl(final @NotNull Runnable work);
-    void runOnServerStoppingImpl(final @NotNull Runnable work);
-    void runOnServerStoppedImpl(final @NotNull Runnable work);
+    void runOnServerStartingImpl(final Runnable work);
+    void runOnServerStartedImpl(final Runnable work);
+    void runOnServerStoppingImpl(final Runnable work);
+    void runOnServerStoppedImpl(final Runnable work);
 }
