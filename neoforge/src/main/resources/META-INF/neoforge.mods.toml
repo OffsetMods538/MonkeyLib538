@@ -5,6 +5,10 @@ license="MIT"
 issueTrackerURL="https://github.com/OffsetMods538/MonkeyLib538/issues"
 
 
+[[mixins]]
+config="monkeylib538.neoforge.mixins.json"
+
+
 [[mods]]
 modId="monkeylib538_common_neoforge"
 displayName="MonkeyLib538 Common NeoForge"

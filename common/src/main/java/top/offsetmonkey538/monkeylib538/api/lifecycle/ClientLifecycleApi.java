@@ -7,7 +7,6 @@ import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
 import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
 
-// TODO: implement on neoforge. Gotta add mixin config and shit I think?
 public interface ClientLifecycleApi {
     /**
      * The instance
