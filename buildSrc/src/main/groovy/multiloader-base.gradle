@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'name.remal.classes-relocation'
 }
 
 base.archivesName = "monkeylib538-${project.project_name}"
@@ -15,6 +16,14 @@ configurations {
         canBeResolved = true
         canBeConsumed = true
     }
+
+    relocate
+    classesRelocation.extendsFrom relocate
+    runtimeClasspath.extendsFrom  relocate
+}
+
+classesRelocation {
+    basePackageForRelocatedClasses = "top.offsetmonkey538.monkeylib538.included"
 }
 
 java {

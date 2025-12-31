@@ -6,6 +6,7 @@ plugins {
 	id 'java'
     id 'fabric-loom' version '1.14-SNAPSHOT' apply false
     id 'hamburg.janove.elevator-music' version "0.1"
+	id 'name.remal.classes-relocation' version '2.1.6' apply false
 }
 
 //elevatorMusic {
