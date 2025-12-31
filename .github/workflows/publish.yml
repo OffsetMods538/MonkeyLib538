@@ -53,8 +53,8 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
-      - name: Delete common libs
-        run: rm -r ./common/build/libs
+      - name: Delete common and modded artifacts, don't wanna confuse anybody with em
+        run: rm -rf common/build/libs modded/build/libs modded/*/build/libs
 
       - name: Upload to GitHub
         uses: softprops/action-gh-release@v2
