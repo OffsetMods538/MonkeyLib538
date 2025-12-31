@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import top.offsetmonkey538.monkeylib538.api.command.ConfigCommandApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
 import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
-import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
+import top.offsetmonkey538.monkeylib538.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.api.telemetry.TelemetryRegistry;
 import top.offsetmonkey538.monkeylib538.impl.telemetry.TelemetryRegistryImpl;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
@@ -34,8 +34,8 @@ public final class TelemetryHandler {
         ConfigCommandApi.registerConfigCommand(telemetryConfig, null, TelemetryHandler::sendOnNewThread, MOD_ID, "telemetry");
 
         // Other mods have probably registered themselves for telemetry before either of the two following points. They should just be able to use their default initializers afaik
-        // For dedicated servers, I need to use ServerStarted as PlatformUtil$ServerBrandGetter only starts working after ServerStarting happens.
-        if (PlatformUtil.isDedicatedServer()) ServerLifecycleApi.runOnServerStarted(TelemetryHandler::sendOnNewThread);
+        // For dedicated servers, I need to use ServerStarted as LoaderUtil$ServerBrandGetter only starts working after ServerStarting happens.
+        if (LoaderUtil.isDedicatedServer()) ServerLifecycleApi.runOnServerStarted(TelemetryHandler::sendOnNewThread);
         // For clients, running once loading finishes is probably fine.
         else ClientLifecycleApi.runOnLoadingFinished(TelemetryHandler::sendOnNewThread);
     }
@@ -74,9 +74,9 @@ public final class TelemetryHandler {
 
     private static String collectAnalytics() {
         final JsonObject jsobData = new JsonObject();
-        jsobData.addProperty("mc", PlatformUtil.getMinecraftVersion());
-        jsobData.addProperty("e", PlatformUtil.isDedicatedServer() ? "s" : "c");
-        jsobData.addProperty("l", PlatformUtil.getLoaderName());
+        jsobData.addProperty("mc", LoaderUtil.getMinecraftVersion());
+        jsobData.addProperty("e", LoaderUtil.isDedicatedServer() ? "s" : "c");
+        jsobData.addProperty("l", LoaderUtil.getLoaderName() == null ? "unknown" : LoaderUtil.getLoaderName());
         jsobData.add("m", ((TelemetryRegistryImpl) TelemetryRegistry.INSTANCE).registry);
 
         return jsobData.toString();

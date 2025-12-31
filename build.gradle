@@ -1,10 +1,10 @@
+import org.codehaus.groovy.runtime.GStringImpl
+
 import java.nio.file.Files
 
 plugins {
 	id 'java'
     id 'fabric-loom' version '1.14-SNAPSHOT' apply false
-	id 'io.github.dexman545.outlet' version '1.6.1' apply false
-	id 'com.modrinth.minotaur' version '2.+' apply false
     id 'hamburg.janove.elevator-music' version "0.1"
 }
 
@@ -13,8 +13,6 @@ plugins {
 //    waitMusic = file("${rootProject.projectDir}/veryImportant/music.wav")
 //    successSound = file("${rootProject.projectDir}/veryImportant/done.wav")
 //}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 ext {
 	versionPrefix = rootProject.mod_version
@@ -29,90 +27,27 @@ ext {
 
         var separator = "-"
         if (versionPrefix.contains("-")) separator = "."
-		versionPrefix = "${versionPrefix}${separator}${preReleaseVersion}"
+		versionPrefix = "${versionPrefix}${separator}${preReleaseVersion}" as GStringImpl
 	}
 	final String versionSuffix = System.getenv("VERSION_SUFFIX")
 	if (versionSuffix != null && !versionSuffix.isEmpty()) {
-		versionPrefix = "${versionPrefix}+${versionSuffix}"
+		versionPrefix = "${versionPrefix}+${versionSuffix}" as GStringImpl
 	}
 
     System.out.println("Version Prefix: " + versionPrefix)
 }
 
 allprojects {
-	group = rootProject.maven_group
-}
-
-subprojects {
-	apply plugin: "java"
-    apply plugin: "maven-publish"
-
-	base.archivesName = "monkeylib538-${project.project_name}"
-    version = project.project_name == project.name ? "${rootProject.versionPrefix}" : "${rootProject.versionPrefix}+${project.minecraft_version}"
-
 	repositories {
-		mavenCentral()
-		maven {
-			name = "OffsetMods538"
-			url = "https://maven.offsetmonkey538.top/releases"
-			content {
-				includeGroup "top.offsetmonkey538.offsetconfig538"
-			}
-		}
-	}
-
-	dependencies {
-		compileOnly "org.jspecify:jspecify:${rootProject.jspecify_version}"
-	}
-
-	tasks.withType(JavaCompile).configureEach {
-		it.options.release = 21
-	}
-
-	java {
-		withSourcesJar()
-		withJavadocJar()
-
-		sourceCompatibility = JavaVersion.VERSION_21
-		targetCompatibility = JavaVersion.VERSION_21
-	}
-
-	tasks.named("javadoc", Javadoc) {
-		options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
-
-		options {
-			links(
-					"https://maven.offsetmonkey538.top/javadoc/releases/top/offsetmonkey538/offsetconfig538/offsetconfig538/${rootProject.offsetconfig538_version}/raw/"
-			)
-		}
-	}
-
-	jar {
-		from("${rootProject.projectDir}/LICENSE") {
-			rename { "${it}" }
-		}
-	}
-
-	publishing {
-		repositories {
-			maven {
-				name = "OffsetMonkey538"
-				url = "https://maven.offsetmonkey538.top/releases"
-				credentials {
-					username = providers.gradleProperty("OffsetMonkey538Username").getOrElse(System.getenv("MAVEN_USERNAME"))
-					password = providers.gradleProperty("OffsetMonkey538Password").getOrElse(System.getenv("MAVEN_PASSWORD"))
-				}
-				authentication {
-					basic(BasicAuthentication)
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = "OffsetMods538"
+					url = "https://maven.offsetmonkey538.top/releases"
 				}
 			}
-		}
-		publications {
-			maven(MavenPublication) {
-				artifactId = base.archivesName.get()
-
-
-				from components.java
+			filter {
+				includeGroupAndSubgroups "top.offsetmonkey538"
 			}
 		}
 	}

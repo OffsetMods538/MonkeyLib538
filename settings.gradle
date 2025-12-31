@@ -14,10 +14,15 @@ rootProject.name = "monkeylib538"
 
 include "common"
 
+include "modded"
+include "modded:1.20.5"
+include "modded:1.21.5"
+include "modded:1.21.9"
+
 include "fabric"
 include "fabric:1.20.5"
 include "fabric:1.21.5"
 include "fabric:1.21.9"
 
-include "neoforge"
-include "neoforge:1.20.6"
+//include "neoforge"
+//include "neoforge:1.20.6"

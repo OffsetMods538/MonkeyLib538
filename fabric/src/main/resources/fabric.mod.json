@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "monkeylib538-common-fabric",
+	"id": "monkeylib538",
 	"version": "${modVersion}",
-	"name": "MonkeyLib538 Common Fabric",
+	"name": "MonkeyLib538",
 	"description": "A library mod for OffsetMonkey538s mods",
 	"authors": [
 		"OffsetMonkey538"
@@ -10,7 +10,8 @@
 	"contact": {
 		"sources": "https://github.com/OffsetMods538/MonkeyLib538",
 		"issues": "https://github.com/OffsetMods538/MonkeyLib538/issues",
-		"homepage": "https://modrinth.com/mod/monkeylib538"
+		"homepage": "https://modrinth.com/mod/monkeylib538",
+		"discord": "https://discord.offsetmonkey538.top/"
 	},
 	"license": "MIT",
 	"icon": "assets/monkeylib538/icon.png",
@@ -24,11 +25,10 @@
 		]
 	},
 	"mixins": [
-		"monkeylib538.fabric.client.mixins.json"
+		"monkeylib538.modded.mixins.json"
 	],
 	"depends": {
 		"minecraft": "${supportedMinecraftVersions}",
-		"monkeylib538-common": "${commonVersion}",
 		"java": ">=21"
 	},
 	"breaks": {

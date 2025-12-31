@@ -1,0 +1,17 @@
+plugins {
+    id 'multiloader-base'
+}
+
+processResources {
+    final Map properties = [
+            "modVersion"                : project.version,
+            "supportedMinecraftVersions": project.hasProperty("supported_minecraft_versions") ? project.findProperty("supported_minecraft_versions") : "",
+    ]
+    inputs.properties(properties)
+
+    filesMatching("fabric.mod.json") {
+        expand(properties)
+    }
+}
+
+

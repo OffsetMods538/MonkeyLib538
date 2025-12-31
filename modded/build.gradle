@@ -1,0 +1,48 @@
+plugins {
+	id 'multiloader-modded'
+    id 'fabric-loom' version '1.14-SNAPSHOT'
+}
+
+dependencies {
+	compileOnlyApi project(":common")
+	commonJava project(path: ":common", configuration: "commonJava")
+	commonResources project(path: ":common", configuration: "commonResources")
+
+    //TODO: shadow plugin? include "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+    //TODO: shadow plugin? include "blue.endless:jankson:${rootProject.jankson_version}"
+}
+
+allprojects {
+	apply plugin: "multiloader-modded"
+	apply plugin: "fabric-loom"
+
+	repositories {
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = "Sponge"
+					url = "https://repo.spongepowered.org/repository/maven-public"
+				}
+			}
+			filter {
+				includeGroupAndSubgroups "org.spongepowered"
+			}
+		}
+	}
+
+	dependencies {
+		minecraft "com.mojang:minecraft:${project.minecraft_version}"
+		mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
+
+		compileOnly "org.spongepowered:mixin:0.8.5"
+		compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
+	}
+}
+
+subprojects {
+	dependencies {
+		compileOnlyApi project(":modded")
+		commonJava project(path: ":modded", configuration: "commonJava")
+		commonResources project(path: ":modded", configuration: "commonResources")
+	}
+}
