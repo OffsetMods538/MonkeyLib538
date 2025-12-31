@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.neoforge.api.text;
 
 import net.minecraft.network.chat.Style;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 
 public interface NeoforgeMonkeyLibStyle extends MonkeyLibStyle {
 

@@ -4,8 +4,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.impl.util.SystemProperties;
-import top.offsetmonkey538.monkeylib538.api.platform.LoaderUtil;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 

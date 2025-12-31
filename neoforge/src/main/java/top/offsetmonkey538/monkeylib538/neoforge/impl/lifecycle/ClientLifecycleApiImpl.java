@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.neoforge.impl.lifecycle;
 
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ClientLifecycleApi;
 
 import java.util.ArrayList;
 import java.util.List;

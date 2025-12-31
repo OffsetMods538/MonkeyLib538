@@ -3,7 +3,7 @@ package top.offsetmonkey538.monkeylib538.neoforge.impl.log;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.offsetmonkey538.monkeylib538.api.log.MonkeyLibLogger;
+import top.offsetmonkey538.monkeylib538.common.api.log.MonkeyLibLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

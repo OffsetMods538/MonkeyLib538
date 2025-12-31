@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 
-import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface ModdedPlayerApi {
     ModdedPlayerApi INSTANCE = load(ModdedPlayerApi.class);

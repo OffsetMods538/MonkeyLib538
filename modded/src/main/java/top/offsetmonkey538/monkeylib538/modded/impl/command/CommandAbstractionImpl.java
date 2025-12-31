@@ -7,7 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.command.ModdedCommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
 import top.offsetmonkey538.monkeylib538.modded.impl.text.MonkeyLibTextImpl;

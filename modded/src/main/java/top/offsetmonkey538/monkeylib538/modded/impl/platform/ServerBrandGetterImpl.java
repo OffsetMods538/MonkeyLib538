@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.platform;
 
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.api.platform.LoaderUtil;
+import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 
 import static top.offsetmonkey538.monkeylib538.modded.api.server.ServerProvider.getServer;
 

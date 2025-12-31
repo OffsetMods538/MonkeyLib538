@@ -3,8 +3,8 @@ package top.offsetmonkey538.monkeylib538.modded.impl.text;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 

@@ -3,8 +3,8 @@ package top.offsetmonkey538.monkeylib538.neoforge.impl.text;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.neoforge.api.text.NeoforgeMonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.neoforge.api.text.NeoforgeMonkeyLibText;
 

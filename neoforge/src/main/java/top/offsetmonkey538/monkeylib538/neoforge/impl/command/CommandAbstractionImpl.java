@@ -7,7 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.neoforge.api.command.NeoforgeCommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.neoforge.impl.text.MonkeyLibTextImpl;
 

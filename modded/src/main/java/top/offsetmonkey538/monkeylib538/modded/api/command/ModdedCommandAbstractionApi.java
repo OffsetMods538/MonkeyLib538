@@ -2,7 +2,7 @@ package top.offsetmonkey538.monkeylib538.modded.api.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.ServerCommandSource;
-import top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 
 public interface ModdedCommandAbstractionApi extends CommandAbstractionApi {
     static ServerCommandSource get(CommandContext<Object> ctx) {

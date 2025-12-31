@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.modded.api.text;
 
 import net.minecraft.text.Text;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 
 public interface ModdedMonkeyLibText extends MonkeyLibText {
 

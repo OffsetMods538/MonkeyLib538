@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.modded.api.text;
 
 import net.minecraft.text.Style;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibStyle;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 
 public interface ModdedMonkeyLibStyle extends MonkeyLibStyle {
 

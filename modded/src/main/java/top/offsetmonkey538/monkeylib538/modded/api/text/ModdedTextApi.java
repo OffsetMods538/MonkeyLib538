@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 import java.net.URI;
 import java.nio.file.Path;
 
-import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface ModdedTextApi {
     ModdedTextApi INSTANCE = load(ModdedTextApi.class);

@@ -11,7 +11,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
-import top.offsetmonkey538.monkeylib538.api.command.CommandRegistrationApi;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.neoforge.impl.command.CommandRegistrationImpl;
 
 /**

@@ -1,12 +1,12 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.lifecycle;
 
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.api.lifecycle.ClientLifecycleApi;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ClientLifecycleApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.getLogger;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.getLogger;
 
 public final class ClientLifecycleApiImpl implements ClientLifecycleApi {
     private static @Nullable List<Runnable> workToRunOnLoadingFinished = new ArrayList<>();

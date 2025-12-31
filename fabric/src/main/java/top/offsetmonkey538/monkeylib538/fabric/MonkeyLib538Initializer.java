@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.modded.impl.command.CommandRegistrationImpl;
 
 public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerModInitializer {

@@ -2,7 +2,7 @@ package top.offsetmonkey538.monkeylib538.neoforge.api.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
-import top.offsetmonkey538.monkeylib538.api.command.CommandAbstractionApi;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 
 public interface NeoforgeCommandAbstractionApi extends CommandAbstractionApi {
 

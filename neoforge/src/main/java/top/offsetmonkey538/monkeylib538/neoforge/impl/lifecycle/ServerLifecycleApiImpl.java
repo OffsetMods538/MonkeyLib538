@@ -5,7 +5,7 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
-import top.offsetmonkey538.monkeylib538.api.lifecycle.ServerLifecycleApi;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 
 public final class ServerLifecycleApiImpl implements ServerLifecycleApi {
 

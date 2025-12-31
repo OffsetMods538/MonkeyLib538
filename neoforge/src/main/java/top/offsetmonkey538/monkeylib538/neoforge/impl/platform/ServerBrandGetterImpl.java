@@ -1,6 +1,6 @@
 package top.offsetmonkey538.monkeylib538.neoforge.impl.platform;
 
-import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
+import top.offsetmonkey538.monkeylib538.common.api.platform.PlatformUtil;
 
 import static top.offsetmonkey538.monkeylib538.neoforge.MonkeyLib538Initializer.getServer;
 

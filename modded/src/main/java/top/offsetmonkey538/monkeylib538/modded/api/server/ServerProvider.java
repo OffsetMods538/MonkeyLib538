@@ -3,7 +3,7 @@ package top.offsetmonkey538.monkeylib538.modded.api.server;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import org.jspecify.annotations.Nullable;
 
-import static top.offsetmonkey538.monkeylib538.MonkeyLib538Common.load;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface ServerProvider {
     ServerProvider INSTANCE = load(ServerProvider.class);

@@ -9,8 +9,8 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import top.offsetmonkey538.monkeylib538.api.platform.PlatformUtil;
-import top.offsetmonkey538.monkeylib538.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.common.api.platform.PlatformUtil;
+import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.neoforge.api.text.NeoforgeMonkeyLibText;
 
 import java.nio.file.Path;
