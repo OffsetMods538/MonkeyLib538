@@ -1,7 +1,5 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.text;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
@@ -9,11 +7,13 @@ import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public final class MonkeyLibTextImpl implements ModdedMonkeyLibText {
-    private final Text text;
+    private final Component text;
 
-    private MonkeyLibTextImpl(final Text text) {
+    private MonkeyLibTextImpl(final Component text) {
         this.text = text;
     }
 
@@ -24,7 +24,7 @@ public final class MonkeyLibTextImpl implements ModdedMonkeyLibText {
 
     @Override
     public MonkeyLibText setLastSibling(MonkeyLibText newSibling) {
-        final List<Text> siblings = text.getSiblings();
+        final List<Component> siblings = text.getSiblings();
         siblings.set(siblings.size() - 1, ModdedMonkeyLibText.of(newSibling).getText());
         return this;
     }
@@ -52,24 +52,24 @@ public final class MonkeyLibTextImpl implements ModdedMonkeyLibText {
     }
 
     @Override
-    public Text getText() {
+    public Component getText() {
         return text;
     }
 
-    private MutableText ensureMutable() {
-        if (this.text instanceof MutableText mutable) return mutable;
+    private MutableComponent ensureMutable() {
+        if (this.text instanceof MutableComponent mutable) return mutable;
         throw new IllegalStateException("Tried modifying unmodifiable text!");
     }
 
     public static final class ProviderImpl implements Provider {
         @Override
         public MonkeyLibText of(String text) {
-            return new MonkeyLibTextImpl(Text.literal(text));
+            return new MonkeyLibTextImpl(Component.literal(text));
         }
 
         @Override
         public MonkeyLibText empty() {
-            return new MonkeyLibTextImpl(Text.empty());
+            return new MonkeyLibTextImpl(Component.empty());
         }
     }
 }

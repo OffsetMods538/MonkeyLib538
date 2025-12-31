@@ -1,6 +1,6 @@
 package top.offsetmonkey538.monkeylib538.modded.api.text;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 
 public interface ModdedMonkeyLibText extends MonkeyLibText {
@@ -9,5 +9,5 @@ public interface ModdedMonkeyLibText extends MonkeyLibText {
         return (ModdedMonkeyLibText) text;
     }
 
-    Text getText();
+    Component getText();
 }

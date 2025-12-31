@@ -1,12 +1,11 @@
 package top.offsetmonkey538.monkeylib538.modded.api.text;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.Text;
-
 import java.net.URI;
 import java.nio.file.Path;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.world.item.ItemStack;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
@@ -14,13 +13,13 @@ public interface ModdedTextApi {
     ModdedTextApi INSTANCE = load(ModdedTextApi.class);
 
 
-    static HoverEvent createShowText(final Text value) {
+    static HoverEvent createShowText(final Component value) {
         return INSTANCE.createShowTextImpl(value);
     }
     static HoverEvent createShowItem(final ItemStack value) {
         return INSTANCE.createShowItemImpl(value);
     }
-    static HoverEvent createShowEntity(final HoverEvent.EntityContent value) {
+    static HoverEvent createShowEntity(final HoverEvent.EntityTooltipInfo value) {
         return INSTANCE.createShowEntityImpl(value);
     }
 
@@ -41,9 +40,9 @@ public interface ModdedTextApi {
     }
 
 
-    HoverEvent createShowTextImpl(final Text value);
+    HoverEvent createShowTextImpl(final Component value);
     HoverEvent createShowItemImpl(final ItemStack value);
-    HoverEvent createShowEntityImpl(final HoverEvent.EntityContent value);
+    HoverEvent createShowEntityImpl(final HoverEvent.EntityTooltipInfo value);
 
     ClickEvent createOpenUrlImpl(final URI value);
     ClickEvent createOpenFileImpl(final Path value);

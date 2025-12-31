@@ -48,10 +48,10 @@ public final class LoaderUtilImpl implements LoaderUtil {
     @Override
     public void sendMessagesToAdminsOnJoinImpl(Supplier<MonkeyLibText[]> messageSupplier) {
         ServerPlayConnectionEvents.JOIN.register(((serverPlayNetworkHandler, packetSender, minecraftServer) -> {
-            if (!ModdedPlayerApi.isPlayerOp(minecraftServer.getPlayerManager(), serverPlayNetworkHandler.player) && !ModdedPlayerApi.isPlayerHost(minecraftServer, serverPlayNetworkHandler.player)) return;
+            if (!ModdedPlayerApi.isPlayerOp(minecraftServer.getPlayerList(), serverPlayNetworkHandler.player) && !ModdedPlayerApi.isPlayerHost(minecraftServer, serverPlayNetworkHandler.player)) return;
 
             // Have to use sendMessageToClient cause sendMessage didn't exist in some older versions
-            for (MonkeyLibText text : messageSupplier.get()) serverPlayNetworkHandler.player.sendMessageToClient(ModdedMonkeyLibText.of(text).getText(), false);
+            for (MonkeyLibText text : messageSupplier.get()) serverPlayNetworkHandler.player.sendSystemMessage(ModdedMonkeyLibText.of(text).getText(), false);
         }));
     }
 }

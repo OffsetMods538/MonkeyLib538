@@ -1,7 +1,5 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.text;
 
-import net.minecraft.text.Style;
-import net.minecraft.util.Formatting;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
@@ -11,6 +9,8 @@ import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedTextApi;
 
 import java.net.URI;
 import java.nio.file.Path;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Style;
 
 public final class MonkeyLibStyleImpl implements ModdedMonkeyLibStyle {
     private final Style style;
@@ -70,20 +70,20 @@ public final class MonkeyLibStyleImpl implements ModdedMonkeyLibStyle {
 
     @Override
     public MonkeyLibStyle withUnderline(boolean underline) {
-        return underline == style.isUnderlined() ? this : new MonkeyLibStyleImpl(style.withUnderline(underline));
+        return underline == style.isUnderlined() ? this : new MonkeyLibStyleImpl(style.withUnderlined(underline));
     }
 
     @Override
     public MonkeyLibStyle withColor(final int rgbColor) {
-        return style.getColor() == null || rgbColor != style.getColor().getRgb() ? new MonkeyLibStyleImpl(style.withColor(rgbColor)) : this;
+        return style.getColor() == null || rgbColor != style.getColor().getValue() ? new MonkeyLibStyleImpl(style.withColor(rgbColor)) : this;
     }
 
     @Override
     public @Nullable MonkeyLibStyle withFormattingCode(char code) {
-        final Formatting formatting = Formatting.byCode(code);
+        final ChatFormatting formatting = ChatFormatting.getByCode(code);
         if (formatting == null) return null;
 
-        return new MonkeyLibStyleImpl(style.withFormatting(formatting));
+        return new MonkeyLibStyleImpl(style.applyFormat(formatting));
     }
 
     @Override

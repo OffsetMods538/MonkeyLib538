@@ -5,14 +5,14 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.dedicated.MinecraftDedicatedServer;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.dedicated.DedicatedServer;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.modded.impl.command.CommandRegistrationImpl;
 
 public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerModInitializer {
-    private static @Nullable MinecraftDedicatedServer minecraftServer = null;
+    private static @Nullable DedicatedServer minecraftServer = null;
 
     /**
      * Public no-args constructor for fabric to do it's magic with
@@ -27,16 +27,16 @@ public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerM
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             //noinspection unchecked
-            CommandRegistrationImpl.commands.forEach(command -> dispatcher.register((LiteralArgumentBuilder<ServerCommandSource>) command));
+            CommandRegistrationImpl.commands.forEach(command -> dispatcher.register((LiteralArgumentBuilder<CommandSourceStack>) command));
         });
     }
 
     @Override
     public void onInitializeServer() {
-        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> minecraftServer = (MinecraftDedicatedServer) minecraftServer1);
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> minecraftServer = (DedicatedServer) minecraftServer1);
     }
 
-    public static @Nullable MinecraftDedicatedServer getServer() {
+    public static @Nullable DedicatedServer getServer() {
         return minecraftServer;
     }
 }
