@@ -69,8 +69,8 @@ subprojects {
 		commonJava project(path: ":modded:${project.commonModdedVersion}", configuration: "commonJava")
 		commonResources project(path: ":modded:${project.commonModdedVersion}", configuration: "commonResources")
 
-		relocate "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
-		relocate "blue.endless:jankson:${rootProject.jankson_version}"
+		include runtimeOnly("top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}")
+		include runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
 
 		// DevAuth
 		modLocalRuntime "me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}"
