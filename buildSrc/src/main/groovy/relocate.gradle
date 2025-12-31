@@ -1,0 +1,16 @@
+configurations {
+    relocate {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    runtimeOnly.extendsFrom relocate
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.relocate.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
