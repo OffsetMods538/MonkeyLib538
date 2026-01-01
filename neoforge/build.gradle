@@ -80,7 +80,7 @@ subprojects {
         commonJava project(path: ":modded:${project.commonModdedVersion}", configuration: "commonJava")
         commonResources project(path: ":modded:${project.commonModdedVersion}", configuration: "commonResources")
 
-        final String config = neoForge.versionCapabilities.legacyClasspath() ? "additionalRuntimeClasspath" : "implementation"
+        final String config = neoForge.versionCapabilities.legacyClasspath() ? "additionalRuntimeClasspath" : "runtimeOnly"
         jarJar add(config, "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}")
         jarJar add(config, "blue.endless:jankson:${rootProject.jankson_version}")
 
