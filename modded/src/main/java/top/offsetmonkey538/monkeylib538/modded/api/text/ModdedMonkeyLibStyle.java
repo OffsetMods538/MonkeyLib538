@@ -9,5 +9,5 @@ public interface ModdedMonkeyLibStyle extends MonkeyLibStyle {
         return (ModdedMonkeyLibStyle) style;
     }
 
-    Style getStyle();
+    Style style();
 }

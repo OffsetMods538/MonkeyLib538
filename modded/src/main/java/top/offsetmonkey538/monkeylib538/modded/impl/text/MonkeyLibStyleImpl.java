@@ -12,17 +12,7 @@ import java.nio.file.Path;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 
-public final class MonkeyLibStyleImpl implements ModdedMonkeyLibStyle {
-    private final Style style;
-
-    public MonkeyLibStyleImpl(final Style style) {
-        this.style = style;
-    }
-
-    @Override
-    public Style getStyle() {
-        return style;
-    }
+public record MonkeyLibStyleImpl(Style style) implements ModdedMonkeyLibStyle {
 
     @Override
     public MonkeyLibStyle withShowText(MonkeyLibText value) {
@@ -56,7 +46,7 @@ public final class MonkeyLibStyleImpl implements ModdedMonkeyLibStyle {
 
     @Override
     public MonkeyLibStyle copyEventsFrom(MonkeyLibStyle from) {
-        final Style fromStyle = ModdedMonkeyLibStyle.of(from).getStyle();
+        final Style fromStyle = ModdedMonkeyLibStyle.of(from).style();
         return new MonkeyLibStyleImpl(style
                 .withHoverEvent(fromStyle.getHoverEvent())
                 .withClickEvent(fromStyle.getClickEvent())
@@ -88,7 +78,7 @@ public final class MonkeyLibStyleImpl implements ModdedMonkeyLibStyle {
 
     @Override
     public boolean equals(final MonkeyLibStyle other) {
-        return this.style.equals(ModdedMonkeyLibStyle.of(other).getStyle());
+        return this.style.equals(ModdedMonkeyLibStyle.of(other).style());
     }
 
     public static final class ProviderImpl implements Provider {

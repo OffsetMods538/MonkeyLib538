@@ -2,7 +2,6 @@ package top.offsetmonkey538.monkeylib538.neoforge;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

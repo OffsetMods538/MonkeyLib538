@@ -42,7 +42,7 @@ public final class MonkeyLibTextImpl implements ModdedMonkeyLibText {
 
     @Override
     public MonkeyLibText setStyle(MonkeyLibStyle style) {
-        ensureMutable().setStyle(ModdedMonkeyLibStyle.of(style).getStyle());
+        ensureMutable().setStyle(ModdedMonkeyLibStyle.of(style).style());
         return this;
     }
 

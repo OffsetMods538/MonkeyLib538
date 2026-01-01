@@ -2,7 +2,6 @@ package top.offsetmonkey538.monkeylib538.modded.api.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.MinecraftServer;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
