@@ -11,11 +11,15 @@ config="monkeylib538.modded.mixins.json"
 
 [[mods]]
 modId="monkeylib538"
-displayName="MonkeyLib538"
 version="${modVersion}"
-displayURL="https://modrinth.com/mod/monkeylib538"
-authors="OffsetMonkey538"
+displayName="MonkeyLib538"
 description="A library mod for OffsetMonkey538s mods"
+logoFile="assets/monkeylib538/icon.png"
+logoBlur=false
+features={javaVersion="[21,)"}
+modUrl="https://modrinth.com/mod/monkeylib538"
+authors="OffsetMonkey538"
+displayURL="https://modrinth.com/mod/monkeylib538"
 
 
 [[dependencies.monkeylib538]]
