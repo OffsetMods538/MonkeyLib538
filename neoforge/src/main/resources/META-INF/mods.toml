@@ -1,0 +1,30 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license="MIT"
+
+issueTrackerURL="https://github.com/OffsetMods538/MonkeyLib538/issues"
+
+
+[[mixins]]
+config="monkeylib538.modded.mixins.json"
+
+
+[[mods]]
+modId="monkeylib538"
+version="${modVersion}"
+displayName="MonkeyLib538"
+description="A library mod for OffsetMonkey538s mods"
+logoFile="assets/monkeylib538/icon.png"
+logoBlur=false
+features={javaVersion="[21,)"}
+modUrl="https://modrinth.com/mod/monkeylib538"
+authors="OffsetMonkey538"
+displayURL="https://modrinth.com/mod/monkeylib538"
+
+
+[[dependencies.monkeylib538]]
+modId="minecraft"
+type="required"
+versionRange="${neoforgeSupportedMinecraftVersions}"
+ordering="NONE"
+side="BOTH"
