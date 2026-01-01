@@ -5,9 +5,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 
-import java.util.function.IntFunction;
-import java.util.function.IntSupplier;
-
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface ModdedCommandAbstractionApi extends CommandAbstractionApi {
@@ -20,19 +17,15 @@ public interface ModdedCommandAbstractionApi extends CommandAbstractionApi {
 
     @Override
     default boolean isOpImpl(final Object source) {
-        return get(source).hasPermission(OperatorPermissionLevelProvider.getPermissionLevel(get(source).getServer()));
+        return VersionSpecific.INSTANCE.isOp(get(source));
     }
 
     CommandSourceStack getImpl(CommandContext<Object> ctx);
     CommandSourceStack getImpl(Object commandSource);
     
-    interface OperatorPermissionLevelProvider {
-        OperatorPermissionLevelProvider INSTANCE = load(OperatorPermissionLevelProvider.class);
+    interface VersionSpecific {
+        VersionSpecific INSTANCE = load(VersionSpecific.class);
 
-        static int getPermissionLevel(MinecraftServer server) {
-            return INSTANCE.getPermissionLevelImpl(server);
-        }
-
-        int getPermissionLevelImpl(MinecraftServer server);
+        boolean isOp(final CommandSourceStack source);
     }
 }

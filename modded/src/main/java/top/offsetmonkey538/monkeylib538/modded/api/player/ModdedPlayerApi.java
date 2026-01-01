@@ -17,8 +17,6 @@ public interface ModdedPlayerApi {
     }
 
 
-    // <=1.21.8 use PlayerList.isOp with GameProfile, >=1.21.9 use it with NameAndId
     boolean isPlayerOpImpl(final PlayerList playerManager, final Player player);
-    // <=1.21.8 use PlayerList.isSingleplayerOwner with GameProfile, >=1.21.9 use it with NameAndId
     boolean isPlayerHostImpl(final MinecraftServer server, final Player player);
 }
