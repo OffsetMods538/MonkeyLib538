@@ -14,7 +14,7 @@ neoForge {
 }
 
 dependencies {
-    compileOnlyApi project(":modded")
+    compileOnly project(":modded")
     commonJava project(path: ":modded", configuration: "commonJava")
     commonResources project(path: ":modded", configuration: "commonResources")
 }
@@ -72,11 +72,11 @@ subprojects {
     }
 
     dependencies {
-        compileOnlyApi project(":neoforge")
+        compileOnly project(":neoforge")
         commonJava project(path: ":neoforge", configuration: "commonJava")
         commonResources project(path: ":neoforge", configuration: "commonResources")
 
-        compileOnlyApi project(":modded:${project.commonModdedVersion}")
+        compileOnly project(":modded:${project.commonModdedVersion}")
         commonJava project(path: ":modded:${project.commonModdedVersion}", configuration: "commonJava")
         commonResources project(path: ":modded:${project.commonModdedVersion}", configuration: "commonResources")
 

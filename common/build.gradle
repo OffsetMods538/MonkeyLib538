@@ -13,8 +13,6 @@ repositories {
 }
 
 dependencies {
-    api "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
-    compileOnlyApi "org.jspecify:jspecify:${rootProject.jspecify_version}"
     compileOnly "com.mojang:brigadier:${rootProject.brigadier_version}"
     compileOnly "com.google.code.gson:gson:${rootProject.gson_version}"
 }
