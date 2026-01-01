@@ -6,21 +6,21 @@ issueTrackerURL="https://github.com/OffsetMods538/MonkeyLib538/issues"
 
 
 [[mixins]]
-config="monkeylib538.neoforge.mixins.json"
+config="monkeylib538.modded.mixins.json"
 
 
 [[mods]]
-modId="monkeylib538_common_neoforge"
-displayName="MonkeyLib538 Common NeoForge"
+modId="monkeylib538"
+displayName="MonkeyLib538"
 version="${modVersion}"
 displayURL="https://modrinth.com/mod/monkeylib538"
 authors="OffsetMonkey538"
 description="A library mod for OffsetMonkey538s mods"
 
 
-[[dependencies.monkeylib538_common_neoforge]]
+[[dependencies.monkeylib538]]
 modId="minecraft"
 type="required"
-versionRange="${supportedMinecraftVersions}"
+versionRange="${neoforgeSupportedMinecraftVersions}"
 ordering="NONE"
 side="BOTH"

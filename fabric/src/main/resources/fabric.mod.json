@@ -28,7 +28,7 @@
 		"monkeylib538.modded.mixins.json"
 	],
 	"depends": {
-		"minecraft": "${supportedMinecraftVersions}",
+		"minecraft": "${fabricSupportedMinecraftVersions}",
 		"java": ">=21"
 	},
 	"breaks": {

@@ -4,7 +4,10 @@ import java.nio.file.Files
 
 plugins {
 	id 'java'
+	id 'net.neoforged.moddev' version '2.0.+' apply false
     id 'fabric-loom' version '1.14-SNAPSHOT' apply false
+	id 'io.github.dexman545.outlet' version '1.6.1' apply false
+	id 'com.modrinth.minotaur' version '2.+' apply false
     id 'hamburg.janove.elevator-music' version "0.1"
 }
 

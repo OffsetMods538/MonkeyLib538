@@ -2,9 +2,9 @@ import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
 	id 'multiloader-modded'
-	id 'fabric-loom' version '1.14-SNAPSHOT'
-	id 'io.github.dexman545.outlet' version '1.6.1'
-	id 'com.modrinth.minotaur' version '2.+' apply false
+	id 'fabric-loom'
+	id 'io.github.dexman545.outlet' apply false
+	id 'com.modrinth.minotaur' apply false
 }
 
 loom {
