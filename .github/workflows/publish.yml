@@ -32,6 +32,7 @@ jobs:
           IS_RELEASE: true
           DISABLE_PROPERTIES_UPDATE: true
           DISABLE_MUSIC: true
+          VERSION_SUFFIX: ""
 
       - name: Upload to Modrinth
         run: ./gradlew modrinth
@@ -39,6 +40,7 @@ jobs:
           IS_RELEASE: true
           DISABLE_PROPERTIES_UPDATE: true
           DISABLE_MUSIC: true
+          VERSION_SUFFIX: ""
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           VERSION_NAME: ${{ github.event.release.name }}
           VERSION_IS_PRERELEASE: ${{ github.event.release.prerelease }}
@@ -50,6 +52,7 @@ jobs:
           IS_RELEASE: true
           DISABLE_PROPERTIES_UPDATE: true
           DISABLE_MUSIC: true
+          VERSION_SUFFIX: ""
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
