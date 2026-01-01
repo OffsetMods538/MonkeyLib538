@@ -58,6 +58,9 @@ jar {
     from(rootProject.file("LICENSE")) {
         rename { "${it}" }
     }
+    manifest {
+        attributes("Fabric-Loom-Remap": project.name == "common" ? "false" : "true")
+    }
 }
 
 tasks.named("compileJava", JavaCompile) {
