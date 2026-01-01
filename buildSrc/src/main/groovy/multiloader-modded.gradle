@@ -10,7 +10,7 @@ processResources {
     ]
     inputs.properties(properties)
 
-    filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml"]) {
+    filesMatching(["fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml"]) {
         expand(properties)
     }
 }
