@@ -23,7 +23,7 @@ public class MonkeyLib538Initializer {
     public MonkeyLib538Initializer(IEventBus modEventBus, ModContainer modContainer) {
         MonkeyLib538Common.initialize();
 
-        NeoForge.EVENT_BUS.addListener(ServerStartingEvent.class, serverStartingEvent -> minecraftServer = (DedicatedServer) serverStartingEvent.getServer());
+        NeoForge.EVENT_BUS.addListener(ServerStartingEvent.class, serverStartingEvent -> minecraftServer = (serverStartingEvent.getServer() instanceof DedicatedServer server ? server : null));
         NeoForge.EVENT_BUS.addListener(RegisterCommandsEvent.class, registerCommandsEvent -> {
             //noinspection unchecked
             CommandRegistrationImpl.commands.forEach(command -> registerCommandsEvent.getDispatcher().register((LiteralArgumentBuilder<CommandSourceStack>) command));

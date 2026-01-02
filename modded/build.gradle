@@ -1,6 +1,6 @@
 plugins {
 	id 'multiloader-modded'
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id 'fabric-loom'
 }
 
 dependencies {

@@ -38,11 +38,6 @@ tasks.named("javadoc", Javadoc) {
     options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 tasks.named("sourcesJar", Jar) {
     dependsOn configurations.commonJava
     from configurations.commonJava

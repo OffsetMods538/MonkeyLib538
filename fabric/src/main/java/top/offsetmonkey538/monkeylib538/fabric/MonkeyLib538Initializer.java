@@ -33,7 +33,8 @@ public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerM
 
     @Override
     public void onInitializeServer() {
-        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> minecraftServer = (DedicatedServer) minecraftServer1);
+        // Technically no need to check if can be cast here as this initializer should only run on dedicated servers, but sure
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> minecraftServer = (minecraftServer1 instanceof DedicatedServer server ? server : null));
     }
 
     public static @Nullable DedicatedServer getServer() {
