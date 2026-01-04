@@ -32,10 +32,11 @@ allprojects {
 
     neoForge {
         version = project.neoforge_version
-        //enable {
-        //    version = project.neoforge_version
-        //    disableRecompilation = true
-        //}
+
+        parchment {
+            minecraftVersion = project.parchment_minecraft_version
+            mappingsVersion = project.parchment_mappings_version
+        }
 
         mods {
             "${project.name}" {
