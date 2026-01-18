@@ -13,7 +13,6 @@ public interface Identifier {
 
     String getNamespace();
     String getPath();
-    String asString();
 
     static Identifier of(String location) {
         return Instantiator.INSTANCE.of(location);
