@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
@@ -19,6 +20,7 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
  * </p>
  */
 public interface CommandAbstractionApi {
+    @Internal
     CommandAbstractionApi INSTANCE = load(CommandAbstractionApi.class);
 
     /**
@@ -146,12 +148,12 @@ public interface CommandAbstractionApi {
     }
 
 
-    LiteralArgumentBuilder<?> literalImpl(final String name);
-    <T> RequiredArgumentBuilder<?, T> argumentImpl(final String name, final ArgumentType<T> type);
-    void sendMessageImpl(final CommandContext<Object> ctx, final String message);
-    void sendErrorImpl(final CommandContext<Object> ctx, final String message);
-    void sendTextImpl(final CommandContext<Object> ctx, final MonkeyLibText text);
-    boolean executedByPlayerImpl(final Object source);
-    boolean isOpImpl(final Object source);
-    boolean isHostImpl(final Object source);
+    @Internal LiteralArgumentBuilder<?> literalImpl(final String name);
+    @Internal <T> RequiredArgumentBuilder<?, T> argumentImpl(final String name, final ArgumentType<T> type);
+    @Internal void sendMessageImpl(final CommandContext<Object> ctx, final String message);
+    @Internal void sendErrorImpl(final CommandContext<Object> ctx, final String message);
+    @Internal void sendTextImpl(final CommandContext<Object> ctx, final MonkeyLibText text);
+    @Internal boolean executedByPlayerImpl(final Object source);
+    @Internal boolean isOpImpl(final Object source);
+    @Internal boolean isHostImpl(final Object source);
 }

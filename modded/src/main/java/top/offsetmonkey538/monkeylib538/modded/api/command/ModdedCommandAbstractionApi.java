@@ -2,6 +2,7 @@ package top.offsetmonkey538.monkeylib538.modded.api.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
@@ -19,9 +20,10 @@ public interface ModdedCommandAbstractionApi extends CommandAbstractionApi {
         return VersionSpecific.INSTANCE.isOp(get(source));
     }
 
-    CommandSourceStack getImpl(CommandContext<Object> ctx);
-    CommandSourceStack getImpl(Object commandSource);
-    
+    @Internal CommandSourceStack getImpl(CommandContext<Object> ctx);
+    @Internal CommandSourceStack getImpl(Object commandSource);
+
+    @Internal
     interface VersionSpecific {
         VersionSpecific INSTANCE = load(VersionSpecific.class);
 

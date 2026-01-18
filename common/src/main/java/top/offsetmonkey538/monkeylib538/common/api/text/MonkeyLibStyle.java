@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.text;
 
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -66,11 +67,10 @@ public interface MonkeyLibStyle {
         return Provider.INSTANCE.empty();
     }
 
-    /**
-     * Provides a method for creating a {@link MonkeyLibStyle}
-     */
+    @Internal
     interface Provider {
         Provider INSTANCE = load(Provider.class);
+
         MonkeyLibStyle empty();
     }
 

@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.text;
 
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import java.util.function.UnaryOperator;
 
@@ -87,25 +88,11 @@ public interface MonkeyLibText {
         return Provider.INSTANCE.empty();
     }
 
-    /**
-     * Provides a method for creating a literal {@link MonkeyLibText}
-     */
+    @Internal
     interface Provider {
         Provider INSTANCE = load(Provider.class);
 
-        /**
-         * Creates a literal {@link MonkeyLibText}
-         *
-         * @param text the text it should contain.
-         * @return a literal {@link MonkeyLibText}
-         */
         MonkeyLibText of(final String text);
-
-        /**
-         * Creates an empty literal {@link MonkeyLibText}
-         *
-         * @return an empty {@link MonkeyLibText}
-         */
         MonkeyLibText empty();
     }
 }

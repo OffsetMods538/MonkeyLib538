@@ -1,6 +1,8 @@
 package top.offsetmonkey538.monkeylib538.common.api.lifecycle;
 
 
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
+
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface ServerLifecycleApi {
@@ -19,8 +21,8 @@ public interface ServerLifecycleApi {
         INSTANCE.runOnServerStoppedImpl(work);
     }
 
-    void runOnServerStartingImpl(final Runnable work);
-    void runOnServerStartedImpl(final Runnable work);
-    void runOnServerStoppingImpl(final Runnable work);
-    void runOnServerStoppedImpl(final Runnable work);
+    @Internal void runOnServerStartingImpl(final Runnable work);
+    @Internal void runOnServerStartedImpl(final Runnable work);
+    @Internal void runOnServerStoppingImpl(final Runnable work);
+    @Internal void runOnServerStoppedImpl(final Runnable work);
 }

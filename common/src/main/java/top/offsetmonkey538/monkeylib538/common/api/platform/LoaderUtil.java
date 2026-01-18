@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.platform;
 
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 
 import java.nio.file.Path;
@@ -9,8 +10,8 @@ import java.util.function.Supplier;
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface LoaderUtil {
+    @Internal
     LoaderUtil INSTANCE = load(LoaderUtil.class);
-    BrandGetter BRANDING_SUPPLIER = isDedicatedServer() ? load(ServerBrandGetter.class) : load(ClientBrandGetter.class);
 
     static String getMinecraftVersion() {
         return INSTANCE.getMinecraftVersionImpl();
@@ -27,7 +28,7 @@ public interface LoaderUtil {
      * @return the current mod loader's name/branding or an empty string when called on a dedicated server before it has started starting.
      */
     static @Nullable String getLoaderName() {
-        return BRANDING_SUPPLIER.getBrand();
+        return BrandGetter.INSTANCE.getBrand();
     }
 
     static Path getConfigDir() {
@@ -59,20 +60,25 @@ public interface LoaderUtil {
         INSTANCE.sendMessagesToAdminsOnJoinImpl(messageSupplier);
     }
 
-    String getMinecraftVersionImpl();
-    Path getConfigDirImpl();
-    Path getModsDirImpl();
-    Path getGameDirImpl();
-    boolean isDevelopmentEnvironmentImpl();
-    boolean isDedicatedServerImpl();
-    void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);
+    @Internal String getMinecraftVersionImpl();
+    @Internal Path getConfigDirImpl();
+    @Internal Path getModsDirImpl();
+    @Internal Path getGameDirImpl();
+    @Internal boolean isDevelopmentEnvironmentImpl();
+    @Internal boolean isDedicatedServerImpl();
+    @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);
 
+    @Internal
     interface BrandGetter {
+        BrandGetter INSTANCE = isDedicatedServer() ? load(ServerBrandGetter.class) : load(ClientBrandGetter.class);
+
         @Nullable String getBrand();
     }
+    @Internal
     interface ClientBrandGetter extends BrandGetter {
 
     }
+    @Internal
     interface ServerBrandGetter extends BrandGetter {
 
     }

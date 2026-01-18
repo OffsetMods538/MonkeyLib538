@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
@@ -8,6 +9,7 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
  * Provides a method to register a {@link LiteralArgumentBuilder command} at startup.
  */
 public interface CommandRegistrationApi {
+    @Internal
     CommandRegistrationApi INSTANCE = load(CommandRegistrationApi.class);
 
     /**
@@ -20,5 +22,5 @@ public interface CommandRegistrationApi {
     }
 
 
-    void registerCommandImpl(final LiteralArgumentBuilder<?> command);
+    @Internal void registerCommandImpl(final LiteralArgumentBuilder<?> command);
 }

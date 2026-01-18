@@ -2,6 +2,7 @@ package top.offsetmonkey538.monkeylib538.common.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
@@ -27,6 +28,7 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
  * </pre>
  */
 public interface ConfigCommandApi {
+    @Internal
     ConfigCommandApi INSTANCE = load(ConfigCommandApi.class);
 
     /**
@@ -112,6 +114,6 @@ public interface ConfigCommandApi {
     }
 
 
-    void registerConfigCommandImpl(final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final String... commandTree);
-    LiteralArgumentBuilder<?> createConfigCommandImpl(final String commandName, final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback);
+    @Internal void registerConfigCommandImpl(final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback, final String... commandTree);
+    @Internal LiteralArgumentBuilder<?> createConfigCommandImpl(final String commandName, final ConfigHolder<?> configHolder, final @Nullable Runnable configReloadCallback, final @Nullable Runnable configValueSetCallback);
 }

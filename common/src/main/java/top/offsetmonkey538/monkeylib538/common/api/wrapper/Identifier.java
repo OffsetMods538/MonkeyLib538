@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.wrapper;
 
 import com.mojang.serialization.Codec;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
@@ -22,6 +23,7 @@ public interface Identifier {
         return Instantiator.INSTANCE.of(namespace, path);
     }
 
+    @Internal
     interface Instantiator {
         Instantiator INSTANCE = load(Instantiator.class);
 
@@ -29,6 +31,7 @@ public interface Identifier {
         Identifier of(String namespace, String path);
     }
 
+    @Internal
     interface CodecProvider {
         CodecProvider INSTANCE = load(CodecProvider.class);
 

@@ -1,6 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.log;
 
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
@@ -181,9 +182,7 @@ public interface MonkeyLibLogger {
         return MonkeyLibLogger.Provider.INSTANCE.create(id);
     }
 
-    /**
-     * Provides a method for creating a {@link MonkeyLibLogger}
-     */
+    @Internal
     interface Provider {
         Provider INSTANCE = load(Provider.class);
         MonkeyLibLogger create(final String id);
