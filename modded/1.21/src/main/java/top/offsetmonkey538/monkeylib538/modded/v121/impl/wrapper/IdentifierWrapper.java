@@ -22,6 +22,11 @@ public record IdentifierWrapper(ResourceLocation vanillaIdentifier) implements M
     }
 
     @Override
+    public String toString() {
+        return asString();
+    }
+
+    @Override
     public ResourceLocation get() {
         return vanillaIdentifier;
     }

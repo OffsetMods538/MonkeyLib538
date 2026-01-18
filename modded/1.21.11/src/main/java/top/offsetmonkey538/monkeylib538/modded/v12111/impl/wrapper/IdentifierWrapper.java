@@ -21,6 +21,11 @@ public record IdentifierWrapper(Identifier vanillaIdentifier) implements ModdedV
     }
 
     @Override
+    public String toString() {
+        return asString();
+    }
+
+    @Override
     public Identifier get() {
         return vanillaIdentifier;
     }
