@@ -39,6 +39,7 @@ tasks.named("javadoc", Javadoc) {
     }
 
     options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
+    options.addStringOption('Xdoclint:none', '-quiet')
 }
 
 tasks.named("sourcesJar", Jar) {
