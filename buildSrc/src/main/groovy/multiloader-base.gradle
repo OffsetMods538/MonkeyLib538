@@ -34,6 +34,9 @@ tasks.withType(JavaCompile).configureEach {
 tasks.named("javadoc", Javadoc) {
     dependsOn configurations.commonJava
     source configurations.commonJava
+    source = source.asFileTree.matching {
+        include '**/api/**'
+    }
 
     options.addFileOption('-add-stylesheet', rootProject.file("javadoc-stylesheet.css"))
 }
