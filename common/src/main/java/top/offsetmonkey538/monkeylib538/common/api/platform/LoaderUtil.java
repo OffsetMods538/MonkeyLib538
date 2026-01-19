@@ -9,10 +9,18 @@ import java.util.function.Supplier;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
+/**
+ * Utilities methods for working with different loaders
+ */
 public interface LoaderUtil {
     @Internal
     LoaderUtil INSTANCE = load(LoaderUtil.class);
 
+    /**
+     * Returns the current Minecraft version used.
+     *
+     * @return the current Minecraft version used
+     */
     static String getMinecraftVersion() {
         return INSTANCE.getMinecraftVersionImpl();
     }
@@ -31,20 +39,45 @@ public interface LoaderUtil {
         return BrandGetter.INSTANCE.getBrand();
     }
 
+    /**
+     * Returns the path to the config directory.
+     *
+     * @return the path to the config directory
+     */
     static Path getConfigDir() {
         return INSTANCE.getConfigDirImpl();
     }
+    /**
+     * Returns the path to the mods directory.
+     *
+     * @return the path to the mods directory
+     */
     static Path getModsDir() {
         return INSTANCE.getModsDirImpl();
     }
+    /**
+     * Returns the path to the config directory.
+     *
+     * @return the path to the config directory
+     */
     static Path getGameDir() {
         return INSTANCE.getGameDirImpl();
     }
 
+    /**
+     * Returns true when the game is launched in a development environment (IDE).
+     *
+     * @return true when the game is launched in a development environment (IDE).
+     */
     static boolean isDevelopmentEnvironment() {
         return INSTANCE.isDevelopmentEnvironmentImpl();
     }
 
+    /**
+     * Returns true when the game is launched as a dedicated server.
+     *
+     * @return true when the game is launched as a dedicated server
+     */
     static boolean isDedicatedServer() {
         return INSTANCE.isDedicatedServerImpl();
     }
@@ -74,6 +107,7 @@ public interface LoaderUtil {
 
         @Nullable String getBrand();
     }
+
     @Internal
     interface ClientBrandGetter extends BrandGetter {
 
