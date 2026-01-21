@@ -13,10 +13,10 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
  * Provides some abstractions for dealing with commands.
  * <br />
  * Mostly for internal use for the config command.
- * <p>
- *     An {@link Object} is used as the generic type for the argument builders, but the implementations ({@link #literalImpl(String)} and {@link #argumentImpl(String, ArgumentType)}) will create them with platform-specific command sources.
- *     <br />
- *     This way, the methods here can be called with a {@link CommandContext context} containing with the generic {@link Object} and implementations will cast that to the platform-specific command sources for implementing the methods.
+ *
+ * <p>An {@link Object} is used as the generic type for the argument builders, but the implementations ({@link #literalImpl(String)} and {@link #argumentImpl(String, ArgumentType)}) will create them with platform-specific command sources.
+ * <br />
+ * This way, the methods here can be called with a {@link CommandContext context} containing with the generic {@link Object} and implementations will cast that to the platform-specific command sources for implementing the methods.
  * </p>
  */
 public interface CommandAbstractionApi {
@@ -39,8 +39,8 @@ public interface CommandAbstractionApi {
      *
      * @param name the name of the {@link RequiredArgumentBuilder}
      * @param type the {@link ArgumentType} to use.
-     * @return a {@link RequiredArgumentBuilder} for the current platform specific command source and provided {@link ArgumentType}.
      * @param <T> the type for the {@link ArgumentType}
+     * @return a {@link RequiredArgumentBuilder} for the current platform specific command source and provided {@link ArgumentType}.
      */
     @SuppressWarnings("unchecked")
     static <T> RequiredArgumentBuilder<Object, T> argument(final String name, final ArgumentType<T> type) {

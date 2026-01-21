@@ -31,9 +31,8 @@ public interface Identifier {
 
     /**
      * Creates an identifier from the provided location.
-     * <p>
-     *     The location must separate the namespace and path with a colon like so {@code "namespace:path"}
-     * </p>
+     * <p>The location must separate the namespace and path with a colon like so {@code "namespace:path"}</p>
+     *
      * @param location the location to parse
      * @return an identifier from the provided location
      */

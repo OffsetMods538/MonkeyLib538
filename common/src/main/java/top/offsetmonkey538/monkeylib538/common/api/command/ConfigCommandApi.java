@@ -9,8 +9,8 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 /**
  * Provides methods for creating and registering config commands using {@link ConfigHolder}s.
- * <p>
- * A generated config command will have the following subcommands:
+ *
+ * <p>A generated config command will have the following subcommands:
  * <pre>
  *     <code>reset</code>:
  *         Resets the config to default values
@@ -33,9 +33,8 @@ public interface ConfigCommandApi {
 
     /**
      * Creates and registers a config command using the provided command tree and {@link ConfigHolder}.
-     * <p>
-     *     The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}
-     * </p>
+     *
+     * <p>The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}</p>
      *
      * @param configHolder your {@link ConfigHolder} instance.
      * @param commandTree the command tree.
@@ -47,9 +46,7 @@ public interface ConfigCommandApi {
      * Creates and registers a config command using the provided command tree and {@link ConfigHolder}.
      * <br/>
      * The {@code configReloadCallback} is executed after the {@code reload} command is run, and can be used for reinitializing stuff based on the new values.
-     * <p>
-     *     The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}
-     * </p>
+     * <p>The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}</p>
      *
      * @param configHolder your {@link ConfigHolder} instance.
      * @param configReloadCallback executed when config is reloaded by the {@code reload} command.
@@ -62,9 +59,8 @@ public interface ConfigCommandApi {
      * Creates and registers a config command using the provided command tree and {@link ConfigHolder}.
      * <br/>
      * The {@code configReloadCallback} is executed after the {@code reload} command is run, and can be used for reinitializing stuff based on the new values.
-     * <p>
-     *     The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}
-     * </p>
+     *
+     * <p>The command tree could for example be {@code "modid", "config"} for the command to look like {@code /modid config reset/reload/get/set}</p>
      *
      * @param configHolder your {@link ConfigHolder} instance.
      * @param configReloadCallback executed when config is reloaded by the {@code reload} command.

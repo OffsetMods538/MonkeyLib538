@@ -1,5 +1,6 @@
 package top.offsetmonkey538.monkeylib538.modded.mixin.client;
 
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -7,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.offsetmonkey538.monkeylib538.modded.impl.lifecycle.ClientLifecycleApiImpl;
 
 import java.util.List;
-import net.minecraft.client.Minecraft;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftClientMixin {

@@ -1,14 +1,20 @@
 package top.offsetmonkey538.monkeylib538.common.impl.command;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.*;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.LongArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.ConfigCommandApi;
-import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetconfig538.api.config.Config;
 import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;

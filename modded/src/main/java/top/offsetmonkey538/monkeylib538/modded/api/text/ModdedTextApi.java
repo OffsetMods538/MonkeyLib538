@@ -1,12 +1,13 @@
 package top.offsetmonkey538.monkeylib538.modded.api.text;
 
-import java.net.URI;
-import java.nio.file.Path;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.world.item.ItemStack;
 import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
+
+import java.net.URI;
+import java.nio.file.Path;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 

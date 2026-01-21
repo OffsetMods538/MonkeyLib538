@@ -27,11 +27,10 @@ public interface LoaderUtil {
 
     /**
      * Provides the current mod loader's name/branding.
-     * <p>
-     * When running on client, it's fine to call this whenever.
+     *
+     * <p>When running on client, it's fine to call this whenever.
      * <br>
-     * When running on server, calling this before the SERVER_STARTING event has been invoked will return an empty string.
-     * </p>
+     * When running on server, calling this before the SERVER_STARTING event has been invoked will return an empty string.</p>
      *
      * @return the current mod loader's name/branding or an empty string when called on a dedicated server before it has started starting.
      */
