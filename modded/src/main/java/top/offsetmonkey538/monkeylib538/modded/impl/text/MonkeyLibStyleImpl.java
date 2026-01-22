@@ -54,8 +54,18 @@ public record MonkeyLibStyleImpl(Style style) implements ModdedMonkeyLibStyle {
     }
 
     @Override
-    public MonkeyLibStyle withItalic(final boolean italic) {
-        return italic == style.isItalic() ? this : new MonkeyLibStyleImpl(style.withItalic(italic));
+    public MonkeyLibStyle withObfuscated(boolean obfuscated) {
+        return obfuscated == style.isObfuscated() ? this : new MonkeyLibStyleImpl(style.withObfuscated(obfuscated));
+    }
+
+    @Override
+    public MonkeyLibStyle withBold(boolean bold) {
+        return bold == style.isBold() ? this : new MonkeyLibStyleImpl(style.withBold(bold));
+    }
+
+    @Override
+    public MonkeyLibStyle withStrikethrough(boolean strikethrough) {
+        return strikethrough == style.isStrikethrough() ? this : new MonkeyLibStyleImpl(style.withStrikethrough(strikethrough));
     }
 
     @Override
@@ -64,16 +74,13 @@ public record MonkeyLibStyleImpl(Style style) implements ModdedMonkeyLibStyle {
     }
 
     @Override
-    public MonkeyLibStyle withColor(final int rgbColor) {
-        return style.getColor() == null || rgbColor != style.getColor().getValue() ? new MonkeyLibStyleImpl(style.withColor(rgbColor)) : this;
+    public MonkeyLibStyle withItalic(final boolean italic) {
+        return italic == style.isItalic() ? this : new MonkeyLibStyleImpl(style.withItalic(italic));
     }
 
     @Override
-    public @Nullable MonkeyLibStyle withFormattingCode(char code) {
-        final ChatFormatting formatting = ChatFormatting.getByCode(code);
-        if (formatting == null) return null;
-
-        return new MonkeyLibStyleImpl(style.applyFormat(formatting));
+    public MonkeyLibStyle withColor(final int rgbColor) {
+        return style.getColor() == null || rgbColor != style.getColor().getValue() ? new MonkeyLibStyleImpl(style.withColor(rgbColor)) : this;
     }
 
     @Override

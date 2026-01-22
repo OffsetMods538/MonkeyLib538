@@ -2,14 +2,19 @@ import org.codehaus.groovy.runtime.GStringImpl
 
 import java.nio.file.Files
 
+// TODO: define versions in main gradle.properties
 plugins {
 	id 'java'
 	id 'java-library'
-	id 'net.neoforged.moddev' version '2.0.+' apply false
-    id 'fabric-loom' version '1.14-SNAPSHOT' apply false
-	id 'io.github.dexman545.outlet' version '1.6.1' apply false
-	id 'com.modrinth.minotaur' version '2.+' apply false
-    id 'hamburg.janove.elevator-music' version "0.1"
+	id 'net.neoforged.moddev'           version '2.0.+'         apply false
+    id 'fabric-loom'                    version '1.14-SNAPSHOT' apply false
+	id 'io.papermc.paperweight.userdev' version '2.0.0-beta.19' apply false
+	id 'com.gradleup.shadow'            version '9.3.1'         apply false
+	id 'xyz.jpenilla.run-paper'         version '3.0.2'         apply false
+	id 'xyz.jpenilla.resource-factory'  version '1.3.1'         apply false // TODO: use this thingy for everyhing. Currently just used for paper.
+	id 'io.github.dexman545.outlet'     version '1.6.1'         apply false
+	id 'com.modrinth.minotaur'          version '2.+'           apply false
+    id 'hamburg.janove.elevator-music'  version "0.1"
 }
 
 //elevatorMusic {

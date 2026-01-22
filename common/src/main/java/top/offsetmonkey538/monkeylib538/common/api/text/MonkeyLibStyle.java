@@ -5,10 +5,37 @@ import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.function.Function;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 
 public interface MonkeyLibStyle {
+    Map<Character, Function<MonkeyLibStyle, MonkeyLibStyle>> FORMATTING_CODES = Map.ofEntries(
+            Map.entry('0', style -> style.withColor(Color.BLACK)),
+            Map.entry('1', style -> style.withColor(Color.DARK_BLUE)),
+            Map.entry('2', style -> style.withColor(Color.DARK_GREEN)),
+            Map.entry('3', style -> style.withColor(Color.DARK_AQUA)),
+            Map.entry('4', style -> style.withColor(Color.DARK_RED)),
+            Map.entry('5', style -> style.withColor(Color.DARK_PURPLE)),
+            Map.entry('6', style -> style.withColor(Color.GOLD)),
+            Map.entry('7', style -> style.withColor(Color.GRAY)),
+            Map.entry('8', style -> style.withColor(Color.DARK_GRAY)),
+            Map.entry('9', style -> style.withColor(Color.BLUE)),
+            Map.entry('a', style -> style.withColor(Color.GREEN)),
+            Map.entry('b', style -> style.withColor(Color.AQUA)),
+            Map.entry('c', style -> style.withColor(Color.RED)),
+            Map.entry('d', style -> style.withColor(Color.LIGHT_PURPLE)),
+            Map.entry('e', style -> style.withColor(Color.YELLOW)),
+            Map.entry('f', style -> style.withColor(Color.WHITE)),
+            Map.entry('k', style -> style.withObfuscated(true)),
+            Map.entry('l', style -> style.withBold(true)),
+            Map.entry('m', style -> style.withStrikethrough(true)),
+            Map.entry('n', style -> style.withUnderline(true)),
+            Map.entry('o', style -> style.withItalic(true)),
+            Map.entry('r', style -> MonkeyLibStyle.empty())
+    );
+
     MonkeyLibStyle withShowText(final MonkeyLibText value);
 
     MonkeyLibStyle withOpenUrl(final URI value);
@@ -21,12 +48,26 @@ public interface MonkeyLibStyle {
 
 
     /**
-     * Returns a new style with the provided italic attribute.
+     * Returns a new style with the provided obfuscated attribute.
      *
-     * @param italic if the new style should be italic
-     * @return a new style with the provided italic attribute
+     * @param obfuscated if the new style should be obfuscated
+     * @return a new style with the provided obfuscated attribute
      */
-    MonkeyLibStyle withItalic(final boolean italic);
+    MonkeyLibStyle withObfuscated(final boolean obfuscated);
+    /**
+     * Returns a new style with the provided bold attribute.
+     *
+     * @param bold if the new style should be bold
+     * @return a new style with the provided bold attribute
+     */
+    MonkeyLibStyle withBold(final boolean bold);
+    /**
+     * Returns a new style with the provided strikethrough attribute.
+     *
+     * @param strikethrough if the new style should be strikethrough
+     * @return a new style with the provided strikethrough attribute
+     */
+    MonkeyLibStyle withStrikethrough(final boolean strikethrough);
     /**
      * Returns a new style with the provided underline attribute.
      *
@@ -34,6 +75,13 @@ public interface MonkeyLibStyle {
      * @return a new style with the provided underline attribute
      */
     MonkeyLibStyle withUnderline(final boolean underline);
+    /**
+     * Returns a new style with the provided italic attribute.
+     *
+     * @param italic if the new style should be italic
+     * @return a new style with the provided italic attribute
+     */
+    MonkeyLibStyle withItalic(final boolean italic);
     /**
      * Returns a new style with the provided rgb color.
      *
@@ -47,7 +95,12 @@ public interface MonkeyLibStyle {
      * @param code the formatting code to use
      * @return a new style with the formatting code
      */
-    @Nullable MonkeyLibStyle withFormattingCode(final char code);
+    default @Nullable MonkeyLibStyle withFormattingCode(final char code) {
+        final Function<MonkeyLibStyle, MonkeyLibStyle> action = FORMATTING_CODES.get(code);
+
+        if (action == null) return null;
+        return action.apply(this);
+    }
 
     /**
      * Checks if this style is equal to the provided one.

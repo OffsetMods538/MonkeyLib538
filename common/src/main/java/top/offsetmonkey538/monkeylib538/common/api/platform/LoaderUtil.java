@@ -54,17 +54,11 @@ public interface LoaderUtil {
     static Path getModsDir() {
         return INSTANCE.getModsDirImpl();
     }
-    /**
-     * Returns the path to the config directory.
-     *
-     * @return the path to the config directory
-     */
-    static Path getGameDir() {
-        return INSTANCE.getGameDirImpl();
-    }
 
     /**
      * Returns true when the game is launched in a development environment (IDE).
+     * <br>
+     * On paper, this is only true when the jvm property {@code -DmonkeyLibDev=true} is added.
      *
      * @return true when the game is launched in a development environment (IDE).
      */
@@ -95,7 +89,6 @@ public interface LoaderUtil {
     @Internal String getMinecraftVersionImpl();
     @Internal Path getConfigDirImpl();
     @Internal Path getModsDirImpl();
-    @Internal Path getGameDirImpl();
     @Internal boolean isDevelopmentEnvironmentImpl();
     @Internal boolean isDedicatedServerImpl();
     @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);

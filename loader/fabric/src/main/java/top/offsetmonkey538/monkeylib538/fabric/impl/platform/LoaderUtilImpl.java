@@ -27,12 +27,7 @@ public final class LoaderUtilImpl implements LoaderUtil {
     @Override
     public Path getModsDirImpl() {
         final String directory = System.getProperty(SystemProperties.MODS_FOLDER);
-        return directory == null ? getGameDirImpl().resolve("mods") : Paths.get(directory);
-    }
-
-    @Override
-    public Path getGameDirImpl() {
-        return FabricLoader.getInstance().getGameDir();
+        return directory == null ? FabricLoader.getInstance().getGameDir().resolve("mods") : Paths.get(directory);
     }
 
     @Override
