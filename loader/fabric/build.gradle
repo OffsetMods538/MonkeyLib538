@@ -1,8 +1,10 @@
 import dex.plugins.outlet.v2.util.ReleaseType
+import xyz.jpenilla.resourcefactory.fabric.Environment
 
 plugins {
 	id 'multiloader-modded'
 	id 'fabric-loom'
+	id 'xyz.jpenilla.resource-factory-fabric-convention' apply false
 	id 'io.github.dexman545.outlet' apply false
 	id 'com.modrinth.minotaur' apply false
 }
@@ -47,9 +49,39 @@ allprojects {
 
 subprojects {
 	apply plugin: "io.github.dexman545.outlet"
+	apply plugin: "xyz.jpenilla.resource-factory-fabric-convention"
 	apply plugin: "com.modrinth.minotaur"
 
 	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+	fabricModJson {
+		mitLicense()
+		id = rootProject.mod_id
+		version = project.version
+		name = rootProject.mod_name
+		description = rootProject.mod_description
+		author("OffsetMonkey538")
+		contact {
+			homepage = rootProject.mod_website
+			issues = rootProject.mod_issues
+			sources = rootProject.mod_sources
+			extra = ["discord": "https://discord.offsetmonkey538.top"]
+
+		}
+		icon("assets/${rootProject.mod_id}/icon.png")
+		environment = Environment.ANY
+		mainEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
+		serverEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
+		mixin("monkeylib538.modded.mixins.json")
+		depends("minecraft", project.supported_minecraft_versions)
+		depends("java", ">=21")
+		breaks("cog", "<=2.1.1")
+		breaks("bettermultishot", "<=2.5.0")
+		breaks("withered-bone-meal", "<=2.2.0")
+		breaks("github-resourcepack-manager", "<=4.0.1")
+		breaks("better-fire-aspect", "<=1.1.0")
+		breaks("easy-item-despawn", "<=1.1.0")
+	}
 
 	repositories {
 		maven {

@@ -3,6 +3,7 @@ import dex.plugins.outlet.v2.util.ReleaseType
 plugins {
     id 'multiloader-modded'
     id 'net.neoforged.moddev'
+    id 'xyz.jpenilla.resource-factory-neoforge-convention' apply false
     id 'io.github.dexman545.outlet' apply false
     id 'com.modrinth.minotaur' apply false
 }
@@ -44,10 +45,32 @@ allprojects {
 
 subprojects {
     apply plugin: "net.neoforged.moddev"
+    apply plugin: "xyz.jpenilla.resource-factory-neoforge-convention"
     apply plugin: "io.github.dexman545.outlet"
     apply plugin: "com.modrinth.minotaur"
 
     tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+    neoForgeModsToml {
+        mitLicense()
+        issueTrackerUrl = rootProject.mod_issues
+        mod(rootProject.mod_id) {
+            //TODO: can remove cause above? name = rootProject.mod_id
+            version = project.version
+            displayName = rootProject.mod_name
+            description = rootProject.mod_description
+            logoFile = "assets/${rootProject.mod_id}/icon.png"
+            logoBlur = false
+            features = ["javaVersion": "[21,)"]
+            modUrl = rootProject.mod_website // TODO: should these be the same?
+            authors = "OffsetMonkey538"
+            displayUrl = rootProject.mod_website // TODO: should these be the same?
+            dependencies {
+                required("minecraft", project.minecraft_version_range)
+            }
+        }
+        mixin("monkeylib538.modded.mixins.json")
+    }
 
     outlet {
         mcVersionRange = project.supported_minecraft_versions
