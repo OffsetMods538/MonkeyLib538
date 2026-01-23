@@ -1,9 +1,0 @@
-plugins {
-    id 'multiloader-base'
-}
-
-processResources {
-
-}
-
-

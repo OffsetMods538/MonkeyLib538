@@ -1,7 +1,7 @@
 import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
-	id 'multiloader-modded'
+	id 'multiloader-base'
 	id 'io.papermc.paperweight.userdev'
 	id 'com.gradleup.shadow' apply false
 	id 'xyz.jpenilla.run-paper' apply false
@@ -11,7 +11,7 @@ plugins {
 }
 
 allprojects {
-	apply plugin: "multiloader-modded"
+	apply plugin: "multiloader-base"
 	apply plugin: "io.papermc.paperweight.userdev"
 	apply plugin: "io.github.dexman545.outlet"
 
@@ -41,7 +41,7 @@ allprojects {
 }
 
 subprojects {
-	apply plugin: "multiloader-modded"
+	apply plugin: "multiloader-base"
 	apply plugin: "io.papermc.paperweight.userdev"
 	apply plugin: "com.gradleup.shadow"
 	apply plugin: "xyz.jpenilla.run-paper"

@@ -2,7 +2,7 @@ import dex.plugins.outlet.v2.util.ReleaseType
 import xyz.jpenilla.resourcefactory.fabric.Environment
 
 plugins {
-	id 'multiloader-modded'
+	id 'multiloader-base'
 	id 'fabric-loom'
 	id 'xyz.jpenilla.resource-factory-fabric-convention' apply false
 	id 'io.github.dexman545.outlet' apply false
@@ -17,7 +17,7 @@ loom {
 }
 
 allprojects {
-	apply plugin: "multiloader-modded"
+	apply plugin: "multiloader-base"
 	apply plugin: "fabric-loom"
 	apply plugin: "io.github.dexman545.outlet"
 

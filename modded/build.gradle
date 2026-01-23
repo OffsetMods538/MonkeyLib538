@@ -1,10 +1,10 @@
 plugins {
-	id 'multiloader-modded'
+	id 'multiloader-base'
     id 'fabric-loom'
 }
 
 allprojects {
-	apply plugin: "multiloader-modded"
+	apply plugin: "multiloader-base"
 	apply plugin: "fabric-loom"
 
 	repositories {
