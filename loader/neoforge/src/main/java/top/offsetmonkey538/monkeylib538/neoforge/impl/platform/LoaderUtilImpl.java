@@ -35,11 +35,6 @@ public final class LoaderUtilImpl implements LoaderUtil {
     }
 
     @Override
-    public Path getGameDirImpl() {
-        return FMLPaths.GAMEDIR.get();
-    }
-
-    @Override
     public boolean isDevelopmentEnvironmentImpl() {
         return !VersionSpecific.INSTANCE.isProduction();
     }
