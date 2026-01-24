@@ -31,7 +31,7 @@ public final class LoaderUtilImpl implements LoaderUtil {
 
     @Override
     public Path getConfigDirImpl() {
-        return getPlugin().getDataPath();
+        return getPlugin().getDataPath().getParent();
     }
 
     @Override
