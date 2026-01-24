@@ -1,4 +1,4 @@
-package top.offsetmonkey538.monkeylib538.modded.impl.log;
+package top.offsetmonkey538.monkeylib538.common.impl.log;
 
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -60,8 +60,9 @@ public final class MonkeyLibLoggerImpl implements MonkeyLibLogger {
     }
 
     @Override
-    public void addListener(LogLevel level, LogListener listener) {
+    public LogListener addListener(LogLevel level, LogListener listener) {
         listeners.get(level).add(listener);
+        return listener;
     }
 
     @Override

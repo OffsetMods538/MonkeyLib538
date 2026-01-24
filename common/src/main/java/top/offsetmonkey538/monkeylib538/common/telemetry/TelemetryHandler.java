@@ -18,7 +18,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.MOD_ID;
-import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.getLogger;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.LOGGER;
 
 public final class TelemetryHandler {
     private TelemetryHandler() {
@@ -27,7 +27,7 @@ public final class TelemetryHandler {
 
     private static boolean hasSent = false;
 
-    private static final ConfigHolder<TelemetryConfig> telemetryConfig = ConfigManager.init(ConfigHolder.create(TelemetryConfig::new, getLogger()::error));
+    private static final ConfigHolder<TelemetryConfig> telemetryConfig = ConfigManager.init(ConfigHolder.create(TelemetryConfig::new, LOGGER::error));
 
     public static void initialize() {
         TelemetryRegistry.register(MOD_ID);
@@ -47,7 +47,7 @@ public final class TelemetryHandler {
                 TelemetryHandler.send();
                 hasSent = true;
             } catch (Exception e) {
-                getLogger().error("Failed to send telemetry data :(", e);
+                LOGGER.error("Failed to send telemetry data :(", e);
             }
         }).start();
     }
@@ -67,8 +67,8 @@ public final class TelemetryHandler {
 
             if (response.statusCode() >= 200 && response.statusCode() <= 299) return;
 
-            getLogger().error("Received non-2xx response when trying to send the following telemetry data: %s", jsonData);
-            getLogger().error("Full response:\n" + response.body());
+            LOGGER.error("Received non-2xx response when trying to send the following telemetry data: %s", jsonData);
+            LOGGER.error("Full response:\n%s", response.body());
         }
     }
 

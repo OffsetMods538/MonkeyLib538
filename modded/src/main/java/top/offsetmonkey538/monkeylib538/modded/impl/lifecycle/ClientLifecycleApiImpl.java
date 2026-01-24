@@ -6,7 +6,7 @@ import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ClientLifecycleApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.getLogger;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.LOGGER;
 
 public final class ClientLifecycleApiImpl implements ClientLifecycleApi {
     private static @Nullable List<Runnable> workToRunOnLoadingFinished = new ArrayList<>();
@@ -14,7 +14,7 @@ public final class ClientLifecycleApiImpl implements ClientLifecycleApi {
     @Override
     public void runOnLoadingFinishedImpl(Runnable work) {
         if (workToRunOnLoadingFinished == null) {
-            getLogger().error("runOnLoadingFinished called after loading has already finished!", new Throwable());
+            LOGGER.error("runOnLoadingFinished called after loading has already finished!", new Throwable());
             return;
         }
 
@@ -23,7 +23,7 @@ public final class ClientLifecycleApiImpl implements ClientLifecycleApi {
 
     public static @Nullable List<Runnable> getAndDestroyWorkToRunOnLoadingFinished() {
         if (workToRunOnLoadingFinished == null) {
-            getLogger().error("getAndDestroyWorkToRunOnLoadingFinished called twice? I don't think loading should be able to finish twice...", new Throwable());
+            LOGGER.error("getAndDestroyWorkToRunOnLoadingFinished called twice? I don't think loading should be able to finish twice...", new Throwable());
             return null;
         }
 

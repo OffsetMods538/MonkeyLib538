@@ -1,5 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.impl.text;
 
+import com.google.common.base.Suppliers;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.common.api.text.TextFormattingApi;
@@ -7,9 +9,86 @@ import top.offsetmonkey538.monkeylib538.common.api.text.TextFormattingApi;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public final class TextFormattingImpl implements TextFormattingApi {
-    private static final MonkeyLibStyle DEFAULT_STYLE = MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF);
+    // Probably a valid amount to pre-allocate in the builder per arg
+    private static final int ARG_SIZE = 16;
+    private static final Supplier<MonkeyLibStyle> DEFAULT_STYLE = Suppliers.memoize(() -> MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF));
+
+    @Override
+    public String replaceArgsImpl(String text, @Nullable Object arg1) {
+        final StringBuilder builder = new StringBuilder(text.length() + ARG_SIZE);
+        boolean argUsed = false;
+        for (int i = 0; i < text.length(); i++) {
+            final char character = text.charAt(i);
+            if (character != '%' || i + 1 >= text.length() || text.charAt(i + 1) != 's') {
+                builder.append(character);
+                continue;
+            }
+
+            if (argUsed) throw new IllegalArgumentException("Text uses more predicates than the provided 1!");
+            builder.append(arg1);
+            argUsed = true;
+            i++;
+        }
+
+        if (!argUsed) throw new IllegalArgumentException("Text uses less predicates than the provided 1!");
+
+        return builder.toString();
+    }
+
+    @Override
+    public String replaceArgsImpl(String text, @Nullable Object arg1, @Nullable Object arg2) {
+        final StringBuilder builder = new StringBuilder(text.length() + 2 * ARG_SIZE);
+        int argIndex = 0;
+        for (int i = 0; i < text.length(); i++) {
+            final char character = text.charAt(i);
+            if (character != '%' || i + 1 >= text.length() || text.charAt(i + 1) != 's') {
+                builder.append(character);
+                continue;
+            }
+
+            switch (argIndex) {
+                case 0:
+                    builder.append(arg1);
+                    break;
+                case 1:
+                    builder.append(arg2);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Text uses more predicates than the provided 2!");
+            }
+            argIndex++;
+            i++;
+        }
+
+        if (argIndex != 2) throw new IllegalArgumentException("Text uses less predicates than the provided 2!");
+
+        return builder.toString();
+    }
+
+    @Override
+    public String replaceArgsImpl(String text, @Nullable Object... args) {
+        final StringBuilder builder = new StringBuilder(text.length() + args.length * ARG_SIZE);
+        int argIndex = 0;
+        for (int i = 0; i < text.length(); i++) {
+            final char character = text.charAt(i);
+            if (character != '%' || i + 1 >= text.length() || text.charAt(i + 1) != 's') {
+                builder.append(character);
+                continue;
+            }
+
+            if (argIndex >= args.length) throw new IllegalArgumentException("Text uses more predicates than the provided " + args.length + "!");
+
+            builder.append(args[argIndex++]);
+            i++;
+        }
+
+        if (argIndex != args.length) throw new IllegalArgumentException("Text uses less predicates than the provided " + args.length + "!");
+
+        return builder.toString();
+    }
 
     @Override
     public MonkeyLibText[] styleTextMultilineImpl(String text) throws Exception {
@@ -32,7 +111,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         final Context context = new Context(
                 false,
                 false,
-                DEFAULT_STYLE,
+                DEFAULT_STYLE.get(),
                 text.toCharArray(),
                 0
         );
@@ -163,7 +242,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
     }
     private static void handleNormalFormattingCode(final Context context) throws Exception {
         if (context.currentChar == 'r') {
-            context.style = DEFAULT_STYLE.copyEventsFrom(context.style);
+            context.style = DEFAULT_STYLE.get().copyEventsFrom(context.style);
             return;
         }
 

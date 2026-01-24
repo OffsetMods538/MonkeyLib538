@@ -169,7 +169,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
         if (value.isAssignableFrom(String.class)) return StringArgumentType.string();
 
-        MonkeyLib538Common.getLogger().warn("Couldn't find suitable argument type for class '%s' in config '%s', ignoring!", value.getName(), configName);
+        MonkeyLib538Common.LOGGER.warn("Couldn't find suitable argument type for class '%s' in config '%s', ignoring!", value.getName(), configName);
 
         return null;
     }

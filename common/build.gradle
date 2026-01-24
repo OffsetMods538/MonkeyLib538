@@ -16,4 +16,5 @@ dependencies {
     compileOnly "com.mojang:datafixerupper:${rootProject.datafixerupper_version}"
     compileOnly "com.mojang:brigadier:${rootProject.brigadier_version}"
     compileOnly "com.google.code.gson:gson:${rootProject.gson_version}"
+    compileOnly "org.slf4j:slf4j-api:${rootProject.slf4j_version}"
 }
