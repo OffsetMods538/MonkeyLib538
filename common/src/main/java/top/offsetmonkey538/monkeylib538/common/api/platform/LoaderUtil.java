@@ -58,7 +58,7 @@ public interface LoaderUtil {
     /**
      * Returns true when the game is launched in a development environment (IDE).
      * <br>
-     * On paper, this is only true when the jvm property {@code -DmonkeyLibDev=true} is added.
+     * On paper, this is only true when the system property {@code xyz.jpenilla.run-task} is true.
      *
      * @return true when the game is launched in a development environment (IDE).
      */

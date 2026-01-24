@@ -41,7 +41,7 @@ public final class LoaderUtilImpl implements LoaderUtil {
 
     @Override
     public boolean isDevelopmentEnvironmentImpl() {
-        return Boolean.getBoolean("monkeyLibDev");
+        return Boolean.getBoolean("xyz.jpenilla.run-task");
     }
 
     @Override
