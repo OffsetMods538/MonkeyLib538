@@ -1,8 +1,5 @@
-import org.codehaus.groovy.runtime.GStringImpl
-
-import java.nio.file.Files
-
 plugins {
+	id 'multiloader-root'
 	id 'java'
 	id 'java-library'
 	id 'net.neoforged.moddev'           version "${neoforged_moddev}"            apply false
@@ -21,27 +18,6 @@ plugins {
 //    waitMusic = file("${rootProject.projectDir}/veryImportant/music.wav")
 //    successSound = file("${rootProject.projectDir}/veryImportant/done.wav")
 //}
-
-ext {
-	versionPrefix = rootProject.mod_version
-	if (!Boolean.parseBoolean(System.getenv("IS_RELEASE"))) {
-		String preReleaseVersion = System.currentTimeMillis()
-
-		if (Boolean.parseBoolean(System.getenv("PRESERVE_PRERELEASE_VERSION"))) {
-			var preReleaseVersionFile = file("preReleaseVersion.txt").toPath()
-			if (Files.exists(preReleaseVersionFile)) preReleaseVersion = Files.readString(preReleaseVersionFile)
-			Files.writeString(preReleaseVersionFile, preReleaseVersion)
-		}
-
-		var separator = "-"
-		if (versionPrefix.contains("-")) separator = "."
-		versionPrefix = "${versionPrefix}${separator}${preReleaseVersion}" as GStringImpl
-	}
-	final String versionSuffix = System.getenv("VERSION_SUFFIX")
-	versionPrefix = "${versionPrefix}${versionSuffix == null ? "+local" : versionSuffix.isEmpty() ? "" : "+${versionSuffix}"}" as GStringImpl
-
-	System.out.println("Version Prefix: " + versionPrefix)
-}
 
 subprojects {
 	apply plugin: "java-library"
