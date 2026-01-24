@@ -7,7 +7,7 @@ plugins {
 allprojects {
     neoForgeModsToml {
         mitLicense()
-        mod(rootProject.mod_id) {
+        mod(rootProject.neo_mod_id) {
             authors = "OffsetMonkey538"
         }
         mixin("monkeylib538.modded.mixins.json")
