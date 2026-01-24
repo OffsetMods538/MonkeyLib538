@@ -1,116 +1,24 @@
 import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
-	id 'multiloader-base'
-	id 'io.papermc.paperweight.userdev'
-	id 'com.gradleup.shadow' apply false
-	id 'xyz.jpenilla.run-paper' apply false
-	id 'xyz.jpenilla.resource-factory-paper-convention' apply false
-	id 'io.github.dexman545.outlet' apply false
-	id 'com.modrinth.minotaur' apply false
+	id 'multiloader-paper'
 }
 
 allprojects {
-	apply plugin: "multiloader-base"
-	apply plugin: "io.papermc.paperweight.userdev"
-	apply plugin: "io.github.dexman545.outlet"
+	// Gotta have this here cause I can't import it in buildSrc
+	outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
 
-	outlet {
-		maintainPropertiesFile = false
-		mcVersionRange = project.supported_minecraft_versions
-		allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
-	}
-
-	repositories {
-		maven {
-			name = 'PaperMC'
-			url = 'https://repo.papermc.io/repository/maven-public/'
-			content {
-				includeGroup "io.papermc.paper"
-			}
-		}
-	}
-
-	dependencies {
-		compileOnly project(":common")
-		commonJava project(path: ":common", configuration: "commonJava")
-		commonResources project(path: ":common", configuration: "commonResources")
-
-		paperweight.paperDevBundle project.paper_version
+	paperPluginYaml {
+		main = "top.offsetmonkey538.monkeylib538.paper.impl.platform.LoaderUtilImpl\$MonkeyLib538Initializer"
+		authors.add("OffsetMonkey538")
+		load = "STARTUP"
 	}
 }
 
 subprojects {
-	apply plugin: "multiloader-base"
-	apply plugin: "io.papermc.paperweight.userdev"
-	apply plugin: "com.gradleup.shadow"
-	apply plugin: "xyz.jpenilla.run-paper"
-	apply plugin: "xyz.jpenilla.resource-factory-paper-convention"
-	apply plugin: "io.github.dexman545.outlet"
-	apply plugin: "com.modrinth.minotaur"
-
-	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
-	paperPluginYaml {
-		name = rootProject.mod_name
-		main = "top.offsetmonkey538.monkeylib538.paper.impl.platform.LoaderUtilImpl\$MonkeyLib538Initializer"
-		description = rootProject.mod_description
-		authors.add("OffsetMonkey538")
-		website = rootProject.mod_website
-		apiVersion = outlet.mcVersions().first()
-		load = "STARTUP"
-	}
-
 	dependencies {
-		compileOnly project(":loader:paper")
-		commonJava project(path: ":loader:paper", configuration: "commonJava")
-		commonResources project(path: ":loader:paper", configuration: "commonResources")
-
+		// We have shadow so that's how they're included
 		runtimeOnly("top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}")
 		runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
-	}
-	tasks.build.dependsOn(shadowJar)
-
-	tasks.runServer {
-		minecraftVersion project.minecraft_version
-		jvmArgs "-DmonkeyLibDev=true"
-	}
-
-	modrinth {
-		// Main properties
-		token = System.getenv("MODRINTH_TOKEN")
-		projectId = "monkeylib538"
-		gameVersions = outlet.mcVersions()
-		loaders = ["paper"]
-
-
-		// Version stuff
-		def customVersionName = System.getenv("VERSION_NAME")
-		if (customVersionName != null) versionName = customVersionName
-
-		versionNumber = "${project.version}"
-
-		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-		versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
-
-		if (project.mod_version.contains("beta")) versionType = "beta"
-		if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-		// Files
-		uploadFile = shadowJar
-		additionalFiles = [sourcesJar.archiveFile]
-
-
-		// Project info
-		syncBodyFrom = rootProject.file("README.md").text
-		def changelogEnv = System.getenv("VERSION_CHANGELOG")
-		if (changelogEnv != null) changelog = changelogEnv
-
-
-		// Dependencies
-		dependencies {
-
-		}
 	}
 }

@@ -1,165 +1,25 @@
 import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
-    id 'multiloader-base'
-    id 'net.neoforged.moddev'
-    id 'xyz.jpenilla.resource-factory-neoforge-convention' apply false
-    id 'io.github.dexman545.outlet' apply false
-    id 'com.modrinth.minotaur' apply false
-}
-
-neoForge {
-    runs {
-
-    }
+    id 'multiloader-neoforge'
 }
 
 allprojects {
-    apply plugin: "multiloader-base"
-    apply plugin: "net.neoforged.moddev"
-
-    dependencies {
-        compileOnly project(":common")
-        commonJava project(path: ":common", configuration: "commonJava")
-        commonResources project(path: ":common", configuration: "commonResources")
-        compileOnly project(":modded")
-        commonJava project(path: ":modded", configuration: "commonJava")
-        commonResources project(path: ":modded", configuration: "commonResources")
-    }
-
-    neoForge {
-        version = project.neoforge_version
-
-        parchment {
-            minecraftVersion = project.parchment_minecraft_version
-            mappingsVersion = project.parchment_mappings_version
+    neoForgeModsToml {
+        mitLicense()
+        mod(rootProject.mod_id) {
+            authors = "OffsetMonkey538"
         }
-
-        mods {
-            "${project.name}" {
-                sourceSet(sourceSets.main)
-            }
-        }
+        mixin("monkeylib538.modded.mixins.json")
     }
 }
 
 subprojects {
-    apply plugin: "net.neoforged.moddev"
-    apply plugin: "xyz.jpenilla.resource-factory-neoforge-convention"
-    apply plugin: "io.github.dexman545.outlet"
-    apply plugin: "com.modrinth.minotaur"
-
-    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
-    neoForgeModsToml {
-        mitLicense()
-        issueTrackerUrl = rootProject.mod_issues
-        mod(rootProject.mod_id) {
-            //TODO: can remove cause above? name = rootProject.mod_id
-            version = project.version
-            displayName = rootProject.mod_name
-            description = rootProject.mod_description
-            logoFile = "assets/${rootProject.mod_id}/icon.png"
-            logoBlur = false
-            features = ["javaVersion": "[21,)"]
-            modUrl = rootProject.mod_website // TODO: should these be the same?
-            authors = "OffsetMonkey538"
-            displayUrl = rootProject.mod_website // TODO: should these be the same?
-            dependencies {
-                required("minecraft", project.minecraft_version_range)
-            }
-        }
-        mixin("monkeylib538.modded.mixins.json")
-    }
-
-    outlet {
-        mcVersionRange = project.supported_minecraft_versions
-        allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
-    }
-
-    configurations {
-        runtimeClasspath.extendsFrom localRuntime
-    }
-
-    repositories {
-        maven {
-            name = "DevAuth"
-            url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
-            content {
-                includeGroup "me.djtheredstoner"
-            }
-        }
-    }
+    // Gotta have this here cause I can't import it in buildSrc
+    outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
 
     dependencies {
-        compileOnly project(":loader:neoforge")
-        commonJava project(path: ":loader:neoforge", configuration: "commonJava")
-        commonResources project(path: ":loader:neoforge", configuration: "commonResources")
-
-        compileOnly project(":modded:${project.commonModdedVersion}")
-        commonJava project(path: ":modded:${project.commonModdedVersion}", configuration: "commonJava")
-        commonResources project(path: ":modded:${project.commonModdedVersion}", configuration: "commonResources")
-
-        final String config = neoForge.versionCapabilities.legacyClasspath() ? "additionalRuntimeClasspath" : "runtimeOnly"
-        jarJar add(config, "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}")
-        jarJar add(config, "blue.endless:jankson:${rootProject.jankson_version}")
-
-        // DevAuth
-        localRuntime "me.djtheredstoner:DevAuth-neoforge:${rootProject.devauth_version}"
-    }
-
-    neoForge {
-        runs {
-            client {
-                client()
-            }
-
-            server {
-                server()
-            }
-
-            configureEach {
-                systemProperty 'forge.logging.markers', 'REGISTRIES'
-                logLevel = org.slf4j.event.Level.INFO
-            }
-        }
-    }
-
-    modrinth {
-        // Main properties
-        token = System.getenv("MODRINTH_TOKEN")
-        projectId = "monkeylib538"
-        gameVersions = outlet.mcVersions()
-        loaders = ["neoforge"]
-
-
-        // Version stuff
-        def customVersionName = System.getenv("VERSION_NAME")
-        if (customVersionName != null) versionName = customVersionName
-
-        versionNumber = "${project.version}"
-
-        def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-        versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
-
-        if (project.mod_version.contains("beta")) versionType = "beta"
-        if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-        // Files
-        uploadFile = jar.archiveFile
-        additionalFiles = [sourcesJar.archiveFile]
-
-
-        // Project info
-        syncBodyFrom = rootProject.file("README.md").text
-        def changelogEnv = System.getenv("VERSION_CHANGELOG")
-        if (changelogEnv != null) changelog = changelogEnv
-
-
-        // Dependencies
-        dependencies {
-
-        }
+        includeRuntime "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+        includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
     }
 }

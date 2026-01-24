@@ -2,79 +2,23 @@ import dex.plugins.outlet.v2.util.ReleaseType
 import xyz.jpenilla.resourcefactory.fabric.Environment
 
 plugins {
-	id 'multiloader-base'
-	id 'fabric-loom'
-	id 'xyz.jpenilla.resource-factory-fabric-convention' apply false
-	id 'io.github.dexman545.outlet' apply false
-	id 'com.modrinth.minotaur' apply false
-}
-
-loom {
-	afterEvaluate {
-		runClient.setEnabled(false)
-		runServer.setEnabled(false)
-	}
+	id 'multiloader-fabric'
 }
 
 allprojects {
-	apply plugin: "multiloader-base"
-	apply plugin: "fabric-loom"
-	apply plugin: "io.github.dexman545.outlet"
-
-	outlet {
-		maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
-		mcVersionRange = project.supported_minecraft_versions
-		allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
-		propertiesData = [
-				'loader_version': outlet.loaderVersion(),
-				'fapi_version'  : outlet.fapiVersion(project.minecraft_version)
-		]
-	}
-
-	dependencies {
-		compileOnly project(":common")
-		commonJava project(path: ":common", configuration: "commonJava")
-		commonResources project(path: ":common", configuration: "commonResources")
-		compileOnly project(":modded")
-		commonJava project(path: ":modded", configuration: "commonJava")
-		commonResources project(path: ":modded", configuration: "commonResources")
-
-		minecraft "com.mojang:minecraft:${project.minecraft_version}"
-		mappings loom.officialMojangMappings()
-		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
-	}
-}
-
-subprojects {
-	apply plugin: "io.github.dexman545.outlet"
-	apply plugin: "xyz.jpenilla.resource-factory-fabric-convention"
-	apply plugin: "com.modrinth.minotaur"
-
-	tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
-
 	fabricModJson {
 		mitLicense()
-		id = rootProject.mod_id
-		version = project.version
-		name = rootProject.mod_name
-		description = rootProject.mod_description
 		author("OffsetMonkey538")
 		contact {
-			homepage = rootProject.mod_website
-			issues = rootProject.mod_issues
-			sources = rootProject.mod_sources
 			extra = ["discord": "https://discord.offsetmonkey538.top"]
-
 		}
-		icon("assets/${rootProject.mod_id}/icon.png")
 		environment = Environment.ANY
 		mainEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
 		serverEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
 		mixin("monkeylib538.modded.mixins.json")
-		depends("minecraft", project.supported_minecraft_versions)
-		depends("java", ">=21")
+
+		depends("fabric-api", "*")
+
 		breaks("cog", "<=2.1.1")
 		breaks("bettermultishot", "<=2.5.0")
 		breaks("withered-bone-meal", "<=2.2.0")
@@ -83,83 +27,23 @@ subprojects {
 		breaks("easy-item-despawn", "<=1.1.0")
 	}
 
-	repositories {
-		maven {
-			name = "DevAuth"
-			url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
-			content {
-				includeGroup "me.djtheredstoner"
-			}
-		}
-	}
+	// Gotta have this here cause I can't import it in buildSrc
+	outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
 
 	dependencies {
-		compileOnly project(":loader:fabric")
-		commonJava project(path: ":loader:fabric", configuration: "commonJava")
-		commonResources project(path: ":loader:fabric", configuration: "commonResources")
-
-		compileOnly project(":modded:${project.commonModdedVersion}")
-		commonJava project(path: ":modded:${project.commonModdedVersion}", configuration: "commonJava")
-		commonResources project(path: ":modded:${project.commonModdedVersion}", configuration: "commonResources")
-
-		include runtimeOnly("top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}")
-		include runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
-
-		// DevAuth
-		modLocalRuntime "me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 	}
+}
 
-	loom {
-		runs {
-			server {
-				name = "${project.project_name} Server"
-				runDir "run/server"
-				ideConfigGenerated(true)
-			}
-			client {
-				name = "${project.project_name} Client"
-				runDir "run/client"
-				vmArg "-Ddevauth.enabled=true"
-				ideConfigGenerated(true)
-			}
-		}
+subprojects {
+	dependencies {
+		includeRuntime "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+		includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
 	}
 
 	modrinth {
-		// Main properties
-		token = System.getenv("MODRINTH_TOKEN")
-		projectId = "monkeylib538"
-		gameVersions = outlet.mcVersions()
-		loaders = ["fabric"]
-
-
-		// Version stuff
-		def customVersionName = System.getenv("VERSION_NAME")
-		if (customVersionName != null) versionName = customVersionName
-
-		versionNumber = "${project.version}"
-
-		def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-		versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
-
-		if (project.mod_version.contains("beta")) versionType = "beta"
-		if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-		// Files
-		uploadFile = remapJar.archiveFile
-		additionalFiles = [sourcesJar.archiveFile]
-
-
-		// Project info
-		syncBodyFrom = rootProject.file("README.md").text
-		def changelogEnv = System.getenv("VERSION_CHANGELOG")
-		if (changelogEnv != null) changelog = changelogEnv
-
-
-		// Dependencies
 		dependencies {
-            required.project "fabric-api"
+			required.project "fabric-api"
 		}
 	}
 }
