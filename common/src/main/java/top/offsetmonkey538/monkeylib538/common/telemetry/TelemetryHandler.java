@@ -35,9 +35,9 @@ public final class TelemetryHandler {
 
         // Other mods have probably registered themselves for telemetry before either of the two following points. They should just be able to use their default initializers afaik
         // For dedicated servers, I need to use ServerStarted as LoaderUtil$ServerBrandGetter only starts working after ServerStarting happens.
-        if (LoaderUtil.isDedicatedServer()) ServerLifecycleApi.runOnServerStarted(TelemetryHandler::sendOnNewThread);
+        if (LoaderUtil.isDedicatedServer()) ServerLifecycleApi.STARTING.listen(TelemetryHandler::sendOnNewThread);
         // For clients, running once loading finishes is probably fine.
-        else ClientLifecycleApi.runOnLoadingFinished(TelemetryHandler::sendOnNewThread);
+        else ClientLifecycleApi.LOAD_FINISHED.listen(TelemetryHandler::sendOnNewThread);
     }
 
     public static void sendOnNewThread() {

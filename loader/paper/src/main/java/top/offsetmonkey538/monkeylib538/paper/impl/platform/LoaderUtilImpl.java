@@ -9,14 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.paper.api.text.PaperMonkeyLibText;
 import top.offsetmonkey538.monkeylib538.paper.impl.command.CommandRegistrationImpl;
-import top.offsetmonkey538.monkeylib538.paper.impl.lifecycle.ServerLifecycleApiImpl;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -74,23 +75,32 @@ public final class LoaderUtilImpl implements LoaderUtil {
 
 
 
-    public static final class MonkeyLib538Initializer extends JavaPlugin {
+    public static final class MonkeyLib538Initializer extends JavaPlugin implements Listener {
         @Override
-        public void onEnable() { // TODO: only runs once? Sure do hope so
+        public void onEnable() {
             setPlugin(this);
             MonkeyLib538Common.initialize();
+
             this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
                 for (LiteralArgumentBuilder<?> command : CommandRegistrationImpl.commands) {
                     //noinspection unchecked
                     commands.registrar().register((LiteralCommandNode<CommandSourceStack>) command.build());
                 }
             });
+
+            ServerLifecycleApi.STARTING.getInvoker().run(); // Dependant plugins MUST start before this one.
+            Bukkit.getPluginManager().registerEvents(this, this);
         }
 
         @Override
         public void onDisable() {
-            ServerLifecycleApiImpl.STOPPING.getInvoker().run();
-            ServerLifecycleApiImpl.STOPPED.getInvoker().run();
+            ServerLifecycleApi.STOPPING.getInvoker().run();
+            ServerLifecycleApi.STOPPED.getInvoker().run();
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onServerLoad(final ServerLoadEvent event) {
+            if (event.getType() == ServerLoadEvent.LoadType.STARTUP) ServerLifecycleApi.STARTED.getInvoker().run();
         }
     }
 }

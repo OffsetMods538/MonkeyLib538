@@ -5,9 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import top.offsetmonkey538.monkeylib538.modded.impl.lifecycle.ClientLifecycleApiImpl;
-
-import java.util.List;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ClientLifecycleApi;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftClientMixin {
@@ -17,7 +15,6 @@ public abstract class MinecraftClientMixin {
             at = @At("TAIL")
     )
     private void monkeylib538$runClientLoadFinishEvent(CallbackInfo ci) {
-        final List<Runnable> work = ClientLifecycleApiImpl.getAndDestroyWorkToRunOnLoadingFinished();
-        if (work != null) work.forEach(Runnable::run);
+        ClientLifecycleApi.LOAD_FINISHED.getInvoker().run();
     }
 }

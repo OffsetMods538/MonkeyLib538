@@ -9,6 +9,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.modded.impl.command.CommandRegistrationImpl;
 
 public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerModInitializer {
@@ -29,6 +30,11 @@ public class MonkeyLib538Initializer implements ModInitializer, DedicatedServerM
             //noinspection unchecked
             CommandRegistrationImpl.commands.forEach(command -> dispatcher.register((LiteralArgumentBuilder<CommandSourceStack>) command));
         });
+
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> ServerLifecycleApi.STARTING.getInvoker().run());
+        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> ServerLifecycleApi.STARTED.getInvoker().run());
+        ServerLifecycleEvents.SERVER_STOPPING.register(minecraftServer -> ServerLifecycleApi.STOPPING.getInvoker().run());
+        ServerLifecycleEvents.SERVER_STOPPED.register(minecraftServer -> ServerLifecycleApi.STOPPED.getInvoker().run());
     }
 
     @Override
