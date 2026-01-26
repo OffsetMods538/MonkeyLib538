@@ -2,7 +2,7 @@ package top.offsetmonkey538.monkeylib538.common.telemetry;
 
 import blue.endless.jankson.Comment;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
-import top.offsetmonkey538.offsetconfig538.api.config.Config;
+import top.offsetmonkey538.offsetutils538.api.config.Config;
 
 import java.nio.file.Path;
 

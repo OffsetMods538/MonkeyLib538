@@ -37,7 +37,7 @@ allprojects {
 
 subprojects {
 	dependencies {
-		includeRuntime "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+		includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
 		includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
 	}
 

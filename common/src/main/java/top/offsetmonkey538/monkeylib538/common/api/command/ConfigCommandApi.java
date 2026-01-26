@@ -2,8 +2,8 @@ package top.offsetmonkey538.monkeylib538.common.api.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
-import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
+import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 

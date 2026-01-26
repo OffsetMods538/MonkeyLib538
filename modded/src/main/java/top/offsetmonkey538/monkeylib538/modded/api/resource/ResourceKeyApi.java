@@ -2,8 +2,8 @@ package top.offsetmonkey538.monkeylib538.modded.api.resource;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.monkeylib538.common.api.wrapper.Identifier;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 

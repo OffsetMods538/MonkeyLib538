@@ -7,8 +7,8 @@ import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.common.api.telemetry.TelemetryRegistry;
 import top.offsetmonkey538.monkeylib538.common.impl.telemetry.TelemetryRegistryImpl;
-import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
-import top.offsetmonkey538.offsetconfig538.api.config.ConfigManager;
+import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
+import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
 
 import java.io.*;
 import java.net.URI;
@@ -27,7 +27,7 @@ public final class TelemetryHandler {
 
     private static boolean hasSent = false;
 
-    private static final ConfigHolder<TelemetryConfig> telemetryConfig = ConfigManager.init(ConfigHolder.create(TelemetryConfig::new, LOGGER::error));
+    private static final ConfigHolder<TelemetryConfig> telemetryConfig = ConfigManager.init(ConfigHolder.create(TelemetryConfig::new, LOGGER));
 
     public static void initialize() {
         TelemetryRegistry.register(MOD_ID);

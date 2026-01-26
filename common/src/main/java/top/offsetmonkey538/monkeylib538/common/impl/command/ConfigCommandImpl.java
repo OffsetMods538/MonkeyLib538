@@ -16,10 +16,10 @@ import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.ConfigCommandApi;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
-import top.offsetmonkey538.offsetconfig538.api.config.Config;
-import top.offsetmonkey538.offsetconfig538.api.config.ConfigHolder;
-import top.offsetmonkey538.offsetconfig538.api.config.ConfigManager;
-import top.offsetmonkey538.offsetconfig538.api.config.ErrorHandler;
+import top.offsetmonkey538.offsetutils538.api.config.Config;
+import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
+import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
+import top.offsetmonkey538.offsetutils538.api.errorhandler.ErrorHandler;
 
 import java.lang.reflect.Field;
 

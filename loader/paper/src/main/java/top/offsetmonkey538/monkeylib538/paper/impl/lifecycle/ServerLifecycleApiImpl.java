@@ -7,9 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
 import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.paper.impl.platform.LoaderUtilImpl;
-import top.offsetmonkey538.offsetconfig538.api.event.Event;
+import top.offsetmonkey538.offsetutils538.api.event.Event;
 
 public final class ServerLifecycleApiImpl implements ServerLifecycleApi {
+    // TODO: actually probably use this event thingy in common as well and don't use services to implement the lifecycle stuff
     public static final Event<Runnable> STOPPING = Event.createEvent(Runnable.class, handlers -> () -> {
         for (final Runnable work : handlers) work.run();
     });

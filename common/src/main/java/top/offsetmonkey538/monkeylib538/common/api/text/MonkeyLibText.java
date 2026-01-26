@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.text;
 
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import java.util.function.UnaryOperator;
 

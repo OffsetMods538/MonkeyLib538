@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.wrapper;
 
 import com.mojang.serialization.Codec;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 

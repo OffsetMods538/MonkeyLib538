@@ -1,8 +1,8 @@
 package top.offsetmonkey538.monkeylib538.common.api.platform;
 
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;

@@ -3,7 +3,7 @@ package top.offsetmonkey538.monkeylib538.modded.api.player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
-import top.offsetmonkey538.monkeylib538.common.api.annotation.Internal;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
 

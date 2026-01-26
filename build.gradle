@@ -39,7 +39,7 @@ subprojects {
 	}
 
 	dependencies {
-		api "top.offsetmonkey538.offsetconfig538:offsetconfig538:${rootProject.offsetconfig538_version}"
+		api "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
 		compileOnlyApi "org.jspecify:jspecify:${rootProject.jspecify_version}"
 	}
 }
