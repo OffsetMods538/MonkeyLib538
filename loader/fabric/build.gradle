@@ -14,7 +14,6 @@ allprojects {
 		}
 		environment = Environment.ANY
 		mainEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
-		serverEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
 		mixin("monkeylib538.modded.mixins.json")
 
 		depends("fabric-api", "*")
