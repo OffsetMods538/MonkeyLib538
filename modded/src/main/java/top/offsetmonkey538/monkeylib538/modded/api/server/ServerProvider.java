@@ -1,11 +1,10 @@
 package top.offsetmonkey538.monkeylib538.modded.api.server;
 
+import net.minecraft.server.dedicated.DedicatedServer;
 import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
-
-import net.minecraft.server.dedicated.DedicatedServer;
-import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 public interface ServerProvider {
     @Internal

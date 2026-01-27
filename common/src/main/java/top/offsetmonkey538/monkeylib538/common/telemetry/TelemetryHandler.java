@@ -10,15 +10,15 @@ import top.offsetmonkey538.monkeylib538.common.impl.telemetry.TelemetryRegistryI
 import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.MOD_ID;
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.LOGGER;
+import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.MOD_ID;
 
 public final class TelemetryHandler {
     private TelemetryHandler() {

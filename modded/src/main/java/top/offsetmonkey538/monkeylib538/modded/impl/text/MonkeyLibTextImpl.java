@@ -1,5 +1,7 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.text;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
@@ -7,8 +9,6 @@ import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 
 import java.util.List;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 
 public final class MonkeyLibTextImpl implements ModdedMonkeyLibText {
     private final Component text;

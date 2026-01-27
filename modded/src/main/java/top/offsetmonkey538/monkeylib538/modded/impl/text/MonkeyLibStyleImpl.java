@@ -1,6 +1,6 @@
 package top.offsetmonkey538.monkeylib538.modded.impl.text;
 
-import org.jspecify.annotations.Nullable;
+import net.minecraft.network.chat.Style;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibStyle;
@@ -9,8 +9,6 @@ import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedTextApi;
 
 import java.net.URI;
 import java.nio.file.Path;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Style;
 
 public record MonkeyLibStyleImpl(Style style) implements ModdedMonkeyLibStyle {
 
