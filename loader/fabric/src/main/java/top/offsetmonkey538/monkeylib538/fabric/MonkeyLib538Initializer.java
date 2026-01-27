@@ -1,6 +1,6 @@
 package top.offsetmonkey538.monkeylib538.fabric;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.CommandNode;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -8,8 +8,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
-import top.offsetmonkey538.monkeylib538.modded.impl.command.CommandRegistrationImpl;
 
 public class MonkeyLib538Initializer implements ModInitializer {
     private static @Nullable DedicatedServer minecraftServer = null;
@@ -27,7 +27,7 @@ public class MonkeyLib538Initializer implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             //noinspection unchecked
-            CommandRegistrationImpl.commands.forEach(command -> dispatcher.register((LiteralArgumentBuilder<CommandSourceStack>) command));
+            CommandRegistrationApi.getCommands().forEach(command -> dispatcher.getRoot().addChild((CommandNode<CommandSourceStack>) command));
         });
 
         ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer1 -> {

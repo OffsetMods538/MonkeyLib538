@@ -1,6 +1,6 @@
 package top.offsetmonkey538.monkeylib538.paper.impl.platform;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -15,11 +15,11 @@ import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.paper.api.text.PaperMonkeyLibText;
-import top.offsetmonkey538.monkeylib538.paper.impl.command.CommandRegistrationImpl;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -91,9 +91,9 @@ public final class LoaderUtilImpl implements LoaderUtil {
             MonkeyLib538Common.initialize();
 
             this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-                for (LiteralArgumentBuilder<?> command : CommandRegistrationImpl.commands) {
+                for (CommandNode<?> command : CommandRegistrationApi.getCommands()) {
                     //noinspection unchecked
-                    commands.registrar().register((LiteralCommandNode<CommandSourceStack>) command.build());
+                    commands.registrar().register((LiteralCommandNode<CommandSourceStack>) command);
                 }
             });
 
