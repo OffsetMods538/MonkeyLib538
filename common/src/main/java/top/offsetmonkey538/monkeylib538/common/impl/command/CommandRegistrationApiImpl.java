@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CommandRegistrationApiImpl implements CommandRegistrationApi {
-    private CommandRegistrationApiImpl() {}
-
     private static final Map<String, CommandNode<?>> commands = new HashMap<>();
 
     @Override
