@@ -88,7 +88,6 @@ public final class LoaderUtilImpl implements LoaderUtil {
                 }
             });
 
-            ServerLifecycleApi.STARTING.getInvoker().run(); // Dependant plugins MUST start before this one.
             Bukkit.getPluginManager().registerEvents(this, this);
         }
 
@@ -100,7 +99,9 @@ public final class LoaderUtilImpl implements LoaderUtil {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onServerLoad(final ServerLoadEvent event) {
-            if (event.getType() == ServerLoadEvent.LoadType.STARTUP) ServerLifecycleApi.STARTED.getInvoker().run();
+            if (event.getType() != ServerLoadEvent.LoadType.STARTUP) return;
+            ServerLifecycleApi.STARTING.getInvoker().run();
+            ServerLifecycleApi.STARTED.getInvoker().run();
         }
     }
 }
