@@ -19,7 +19,7 @@ import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetutils538.api.config.Config;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
-import top.offsetmonkey538.offsetutils538.api.errorhandler.ErrorHandler;
+import top.offsetmonkey538.offsetutils538.api.log.ErrorHandler;
 
 import java.lang.reflect.Field;
 
