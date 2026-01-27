@@ -76,6 +76,16 @@ public interface LoaderUtil {
     }
 
     /**
+     * Returns true when the game is launched as a dedicated server it's allowed to use the epoll channel type.
+     * <p>Calling before {@link top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi#STARTING ServerLifecycleApi#STARTING} has been invoked will throw an {@link IllegalStateException}.</p>
+     *
+     * @return true when the game is launched as a dedicated server it's allowed to use the epoll channel type.
+     */
+    static boolean isEpollEnabled() {
+        return INSTANCE.isEpollEnabledImpl();
+    }
+
+    /**
      * Sends the messages supplied by the provided supplier to admins when they join.
      * <br>
      * Also sends the message(s) on singleplayer start
@@ -91,6 +101,7 @@ public interface LoaderUtil {
     @Internal Path getModsDirImpl();
     @Internal boolean isDevelopmentEnvironmentImpl();
     @Internal boolean isDedicatedServerImpl();
+    @Internal boolean isEpollEnabledImpl();
     @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);
 
     @Internal

@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.impl.util.SystemProperties;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
+import top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 
@@ -38,6 +39,13 @@ public final class LoaderUtilImpl implements LoaderUtil {
     @Override
     public boolean isDedicatedServerImpl() {
         return FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER;
+    }
+
+    @Override
+    public boolean isEpollEnabledImpl() {
+        if (!isDedicatedServerImpl()) return false;
+        if (MonkeyLib538Initializer.getServer() == null) throw new IllegalStateException("Tried calling 'isEpollEnabledImpl' before server STARTING event was invoked!");
+        return MonkeyLib538Initializer.getServer().getProperties().useNativeTransport;
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -48,6 +50,13 @@ public final class LoaderUtilImpl implements LoaderUtil {
     @Override
     public boolean isDedicatedServerImpl() {
         return true;
+    }
+
+    @Override
+    public boolean isEpollEnabledImpl() {
+        if (!isDedicatedServerImpl()) return false;
+        if (plugin == null) throw new IllegalStateException("Tried calling 'isEpollEnabledImpl' before server STARTING event was invoked!");
+        return ((DedicatedServer) MinecraftServer.getServer()).getProperties().useNativeTransport;
     }
 
     @Override

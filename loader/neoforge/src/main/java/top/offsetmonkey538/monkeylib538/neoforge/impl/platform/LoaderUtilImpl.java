@@ -12,6 +12,7 @@ import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
 import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
+import top.offsetmonkey538.monkeylib538.neoforge.MonkeyLib538Initializer;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -42,6 +43,13 @@ public final class LoaderUtilImpl implements LoaderUtil {
     @Override
     public boolean isDedicatedServerImpl() {
         return VersionSpecific.INSTANCE.getDist() == Dist.DEDICATED_SERVER;
+    }
+
+    @Override
+    public boolean isEpollEnabledImpl() {
+        if (!isDedicatedServerImpl()) return false;
+        if (MonkeyLib538Initializer.getServer() == null) throw new IllegalStateException("Tried calling 'isEpollEnabledImpl' before server STARTING event was invoked!");
+        return MonkeyLib538Initializer.getServer().getProperties().useNativeTransport;
     }
 
     @Override
