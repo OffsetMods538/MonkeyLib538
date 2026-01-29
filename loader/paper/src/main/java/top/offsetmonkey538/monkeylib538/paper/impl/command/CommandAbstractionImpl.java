@@ -13,6 +13,7 @@ import top.offsetmonkey538.monkeylib538.paper.api.command.PaperCommandAbstractio
 import top.offsetmonkey538.monkeylib538.paper.api.text.PaperMonkeyLibText;
 
 import static top.offsetmonkey538.monkeylib538.paper.api.command.PaperCommandAbstractionApi.get;
+import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
 
 public final class CommandAbstractionImpl implements PaperCommandAbstractionApi {
 
@@ -64,6 +65,6 @@ public final class CommandAbstractionImpl implements PaperCommandAbstractionApi 
     @Override
     public CommandSourceStack getImpl(Object commandSource) {
         if (commandSource instanceof CommandSourceStack serverCommandSource) return serverCommandSource;
-        throw new IllegalStateException("Expected command source to be of type '%s', got '%s' instead. Something is very very wrong if you're seeing this error :concern:".formatted(CommandSourceStack.class, commandSource.getClass()));
+        throw new IllegalStateException(replaceArgs("Expected command source to be of type '%s', got '%s' instead. Something is very very wrong if you're seeing this error :concern:", CommandSourceStack.class, commandSource.getClass()));
     }
 }

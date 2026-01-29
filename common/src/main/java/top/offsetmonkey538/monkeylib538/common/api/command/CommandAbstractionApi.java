@@ -4,10 +4,13 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
+import top.offsetmonkey538.offsetutils538.api.text.ArgReplacer;
 
 import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
+import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
 
 /**
  * Provides some abstractions for dealing with commands.
@@ -51,12 +54,36 @@ public interface CommandAbstractionApi {
      * Sends a message to the command source.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param message the message to send, formatted using {@code args} and {@link String#formatted(Object...)}
-     * @param args the args for formatting the message using {@link String#formatted(Object...)}
+     * @param message the message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object)}
+     * @param arg the arg for replacing in the message
      */
-    static void sendMessage(final CommandContext<Object> ctx, final String message, final Object... args) {
-        sendMessage(ctx, message.formatted(args));
+    static void sendMessage(final CommandContext<Object> ctx, final String message, final Object arg) {
+        sendMessage(ctx, replaceArgs(message, arg));
     }
+
+    /**
+     * Sends a message to the command source.
+     *
+     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
+     * @param message the message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object, Object)}
+     * @param arg1 the first arg for replacing in the message
+     * @param arg2 the second arg for replacing in the message
+     */
+    static void sendMessage(final CommandContext<Object> ctx, final String message, @Nullable final Object arg1, @Nullable final Object arg2) {
+        sendMessage(ctx, replaceArgs(message, arg1, arg2));
+    }
+
+    /**
+     * Sends a message to the command source.
+     *
+     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
+     * @param message the message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object...)}
+     * @param args the args for replacing in the message
+     */
+    static void sendMessage(final CommandContext<Object> ctx, final String message, @Nullable final Object... args) {
+        sendMessage(ctx, replaceArgs(message, args));
+    }
+
     /**
      * Sends a message to the command source.
      *
@@ -71,12 +98,36 @@ public interface CommandAbstractionApi {
      * Sends an error message to the command source.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param message the error message to send, formatted using {@link String#formatted(Object...)} with the provided {@code args}
-     * @param args the args for formatting the error message using {@link String#formatted(Object...)}
+     * @param message the error message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object...)}
+     * @param arg the args for replacing in the error message
      */
-    static void sendError(final CommandContext<Object> ctx, final String message, final Object... args) {
-        sendError(ctx, message.formatted(args));
+    static void sendError(final CommandContext<Object> ctx, final String message, @Nullable final Object arg) {
+        sendError(ctx, replaceArgs(message, arg));
     }
+
+    /**
+     * Sends an error message to the command source.
+     *
+     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
+     * @param message the error message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object...)}
+     * @param arg1 the first arg for replacing in the error message
+     * @param arg2 the second arg for replacing in the error message
+     */
+    static void sendError(final CommandContext<Object> ctx, final String message, @Nullable final Object arg1, @Nullable final Object arg2) {
+        sendError(ctx, replaceArgs(message, arg1, arg2));
+    }
+
+    /**
+     * Sends an error message to the command source.
+     *
+     * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
+     * @param message the error message to send, will be formatted using {@link ArgReplacer#replaceArgs(String, Object...)}
+     * @param args the args for replacing in the error message
+     */
+    static void sendError(final CommandContext<Object> ctx, final String message, @Nullable final Object... args) {
+        sendError(ctx, replaceArgs(message, args));
+    }
+
     /**
      * Sends an error message to the command source.
      *

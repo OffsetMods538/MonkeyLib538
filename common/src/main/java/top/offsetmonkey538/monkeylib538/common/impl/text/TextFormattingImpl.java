@@ -10,6 +10,8 @@ import java.nio.file.Path;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
+import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
+
 public final class TextFormattingImpl implements TextFormattingApi {
     private static final Supplier<MonkeyLibStyle> DEFAULT_STYLE = Suppliers.memoize(() -> MonkeyLibStyle.empty().withItalic(false).withColor(0xFFFFFF));
 
@@ -21,7 +23,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         for (int lineNumber = 0; lineNumber < splitText.length; lineNumber++) try {
             result[lineNumber] = styleTextImpl(splitText[lineNumber]);
         } catch (Exception e) {
-            throw new Exception("Failed to style text at line nr '%s'!".formatted(lineNumber), e);
+            throw new Exception(replaceArgs("Failed to style text at line nr '%s'!", lineNumber), e);
         }
 
         return result;
@@ -92,7 +94,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         try {
             hexCode = Integer.parseInt(hexCodeString, 16);
         } catch (NumberFormatException e) {
-            throw new Exception("Invalid hex color '#%s' starting at character nr %s".formatted(hexCodeString, context.characterIndex), e);
+            throw new Exception(replaceArgs("Invalid hex color '#%s' starting at character nr %s", hexCodeString, context.characterIndex), e);
         }
 
         context.style = context.style.withColor(hexCode);
@@ -106,11 +108,11 @@ public final class TextFormattingImpl implements TextFormattingApi {
         try {
             action = Action.valueOf(actionName);
         } catch (IllegalArgumentException e) {
-            throw new Exception("Unknown action name '%s' starting at character nr %s!".formatted(actionName, startIndex));
+            throw new Exception(replaceArgs("Unknown action name '%s' starting at character nr %s!", actionName, startIndex));
         }
 
         context.readNext();
-        if (context.currentChar != '\'') throw new Exception("Expected character nr %s to be ' (single quote). Got %s".formatted(context.characterIndex, context.currentChar));
+        if (context.currentChar != '\'') throw new Exception(replaceArgs("Expected character nr %s to be ' (single quote). Got %s", context.characterIndex, context.currentChar));
 
         final Object arg;
         final MonkeyLibStyle originalStyle = context.style;
@@ -147,9 +149,9 @@ public final class TextFormattingImpl implements TextFormattingApi {
 
 
         context.readNext();
-        if (context.currentChar != ',') throw new Exception("Expected character nr %s to be , (coma). Got %s".formatted(context.characterIndex, context.currentChar));
+        if (context.currentChar != ',') throw new Exception(replaceArgs("Expected character nr %s to be , (coma). Got %s", context.characterIndex, context.currentChar));
         context.readNext();
-        if (context.currentChar != '\'') throw new Exception("Expected character nr %s to be ' (single quote). Got %s".formatted(context.characterIndex, context.currentChar));
+        if (context.currentChar != '\'') throw new Exception(replaceArgs("Expected character nr %s to be ' (single quote). Got %s", context.characterIndex, context.currentChar));
 
         for (context.readNext(); context.characterIndex < context.characters.length; context.characterIndex++) {
             context.currentChar = context.characters[context.characterIndex];
@@ -161,7 +163,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
         context.style = originalStyle;
 
         context.readNext();
-        if (context.currentChar != '}') throw new Exception("Expected character nr %s to be } (closed curly bracket). Got %s".formatted(context.characterIndex, context.currentChar));
+        if (context.currentChar != '}') throw new Exception(replaceArgs("Expected character nr %s to be } (closed curly bracket). Got %s", context.characterIndex, context.currentChar));
     }
     private static void handleNormalFormattingCode(final Context context) throws Exception {
         if (context.currentChar == 'r') {
@@ -170,14 +172,14 @@ public final class TextFormattingImpl implements TextFormattingApi {
         }
 
         final MonkeyLibStyle newStyle = context.style.withFormattingCode(context.currentChar);
-        if (newStyle == null) throw new Exception("Invalid formatting code '%s' at character nr %s'!".formatted(context.currentChar, context.characterIndex));
+        if (newStyle == null) throw new Exception(replaceArgs("Invalid formatting code '%s' at character nr %s'!", context.currentChar, context.characterIndex));
         context.style = newStyle;
     }
 
     @SuppressWarnings("SameParameterValue")
     private static String readChars(final Context context, final int numChars, final String error) throws Exception {
         final int endIndex = context.characterIndex + numChars;
-        if (endIndex >= context.characters.length) throw new Exception(error.formatted(context.characterIndex));
+        if (endIndex >= context.characters.length) throw new Exception(replaceArgs(error, context.characterIndex));
 
         final StringBuilder builder = new StringBuilder(numChars);
         for (context.characterIndex++; context.characterIndex <= endIndex; context.characterIndex++) {
@@ -198,7 +200,7 @@ public final class TextFormattingImpl implements TextFormattingApi {
             builder.append(context.currentChar);
 
             context.characterIndex++;
-            if (context.characterIndex >= context.characters.length) throw new Exception("Expected character '%s' at some point after character nr %s ('%s')!".formatted(expectedChar, startIndex, startChar));
+            if (context.characterIndex >= context.characters.length) throw new Exception(replaceArgs("Expected character '%s' at some point after character nr %s ('%s')!", expectedChar, startIndex, startChar));
 
             context.currentChar = context.characters[context.characterIndex];
         }
