@@ -17,6 +17,7 @@ allprojects {
 		mixin("monkeylib538.modded.mixins.json")
 
 		depends("fabric-api", "*")
+		depends("adventure-platform-fabric", "*")
 
 		breaks("cog", "<=2.1.1")
 		breaks("bettermultishot", "<=2.5.0")
@@ -31,6 +32,9 @@ allprojects {
 
 	dependencies {
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+		modImplementation("net.kyori:adventure-platform-fabric:${project.adventure_version}") {
+			exclude(group: "net.fabricmc.fabric-api")
+		}
 	}
 }
 
@@ -43,6 +47,7 @@ subprojects {
 	modrinth {
 		dependencies {
 			required.project "fabric-api"
+			required.project "adventure-platform-mod"
 		}
 	}
 }

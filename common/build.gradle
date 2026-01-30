@@ -16,4 +16,6 @@ dependencies {
     compileOnly "com.mojang:datafixerupper:${rootProject.datafixerupper_version}"
     compileOnly "com.mojang:brigadier:${rootProject.brigadier_version}"
     compileOnly "com.google.code.gson:gson:${rootProject.gson_version}"
+
+    compileOnly "net.kyori:adventure-api:${project.adventure_api_version}"
 }

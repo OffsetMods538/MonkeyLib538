@@ -9,8 +9,15 @@ allprojects {
         mitLicense()
         mod(rootProject.neo_mod_id) {
             authors = "OffsetMonkey538"
+            dependencies {
+                required("adventure_platform_neoforge")
+            }
         }
         mixin("monkeylib538.modded.mixins.json")
+    }
+
+    dependencies {
+        implementation "net.kyori:adventure-platform-neoforge:${project.adventure_version}"
     }
 }
 
@@ -21,5 +28,11 @@ subprojects {
     dependencies {
         includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
         includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
+    }
+
+    modrinth {
+        dependencies {
+            required.project "adventure-platform-mod"
+        }
     }
 }

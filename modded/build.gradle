@@ -1,3 +1,9 @@
 plugins {
 	id 'multiloader-modded'
 }
+
+allprojects {
+	dependencies {
+		modCompileOnlyApi "net.kyori:adventure-platform-mod-shared-fabric-repack:${project.adventure_version}"
+	}
+}
