@@ -1,5 +1,7 @@
 package top.offsetmonkey538.monkeylib538.neoforge.impl.platform;
 
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -9,9 +11,7 @@ import net.neoforged.fml.loading.VersionInfo;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
-import top.offsetmonkey538.monkeylib538.modded.api.text.ModdedMonkeyLibText;
 import top.offsetmonkey538.monkeylib538.neoforge.MonkeyLib538Initializer;
 
 import java.nio.file.Path;
@@ -53,7 +53,7 @@ public final class LoaderUtilImpl implements LoaderUtil {
     }
 
     @Override
-    public void sendMessagesToAdminsOnJoinImpl(Supplier<MonkeyLibText[]> messageSupplier) {
+    public void sendMessagesToAdminsOnJoinImpl(Supplier<Component[]> messageSupplier) {
         NeoForge.EVENT_BUS.addListener(PlayerEvent.PlayerLoggedInEvent.class, playerLoggedInEvent -> {
             final Player player = playerLoggedInEvent.getEntity();
             final MinecraftServer server = player.level().getServer();
@@ -61,7 +61,7 @@ public final class LoaderUtilImpl implements LoaderUtil {
 
             if (!ModdedPlayerApi.isPlayerOp(server.getPlayerList(), player) && !ModdedPlayerApi.isPlayerHost(server, player)) return;
 
-            for (MonkeyLibText text : messageSupplier.get()) serverPlayer.sendSystemMessage(ModdedMonkeyLibText.of(text).getText(), false);
+            for (Component text : messageSupplier.get()) ((Audience) serverPlayer).sendMessage(text);
         });
     }
 

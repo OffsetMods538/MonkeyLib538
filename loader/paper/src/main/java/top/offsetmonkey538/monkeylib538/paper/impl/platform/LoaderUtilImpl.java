@@ -4,6 +4,7 @@ import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import net.kyori.adventure.text.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.bukkit.Bukkit;
@@ -18,8 +19,6 @@ import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
 import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
-import top.offsetmonkey538.monkeylib538.paper.api.text.PaperMonkeyLibText;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -60,16 +59,16 @@ public final class LoaderUtilImpl implements LoaderUtil {
     }
 
     @Override
-    public void sendMessagesToAdminsOnJoinImpl(Supplier<MonkeyLibText[]> messageSupplier) {
+    public void sendMessagesToAdminsOnJoinImpl(Supplier<Component[]> messageSupplier) {
         Bukkit.getPluginManager().registerEvents(new AdminMessageSenderEventHandler(messageSupplier), getPlugin());
     }
 
-    private record AdminMessageSenderEventHandler(Supplier<MonkeyLibText[]> messageSupplier) implements Listener {
+    private record AdminMessageSenderEventHandler(Supplier<Component[]> messageSupplier) implements Listener {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPlayerJoin(final PlayerJoinEvent event) {
             if (!event.getPlayer().isOp()) return;
 
-            for (MonkeyLibText text : messageSupplier.get()) event.getPlayer().sendMessage(PaperMonkeyLibText.of(text).getText());
+            for (Component text : messageSupplier.get()) event.getPlayer().sendMessage(text);
         }
     }
 

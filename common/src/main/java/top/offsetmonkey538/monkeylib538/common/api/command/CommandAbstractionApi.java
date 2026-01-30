@@ -4,8 +4,8 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 import top.offsetmonkey538.offsetutils538.api.text.ArgReplacer;
 
@@ -139,12 +139,12 @@ public interface CommandAbstractionApi {
     }
 
     /**
-     * Sends a {@link MonkeyLibText} to the command source.
+     * Sends a {@link Component} to the command source.
      *
      * @param ctx the {@link CommandContext} to get the current-platform-specific command source from.
-     * @param text the {@link MonkeyLibText} to send
+     * @param text the {@link Component} to send
      */
-    static void sendText(final CommandContext<Object> ctx, final MonkeyLibText text) {
+    static void sendText(final CommandContext<Object> ctx, final Component text) {
         INSTANCE.sendTextImpl(ctx, text);
     }
 
@@ -203,7 +203,7 @@ public interface CommandAbstractionApi {
     @Internal <T> RequiredArgumentBuilder<?, T> argumentImpl(final String name, final ArgumentType<T> type);
     @Internal void sendMessageImpl(final CommandContext<Object> ctx, final String message);
     @Internal void sendErrorImpl(final CommandContext<Object> ctx, final String message);
-    @Internal void sendTextImpl(final CommandContext<Object> ctx, final MonkeyLibText text);
+    @Internal void sendTextImpl(final CommandContext<Object> ctx, final Component text);
     @Internal boolean executedByPlayerImpl(final Object source);
     @Internal boolean isOpImpl(final Object source);
     @Internal boolean isHostImpl(final Object source);

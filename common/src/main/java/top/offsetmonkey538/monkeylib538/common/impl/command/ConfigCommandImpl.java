@@ -10,12 +10,15 @@ import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.ConfigCommandApi;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetutils538.api.config.Config;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
@@ -112,13 +115,13 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
         if (fieldValueType == null) return thisSetCommand.executes(ctx -> {
             CommandAbstractionApi.sendText(
                     ctx,
-                    MonkeyLibText.of("This config option is too complex to be modified through the command. Please instead modify the config file located at ")
+                    Component.text("This config option is too complex to be modified through the command. Please instead modify the config file located at ")
                             .append(
-                                    MonkeyLibText.of(configHolder.get().getFilePath().toAbsolutePath().toString())
-                                            .applyStyle(style -> style
-                                                    .withUnderline(true)
-                                                    .withShowText(MonkeyLibText.of("Click to copy"))
-                                                    .withCopyToClipboard(configHolder.get().getFilePath().toAbsolutePath().toString())
+                                    Component.text(configHolder.get().getFilePath().toAbsolutePath().toString())
+                                            .style(style -> style
+                                                    .decoration(TextDecoration.UNDERLINED, TextDecoration.State.TRUE)
+                                                    .hoverEvent(HoverEvent.showText(Component.text("Click to copy")))
+                                                    .clickEvent(ClickEvent.copyToClipboard(configHolder.get().getFilePath().toAbsolutePath().toString()))
                                             )
                             )
             );

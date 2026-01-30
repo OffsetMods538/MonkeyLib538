@@ -4,13 +4,12 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.kyori.adventure.audience.Audience;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.modded.api.command.ModdedCommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.modded.api.player.ModdedPlayerApi;
-import top.offsetmonkey538.monkeylib538.modded.impl.text.MonkeyLibTextImpl;
 
 import static top.offsetmonkey538.monkeylib538.modded.api.command.ModdedCommandAbstractionApi.get;
 import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
@@ -38,8 +37,8 @@ public final class CommandAbstractionImpl implements ModdedCommandAbstractionApi
     }
 
     @Override
-    public void sendTextImpl(CommandContext<Object> ctx, MonkeyLibText text) {
-        get(ctx).sendSuccess(() -> ((MonkeyLibTextImpl) text).getText(), true);
+    public void sendTextImpl(CommandContext<Object> ctx, net.kyori.adventure.text.Component text) {
+        ((Audience) get(ctx)).sendMessage(text);
     }
 
     @Override

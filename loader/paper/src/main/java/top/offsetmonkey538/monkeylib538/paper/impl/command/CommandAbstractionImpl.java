@@ -6,11 +6,10 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibStyle;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.monkeylib538.paper.api.command.PaperCommandAbstractionApi;
-import top.offsetmonkey538.monkeylib538.paper.api.text.PaperMonkeyLibText;
 
 import static top.offsetmonkey538.monkeylib538.paper.api.command.PaperCommandAbstractionApi.get;
 import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
@@ -34,12 +33,12 @@ public final class CommandAbstractionImpl implements PaperCommandAbstractionApi 
 
     @Override
     public void sendErrorImpl(CommandContext<Object> ctx, String message) {
-        get(ctx).getSender().sendMessage(PaperMonkeyLibText.of(MonkeyLibText.of(message).setStyle(MonkeyLibStyle.empty().withColor(MonkeyLibStyle.Color.RED))).getText());
+        get(ctx).getSender().sendMessage(Component.text(message).style(style -> style.color(NamedTextColor.RED)));
     }
 
     @Override
-    public void sendTextImpl(CommandContext<Object> ctx, MonkeyLibText text) {
-        get(ctx).getSender().sendMessage(PaperMonkeyLibText.of(text).getText());
+    public void sendTextImpl(CommandContext<Object> ctx, Component text) {
+        get(ctx).getSender().sendMessage(text);
     }
 
     @Override

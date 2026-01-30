@@ -1,7 +1,7 @@
 package top.offsetmonkey538.monkeylib538.common.api.platform;
 
+import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.Nullable;
-import top.offsetmonkey538.monkeylib538.common.api.text.MonkeyLibText;
 import top.offsetmonkey538.offsetutils538.api.annotation.Internal;
 
 import java.nio.file.Path;
@@ -92,7 +92,7 @@ public interface LoaderUtil {
      *
      * @param messageSupplier called to get the messages to send
      */
-    static void sendMessagesToAdminsOnJoin(final Supplier<MonkeyLibText[]> messageSupplier) {
+    static void sendMessagesToAdminsOnJoin(final Supplier<Component[]> messageSupplier) {
         INSTANCE.sendMessagesToAdminsOnJoinImpl(messageSupplier);
     }
 
@@ -102,7 +102,7 @@ public interface LoaderUtil {
     @Internal boolean isDevelopmentEnvironmentImpl();
     @Internal boolean isDedicatedServerImpl();
     @Internal boolean isEpollEnabledImpl();
-    @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<MonkeyLibText[]> messageSupplier);
+    @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<Component[]> messageSupplier);
 
     @Internal
     interface BrandGetter {
