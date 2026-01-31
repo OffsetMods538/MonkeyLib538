@@ -17,8 +17,7 @@ allprojects {
 
 subprojects {
 	dependencies {
-		// We have shadow so that's how they're included
-		runtimeOnly("top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}")
-		runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
+		include runtimeOnly("top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}")
+		include runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
 	}
 }
