@@ -17,5 +17,5 @@ dependencies {
     compileOnly "com.mojang:brigadier:${rootProject.brigadier_version}"
     compileOnly "com.google.code.gson:gson:${rootProject.gson_version}"
 
-    compileOnly "net.kyori:adventure-api:${project.adventure_api_version}"
+    compileOnlyApi "net.kyori:adventure-api:${project.adventure_api_version}"
 }

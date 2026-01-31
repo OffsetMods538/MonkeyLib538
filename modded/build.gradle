@@ -4,6 +4,6 @@ plugins {
 
 allprojects {
 	dependencies {
-		modCompileOnlyApi "net.kyori:adventure-platform-mod-shared-fabric-repack:${project.adventure_version}"
+		modCompileOnly "net.kyori:adventure-platform-mod-shared-fabric-repack:${project.adventure_version}"
 	}
 }
