@@ -33,6 +33,13 @@ public final class TelemetryHandler {
         TelemetryRegistry.register(MOD_ID);
         ConfigCommandApi.registerConfigCommand(telemetryConfig, null, TelemetryHandler::sendOnNewThread, MOD_ID, "telemetry");
 
+        if (telemetryConfig.get().isFirstLaunch) {
+            LOGGER.info("Not sending telemetry on first launch to allow for disabling it after config creation.");
+            telemetryConfig.get().isFirstLaunch = false;
+            ConfigManager.save(telemetryConfig);
+            return;
+        }
+
         // Other mods have probably registered themselves for telemetry before either of the two following points. They should just be able to use their default initializers afaik
         // For dedicated servers, I need to use ServerStarted as LoaderUtil$ServerBrandGetter only starts working after ServerStarting happens.
         if (LoaderUtil.isDedicatedServer()) ServerLifecycleApi.STARTING.listen(TelemetryHandler::sendOnNewThread);
