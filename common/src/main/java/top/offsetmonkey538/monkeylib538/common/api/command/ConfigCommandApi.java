@@ -16,6 +16,8 @@ import static top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common.load;
  *         Resets the config to default values
  *     <code>reload</code>:
  *         Reloads the config from disk
+ *     <code>location</code>:
+ *         Prints the absolute path to the config file with a click event to copy it.
  *     <code>get</code>:
  *         <code>option</code>:
  *             Gets the given config options value.

@@ -28,6 +28,7 @@ import java.lang.reflect.Field;
 
 import static top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi.argument;
 import static top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi.literal;
+import static top.offsetmonkey538.offsetutils538.api.text.ArgReplacer.replaceArgs;
 
 public final class ConfigCommandImpl implements ConfigCommandApi {
     public ConfigCommandImpl() {
@@ -73,6 +74,23 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
             if (configReloadCallback != null) configReloadCallback.run();
             CommandAbstractionApi.sendMessage(ctx, "Reloaded config '%s'.", configName);
+            return Command.SINGLE_SUCCESS;
+        }));
+
+        // Location command
+        rootCommand.then(literal("location").executes(ctx -> {
+            final String filePath = configHolder.get().getFilePath().toAbsolutePath().toString();
+            CommandAbstractionApi.sendText(ctx, Component
+                    .text(replaceArgs("Config '%s' is located at ", configHolder))
+                    .append(Component
+                            .text(filePath)
+                            .style(style -> style
+                                    .decorate(TextDecoration.UNDERLINED)
+                                    .hoverEvent(HoverEvent.showText(Component.text("Click to copy")))
+                                    .clickEvent(ClickEvent.copyToClipboard(filePath))
+                            )
+                    )
+            );
             return Command.SINGLE_SUCCESS;
         }));
 
