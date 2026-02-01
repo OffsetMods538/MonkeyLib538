@@ -59,6 +59,13 @@ public final class LoaderUtilImpl implements LoaderUtil {
     }
 
     @Override
+    public int getVanillaServerPortImpl() {
+        if (!isDedicatedServerImpl()) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' when game isn't a dedicated server!");
+        if (plugin == null) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' before server STARTING event was invoked!");
+        return plugin.getServer().getPort();
+    }
+
+    @Override
     public void sendMessagesToAdminsOnJoinImpl(Supplier<Component[]> messageSupplier) {
         Bukkit.getPluginManager().registerEvents(new AdminMessageSenderEventHandler(messageSupplier), getPlugin());
     }

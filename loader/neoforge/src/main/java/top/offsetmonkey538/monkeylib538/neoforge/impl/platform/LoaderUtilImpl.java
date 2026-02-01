@@ -53,6 +53,13 @@ public final class LoaderUtilImpl implements LoaderUtil {
     }
 
     @Override
+    public int getVanillaServerPortImpl() {
+        if (!isDedicatedServerImpl()) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' when game isn't a dedicated server!");
+        if (MonkeyLib538Initializer.getServer() == null) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' before server STARTING event was invoked!");
+        return MonkeyLib538Initializer.getServer().getServerPort();
+    }
+
+    @Override
     public void sendMessagesToAdminsOnJoinImpl(Supplier<Component[]> messageSupplier) {
         NeoForge.EVENT_BUS.addListener(PlayerEvent.PlayerLoggedInEvent.class, playerLoggedInEvent -> {
             final Player player = playerLoggedInEvent.getEntity();

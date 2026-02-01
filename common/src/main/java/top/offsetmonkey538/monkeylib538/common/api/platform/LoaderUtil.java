@@ -76,13 +76,24 @@ public interface LoaderUtil {
     }
 
     /**
-     * Returns true when the game is launched as a dedicated server it's allowed to use the epoll channel type.
+     * Returns true when the game is launched as a dedicated server, and it's allowed to use the epoll channel type.
      * <p>Calling before {@link top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi#STARTING ServerLifecycleApi#STARTING} has been invoked will throw an {@link IllegalStateException}.</p>
      *
      * @return true when the game is launched as a dedicated server it's allowed to use the epoll channel type.
      */
     static boolean isEpollEnabled() {
         return INSTANCE.isEpollEnabledImpl();
+    }
+
+    /**
+     * Returns the port that the Minecraft dedicated server binds to.
+     * <p>Calling before {@link top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi#STARTING ServerLifecycleApi#STARTING} has been invoked will throw an {@link IllegalStateException}.</p>
+     * <p>Calling when the game isn't running as a dedicated server will throw an {@link IllegalStateException}.</p>
+     *
+     * @return the port that the Minecraft dedicated server binds to.
+     */
+    static int getVanillaServerPort() {
+        return INSTANCE.getVanillaServerPortImpl();
     }
 
     /**
@@ -102,6 +113,7 @@ public interface LoaderUtil {
     @Internal boolean isDevelopmentEnvironmentImpl();
     @Internal boolean isDedicatedServerImpl();
     @Internal boolean isEpollEnabledImpl();
+    @Internal int getVanillaServerPortImpl();
     @Internal void sendMessagesToAdminsOnJoinImpl(final Supplier<Component[]> messageSupplier);
 
     @Internal
