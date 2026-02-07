@@ -1,0 +1,53 @@
+import dex.plugins.outlet.v2.util.ReleaseType
+import xyz.jpenilla.resourcefactory.fabric.Environment
+
+plugins {
+	id 'multiloader-fabric'
+}
+
+allprojects {
+	fabricModJson {
+		mitLicense()
+		author("OffsetMonkey538")
+		contact {
+			extra = ["discord": "https://discord.offsetmonkey538.top"]
+		}
+		environment = Environment.ANY
+		mainEntrypoint("top.offsetmonkey538.monkeylib538.fabric.MonkeyLib538Initializer")
+		mixin("monkeylib538.modded.mixins.json")
+
+		depends("fabric-api", "*")
+		depends("adventure-platform-fabric", "*")
+
+		breaks("cog", "<=2.1.1")
+		breaks("bettermultishot", "<=2.5.0")
+		breaks("withered-bone-meal", "<=2.2.0")
+		breaks("github-resourcepack-manager", "<=4.0.1")
+		breaks("better-fire-aspect", "<=1.1.0")
+		breaks("easy-item-despawn", "<=1.1.0")
+	}
+
+	// Gotta have this here cause I can't import it in buildSrc
+	outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+
+	dependencies {
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+		modImplementation("net.kyori:adventure-platform-fabric:${project.adventure_version}") {
+			exclude(group: "net.fabricmc.fabric-api")
+		}
+	}
+}
+
+subprojects {
+	dependencies {
+		includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
+		includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
+	}
+
+	modrinth {
+		dependencies {
+			required.project "fabric-api"
+			required.project "adventure-platform-mod"
+		}
+	}
+}

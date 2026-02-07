@@ -1,185 +1,74 @@
 plugins {
-	id 'fabric-loom' version '1.4-SNAPSHOT'
-	id 'io.github.dexman545.outlet' version '1.6.1'
-	id 'com.modrinth.minotaur' version '2.+'
-	id 'maven-publish'
+	id 'multiloader-root'
+	id 'java'
+	id 'java-library'
+	id 'net.neoforged.moddev'           version "${neoforged_moddev}"            apply false
+    id 'fabric-loom'                    version "${fabric_loom}"                 apply false
+	id 'io.papermc.paperweight.userdev' version "${papermc_paperweight_userdev}" apply false
+	id 'xyz.jpenilla.run-paper'         version "${jpenilla_run_task}"           apply false
+	id 'com.gradleup.shadow'            version "${gradleup_shadow}"             apply false
+	id 'xyz.jpenilla.resource-factory'  version "${jpenilla_resource_factory}"   apply false
+	id 'io.github.dexman545.outlet'     version "${dexman_outlet}"               apply false
+	id 'com.modrinth.minotaur'          version "${modrinth_minotaur}"           apply false
+    id 'hamburg.janove.elevator-music'  version "0.1"
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+//elevatorMusic {
+//    if (Boolean.parseBoolean(System.getenv("DISABLE_MUSIC"))) return
+//    waitMusic = file("${rootProject.projectDir}/veryImportant/music.wav")
+//    successSound = file("${rootProject.projectDir}/veryImportant/done.wav")
+//}
 
-archivesBaseName = "monkeylib538"
-version = "${project.mod_version}+${project.minecraft_version}"
+subprojects {
+	apply plugin: "java-library"
 
-outlet {
-	maintainPropertiesFile = System.getenv("DISABLE_PROPERTIES_UPDATE") == null
-	mcVersionRange = project.supported_minecraft_versions
-	propertiesData = [
-			'yarn_version': outlet.yarnVersion(project.minecraft_version),
-			'loader_version': outlet.loaderVersion()
-	]
-}
-
-
-loom {
-	splitEnvironmentSourceSets()
-
-	sourceSets {
-		testmod {
-			compileClasspath += main.compileClasspath
-			runtimeClasspath += main.runtimeClasspath
-
-			compileClasspath += client.compileClasspath
-			runtimeClasspath += client.runtimeClasspath
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = "OffsetMods538"
+					url = "https://maven.offsetmonkey538.top/releases"
+				}
+			}
+			filter {
+				includeGroupAndSubgroups "top.offsetmonkey538"
+			}
 		}
-	}
-
-	mods {
-		monkeyconfig538 {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-
-		testmod {
-			sourceSet sourceSets.testmod
-		}
-	}
-
-	accessWidenerPath = file("src/main/resources/monkeylib538.accesswidener")
-
-	runs {
-		server {
-			runDir "run/server"
-		}
-
-		testmodClient {
-			client()
-			name = "Testmod Client"
-			runDir "run/testmod"
-			source sourceSets.testmod
-		}
-	}
-
-	createRemapConfigurations(sourceSets.testmod)
-}
-
-// https://gist.github.com/maityyy/3dbcd558d58a6412c3a2a38c72706e8e
-afterEvaluate {
-	loom.runs.configureEach {
-		vmArg "-javaagent:${configurations.compileClasspath.find{ it.name.contains("sponge-mixin") }}"
-	}
-}
-
-configurations {
-	includeModImplementation
-
-	include.extendsFrom           includeModImplementation
-	modImplementation.extendsFrom includeModImplementation
-
-
-	includeImplementation
-
-	include.extendsFrom        includeImplementation
-	implementation.extendsFrom includeImplementation
-
-
-	includeApi
-
-	include.extendsFrom includeApi
-	api.extendsFrom     includeApi
-}
-
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_version}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	includeApi "blue.endless:jankson:${project.jankson_version}"
-
-
-	testmodImplementation sourceSets.main.output
-	testmodImplementation sourceSets.client.output
-}
-
-processResources {
-	inputs.properties(Map.of(
-			"modVersion",                 project.mod_version,
-			"supportedMinecraftVersions", project.supported_minecraft_versions
-	))
-
-	filesMatching("fabric.mod.json") {
-		expand(Map.of(
-				"modVersion",                 project.mod_version,
-				"supportedMinecraftVersions", project.supported_minecraft_versions
-		))
-	}
-
-	exclude ".cache/**"
-}
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
-}
-
-java {
-	withSourcesJar()
-	withJavadocJar()
-}
-
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}" }
-	}
-}
-
-tasks.register('testmodJar', Jar) {
-	from sourceSets.testmod.output
-	destinationDirectory = new File(project.buildDir, "devlibs")
-	archiveClassifier = "testmod"
-}
-
-import net.fabricmc.loom.task.RemapJarTask
-
-tasks.register('remapTestmodJar', RemapJarTask) {
-	dependsOn testmodJar
-	input = testmodJar.archiveFile
-	archiveClassifier = "testmod"
-	addNestedDependencies = false
-}
-
-build.dependsOn remapTestmodJar
-
-modrinth {
-	token = System.getenv("MODRINTH_TOKEN")
-	projectId = "monkeylib538"
-	def customVersionName = System.getenv("VERSION_NAME")
-	if (customVersionName != null) versionName = customVersionName
-	versionNumber = "${project.version}"
-	versionType = "beta"
-	uploadFile = remapJar.archiveFile
-	//additionalFiles = [sourcesJar.archiveFile, javadocJar.archiveFile]
-	additionalFiles = [sourcesJar.archiveFile]
-	gameVersions = outlet.mcVersions()
-	syncBodyFrom = rootProject.file("README.md").text
-	def changelogFile = rootProject.file("CHANGELOG.md")
-	if (changelogFile.exists()) {
-		changelog = changelogFile.text
 	}
 
 	dependencies {
+		api "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
+		compileOnlyApi "org.jspecify:jspecify:${rootProject.jspecify_version}"
 	}
 }
 
-tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+configure(subprojects.findAll { it.hasProperty("project_name") }) {
+	apply plugin: "maven-publish"
 
-publishing {
-	publications {
-		maven(MavenPublication) {
-			from components.java
+	publishing {
+		repositories {
+			maven {
+				name = "OffsetMonkey538"
+				url = "https://maven.offsetmonkey538.top/releases"
+				credentials {
+					username = providers.gradleProperty("OffsetMonkey538Username").getOrElse(System.getenv("MAVEN_USERNAME"))
+					password = providers.gradleProperty("OffsetMonkey538Password").getOrElse(System.getenv("MAVEN_PASSWORD"))
+				}
+				authentication {
+					basic(BasicAuthentication)
+				}
+			}
+		}
+		publications {
+			register("maven", MavenPublication) {
+				afterEvaluate {
+					artifactId base.archivesName.get()
+				}
+				groupId "top.offsetmonkey538.monkeylib538"
+				from components.java
+			}
 		}
 	}
 }

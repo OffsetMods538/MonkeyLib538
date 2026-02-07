@@ -1,0 +1,23 @@
+import dex.plugins.outlet.v2.util.ReleaseType
+
+plugins {
+	id 'multiloader-paper'
+}
+
+allprojects {
+	// Gotta have this here cause I can't import it in buildSrc
+	outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+
+	paperPluginYaml {
+		main = "top.offsetmonkey538.monkeylib538.paper.impl.platform.LoaderUtilImpl\$MonkeyLib538Initializer"
+		authors.add("OffsetMonkey538")
+		load = "STARTUP"
+	}
+}
+
+subprojects {
+	dependencies {
+		include runtimeOnly("top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}")
+		include runtimeOnly("blue.endless:jankson:${rootProject.jankson_version}")
+	}
+}

@@ -1,0 +1,38 @@
+import dex.plugins.outlet.v2.util.ReleaseType
+
+plugins {
+    id 'multiloader-neoforge'
+}
+
+allprojects {
+    neoForgeModsToml {
+        mitLicense()
+        mod(rootProject.neo_mod_id) {
+            authors = "OffsetMonkey538"
+            dependencies {
+                required("adventure_platform_neoforge")
+            }
+        }
+        mixin("monkeylib538.modded.mixins.json")
+    }
+
+    dependencies {
+        implementation "net.kyori:adventure-platform-neoforge:${project.adventure_version}"
+    }
+}
+
+subprojects {
+    // Gotta have this here cause I can't import it in buildSrc
+    outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+
+    dependencies {
+        includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
+        includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
+    }
+
+    modrinth {
+        dependencies {
+            required.project "adventure-platform-mod"
+        }
+    }
+}
