@@ -1,0 +1,122 @@
+package top.offsetmonkey538.monkeylib538.paper.impl.platform;
+
+import com.mojang.brigadier.tree.CommandNode;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import net.kyori.adventure.text.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerLoadEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jspecify.annotations.Nullable;
+import top.offsetmonkey538.monkeylib538.common.MonkeyLib538Common;
+import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
+import top.offsetmonkey538.monkeylib538.common.api.lifecycle.ServerLifecycleApi;
+import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
+
+import java.nio.file.Path;
+import java.util.function.Supplier;
+
+public final class LoaderUtilImpl implements LoaderUtil {
+    private static @Nullable MonkeyLib538Initializer plugin;
+
+    @Override
+    public String getMinecraftVersionImpl() {
+        return Bukkit.getMinecraftVersion();
+    }
+
+    @Override
+    public Path getConfigDirImpl() {
+        return getPlugin().getDataPath().getParent();
+    }
+
+    @Override
+    public Path getModsDirImpl() {
+        return Bukkit.getPluginsFolder().toPath();
+    }
+
+    @Override
+    public boolean isDevelopmentEnvironmentImpl() {
+        return Boolean.getBoolean("xyz.jpenilla.run-task");
+    }
+
+    @Override
+    public boolean isDedicatedServerImpl() {
+        return true;
+    }
+
+    @Override
+    public boolean isEpollEnabledImpl() {
+        if (!isDedicatedServerImpl()) return false;
+        if (plugin == null) throw new IllegalStateException("Tried calling 'isEpollEnabledImpl' before server STARTING event was invoked!");
+        return ((DedicatedServer) MinecraftServer.getServer()).getProperties().useNativeTransport;
+    }
+
+    @Override
+    public int getVanillaServerPortImpl() {
+        if (!isDedicatedServerImpl()) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' when game isn't a dedicated server!");
+        if (plugin == null) throw new IllegalStateException("Tried calling 'getVanillaServerPortImpl' before server STARTING event was invoked!");
+        return plugin.getServer().getPort();
+    }
+
+    @Override
+    public void sendMessagesToAdminsOnJoinImpl(Supplier<Component[]> messageSupplier) {
+        Bukkit.getPluginManager().registerEvents(new AdminMessageSenderEventHandler(messageSupplier), getPlugin());
+    }
+
+    private record AdminMessageSenderEventHandler(Supplier<Component[]> messageSupplier) implements Listener {
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onPlayerJoin(final PlayerJoinEvent event) {
+            if (!event.getPlayer().isOp()) return;
+
+            for (Component text : messageSupplier.get()) event.getPlayer().sendMessage(text);
+        }
+    }
+
+    private static void setPlugin(MonkeyLib538Initializer plugin) {
+        LoaderUtilImpl.plugin = plugin;
+    }
+
+    public static JavaPlugin getPlugin() {
+        if (plugin == null) throw new IllegalStateException("Tried accessing plugin before monkeylib538 was initialized");
+        return plugin;
+    }
+
+
+
+    public static final class MonkeyLib538Initializer extends JavaPlugin implements Listener {
+        @Override
+        public void onEnable() {
+            setPlugin(this);
+            MonkeyLib538Common.initialize();
+
+            this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+                for (CommandNode<?> command : CommandRegistrationApi.getCommands()) {
+                    //noinspection unchecked
+                    commands.registrar().register((LiteralCommandNode<CommandSourceStack>) command);
+                }
+            });
+
+            Bukkit.getPluginManager().registerEvents(this, this);
+        }
+
+        @Override
+        public void onDisable() {
+            ServerLifecycleApi.STOPPING.getInvoker().run();
+            ServerLifecycleApi.STOPPED.getInvoker().run();
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onServerLoad(final ServerLoadEvent event) {
+            if (event.getType() != ServerLoadEvent.LoadType.STARTUP) return;
+            ServerLifecycleApi.STARTING.getInvoker().run();
+            ServerLifecycleApi.STARTED.getInvoker().run();
+        }
+    }
+}
