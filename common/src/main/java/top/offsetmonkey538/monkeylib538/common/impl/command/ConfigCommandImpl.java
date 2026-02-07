@@ -19,6 +19,7 @@ import org.jspecify.annotations.Nullable;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandAbstractionApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.CommandRegistrationApi;
 import top.offsetmonkey538.monkeylib538.common.api.command.ConfigCommandApi;
+import top.offsetmonkey538.monkeylib538.common.api.platform.LoaderUtil;
 import top.offsetmonkey538.offsetutils538.api.config.Config;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigHolder;
 import top.offsetmonkey538.offsetutils538.api.config.ConfigManager;
@@ -140,7 +141,6 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
         for (final Field field : fieldsHolder.getFields()) {
             final String fieldName = fieldNamePrefix == null ? field.getName() : fieldNamePrefix + field.getName();
-            LOGGER.error(replaceArgs("Getting argument type for '%s' for field '%s' in config '%s'", field.getType(), field.getName(), configHolder));
             final ArgumentType<?> fieldValueType = getType(configHolder.toString(), field.getType());
 
             if (fieldValueType == null) {
@@ -212,7 +212,7 @@ public final class ConfigCommandImpl implements ConfigCommandApi {
 
         if (value.isAssignableFrom(String.class)) return StringArgumentType.string();
 
-        LOGGER.info("Couldn't find suitable argument type for class '%s' in config '%s'! Unpacking from fields...", value.getName(), configName);
+        if (LoaderUtil.isDevelopmentEnvironment()) LOGGER.info("Couldn't find suitable argument type for class '%s' in config '%s'! Unpacking from fields...", value.getName(), configName);
 
         return null;
     }
