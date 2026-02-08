@@ -3,6 +3,7 @@ import xyz.jpenilla.resourcefactory.fabric.Environment
 
 plugins {
 	id 'multiloader-fabric'
+	id 'multiloader-modrinth-publish' apply false
 }
 
 allprojects {
@@ -39,12 +40,17 @@ allprojects {
 }
 
 subprojects {
+	apply plugin: "multiloader-modrinth-publish"
+
 	dependencies {
 		includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"
 		includeRuntime "blue.endless:jankson:${rootProject.jankson_version}"
 	}
 
 	modrinth {
+		loaders = ["fabric"]
+		uploadFile = remapJar
+
 		dependencies {
 			required.project "fabric-api"
 			required.project "adventure-platform-mod"

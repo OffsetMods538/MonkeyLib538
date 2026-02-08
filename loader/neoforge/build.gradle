@@ -2,6 +2,7 @@ import dex.plugins.outlet.v2.util.ReleaseType
 
 plugins {
     id 'multiloader-neoforge'
+    id 'multiloader-modrinth-publish' apply false
 }
 
 allprojects {
@@ -22,6 +23,8 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: "multiloader-modrinth-publish"
+
     // Gotta have this here cause I can't import it in buildSrc
     outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
 
@@ -31,6 +34,9 @@ subprojects {
     }
 
     modrinth {
+        loaders = ["neoforge"]
+        uploadFile = jar
+
         dependencies {
             required.project "adventure-platform-mod"
         }
