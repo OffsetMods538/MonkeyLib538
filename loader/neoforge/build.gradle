@@ -17,6 +17,9 @@ allprojects {
         mixin("monkeylib538.modded.mixins.json")
     }
 
+    // Gotta have this here cause I can't import it in buildSrc
+    outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
+
     dependencies {
         implementation "net.kyori:adventure-platform-neoforge:${project.adventure_version}"
     }
@@ -24,9 +27,6 @@ allprojects {
 
 subprojects {
     apply plugin: "multiloader-modrinth-publish"
-
-    // Gotta have this here cause I can't import it in buildSrc
-    outlet.allowedReleaseTypes = Set.of(ReleaseType.RELEASE)
 
     dependencies {
         includeRuntime "top.offsetmonkey538.offsetutils538:offsetutils538:${rootProject.offsetutils538_version}"

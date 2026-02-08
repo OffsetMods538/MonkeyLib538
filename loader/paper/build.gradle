@@ -25,7 +25,7 @@ subprojects {
 	}
 
 	modrinth {
-		loaders = ["neoforge"]
+		loaders = ["paper"]
 		uploadFile = shadowJar
 	}
 }
